@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  server:
+    image: server-dev
+    build:
+      context: ./apps/server
+      dockerfile: Dockerfile.dev
+    ports:
+      - 3000:3000
+    volumes:
+      - ./apps/server:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - PORT=3000
+    container_name: server-dev
