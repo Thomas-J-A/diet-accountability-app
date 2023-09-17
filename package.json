@@ -27,6 +27,9 @@
     "lint-staged": "^14.0.1",
     "prettier": "^3.0.3"
   },
+  "dependencies": {
+    "graphql-config": "^5.0.2"
+  },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
