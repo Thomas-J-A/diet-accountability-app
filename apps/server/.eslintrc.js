@@ -39,9 +39,15 @@ module.exports = {
     },
     {
       files: ['*.graphql'],
-      extends: ['plugin:@graphql-eslint/schema-recommended'],
       // parser: '@graphql-eslint/eslint-plugin',
       // plugins: ['@graphql-eslint'],
+      extends: ['plugin:@graphql-eslint/schema-recommended'],
+      rules: {
+        '@graphql-eslint/strict-id-in-types': [
+          2,
+          { exceptions: { suffixes: ['MutationResponse'] } },
+        ],
+      },
     },
   ],
 };
