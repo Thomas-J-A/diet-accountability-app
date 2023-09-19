@@ -13,4 +13,5 @@ services:
       - /usr/src/app/node_modules
     environment:
       - PORT=3000
+    tty: true # Allow colourized output from graphql-codegen
     container_name: server-dev
