@@ -8,10 +8,32 @@ services:
       dockerfile: Dockerfile.dev
     ports:
       - 3000:3000
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - MONGODB_URI=mongodb://server:68FPB4Aa8@mongodb:27017/diet_accountability_app
     volumes:
       - ./apps/server:/usr/src/app
       - /usr/src/app/node_modules
-    environment:
-      - PORT=3000
     tty: true # Allow colourized output from graphql-codegen
     container_name: server-dev
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:latest
+    restart: always
+    expose:
+      - 27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=xG8mlL9Sq
+      - MONGO_INITDB_DATABASE=diet_accountability_app
+    volumes:
+      - ./apps/server/src/configs/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+      - diet_accountability_app_dev_mongo_data:/data/db
+    command: --auth
+    container_name: mongodb-dev
+
+volumes:
+  diet_accountability_app_dev_mongo_data:

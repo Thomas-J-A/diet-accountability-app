@@ -11,7 +11,7 @@ module.exports = {
     'build',
     'package-lock.json',
     '.eslintrc.js',
-    'resolvers-types.ts',
+    'src/__generated__/*',
   ],
   overrides: [
     {
