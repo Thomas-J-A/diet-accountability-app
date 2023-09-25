@@ -1,43 +1,54 @@
+// Top level TypeScript config inside override so that
+// TypeScript and GraphQL parsers don't do battle
 module.exports = {
   root: true,
+  env: {
+    node: true,
+    es6: true,
+  },
   ignorePatterns: [
     'node_modules',
     'build',
     'package-lock.json',
     '.eslintrc.js',
+    'src/__generated__/*',
   ],
-  env: {
-    node: true,
-    es6: true,
-  },
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/strict-type-checked',
-    'plugin:@typescript-eslint/stylistic-type-checked',
-    'prettier',
-  ],
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: './tsconfig.json',
-    tsconfigRootDir: __dirname,
-  },
-  plugins: ['@typescript-eslint'],
   overrides: [
+    {
+      files: ['*.ts'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        project: './tsconfig.json',
+        tsconfigRootDir: __dirname,
+      },
+      plugins: ['@typescript-eslint'],
+      extends: [
+        'eslint:recommended',
+        'plugin:@typescript-eslint/strict-type-checked',
+        'plugin:@typescript-eslint/stylistic-type-checked',
+        'prettier',
+      ],
+      rules: {
+        '@typescript-eslint/no-unused-vars': [2, { argsIgnorePattern: '^_' }],
+      },
+    },
     {
       files: ['*.ts'],
       processor: '@graphql-eslint/graphql',
     },
     {
       files: ['*.graphql'],
-      extends: 'plugin:@graphql-eslint/schema-recommended',
-      parserOptions: {
-        schema: './src/schema.graphql',
+      // parser: '@graphql-eslint/eslint-plugin',
+      // plugins: ['@graphql-eslint'],
+      extends: ['plugin:@graphql-eslint/schema-recommended'],
+      rules: {
+        '@graphql-eslint/strict-id-in-types': [
+          2,
+          { exceptions: { suffixes: ['Payload'] } },
+        ],
       },
     },
   ],
-  rules: {
-    '@typescript-eslint/no-unused-vars': [2, { argsIgnorePattern: '^_' }],
-  },
 };

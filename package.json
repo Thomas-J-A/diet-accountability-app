@@ -7,7 +7,10 @@
     "prepare": "husky install",
     "pre-commit": "lint-staged",
     "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true",
-    "commit-msg": "npx --no --commitlint --edit ${1}"
+    "commit-msg": "npx --no --commitlint --edit ${1}",
+    "lint": "npm run lint:js && npm run format",
+    "lint:js": "eslint .",
+    "format": "prettier --write ."
   },
   "author": "",
   "license": "ISC",
@@ -26,6 +29,9 @@
     "jest-environment-jsdom": "^29.6.4",
     "lint-staged": "^14.0.1",
     "prettier": "^3.0.3"
+  },
+  "dependencies": {
+    "graphql-config": "^5.0.2"
   },
   "config": {
     "commitizen": {

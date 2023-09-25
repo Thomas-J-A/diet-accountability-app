@@ -1,3 +1,53 @@
+"""
+Top level queries
+"""
 type Query {
   hello: String
+}
+
+"""
+Top level mutations
+"""
+type Mutation {
+  register(input: RegisterInput!): RegisterPayload
+}
+
+"""
+Standard interface for all mutation responses.
+Operation-specific return data added per type
+"""
+interface Payload {
+  code: String!
+  success: Boolean!
+  message: String!
+}
+
+"""
+Represents a user
+"""
+type User {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  email: String!
+}
+
+"""
+Input type when registering a new user
+"""
+input RegisterInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+}
+
+"""
+Response type for registering a user
+"""
+type RegisterPayload implements Payload {
+  code: String!
+  success: Boolean!
+  message: String!
+  user: User
 }
