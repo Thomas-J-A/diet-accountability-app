@@ -1,0 +1,7 @@
+enum ErrorCodes {
+  BAD_USER_INPUT = 'BAD_USER_INPUT',
+  USERNAME_TAKEN = 'USERNAME_TAKEN',
+  INTERNAL_SERVER_ERROR = 'INTERNAL_SERVER_ERROR',
+}
+
+export default ErrorCodes;

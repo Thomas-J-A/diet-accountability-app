@@ -3,6 +3,7 @@ generates:
   ./src/__generated__/resolvers-types.ts:
     config:
       useIndexSignature: true
+      contextType: ../app#Context
     plugins:
       - add:
           content: '// @ts-nocheck'

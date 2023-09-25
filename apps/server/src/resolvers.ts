@@ -1,6 +1,15 @@
-const resolvers = {
+import { Resolvers } from './__generated__/resolvers-types';
+import userService from './services/user.service';
+
+const resolvers: Resolvers = {
   Query: {
-    hello: () => 'Hello, world!',
+    hello: () => 'foo',
+  },
+  Mutation: {
+    register: async (_, { input }) => {
+      const newUser = await userService.register(input);
+      return newUser;
+    },
   },
 };
 
