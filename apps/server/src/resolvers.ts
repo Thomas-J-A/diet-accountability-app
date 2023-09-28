@@ -4,11 +4,16 @@ import userService from './services/user.service';
 const resolvers: Resolvers = {
   Query: {
     hello: () => 'foo',
+    protected: () => 'For authed eyes only',
   },
   Mutation: {
-    register: async (_, { input }) => {
-      const newUser = await userService.register(input);
-      return newUser;
+    signUp: async (_, { input }) => {
+      const result = await userService.signUp(input);
+      return result;
+    },
+    signIn: async (_, { input }) => {
+      const result = await userService.signIn(input);
+      return result;
     },
   },
 };

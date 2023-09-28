@@ -3,13 +3,15 @@ Top level queries
 """
 type Query {
   hello: String
+  protected: String
 }
 
 """
 Top level mutations
 """
 type Mutation {
-  register(input: RegisterInput!): RegisterPayload
+  signUp(input: SignUpInput!): SignUpPayload
+  signIn(input: SignInInput!): SignInPayload
 }
 
 """
@@ -20,6 +22,15 @@ interface Payload {
   code: String!
   success: Boolean!
   message: String!
+}
+
+"""
+Represents auth tokens a user must send to
+receive authenticated data
+"""
+type Tokens {
+  accessToken: String!
+  # refreshToken: String!
 }
 
 """
@@ -35,7 +46,7 @@ type User {
 """
 Input type when registering a new user
 """
-input RegisterInput {
+input SignUpInput {
   firstName: String!
   lastName: String!
   email: String!
@@ -45,9 +56,29 @@ input RegisterInput {
 """
 Response type for registering a user
 """
-type RegisterPayload implements Payload {
+type SignUpPayload implements Payload {
   code: String!
   success: Boolean!
   message: String!
-  user: User
+  user: User!
+  tokens: Tokens!
+}
+
+"""
+Input type when signing in
+"""
+input SignInInput {
+  email: String!
+  password: String!
+}
+
+"""
+Response type for signing in
+"""
+type SignInPayload implements Payload {
+  code: String!
+  success: Boolean!
+  message: String!
+  user: User!
+  tokens: Tokens!
 }

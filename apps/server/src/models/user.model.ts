@@ -41,8 +41,7 @@ const userSchema = new Schema<IUser>(
   { timestamps: true },
 );
 
-// Add static method for comparing password here
-// Check mongoose docs for how to type check static methods
+// TODO: Add static method for comparing password here instead of in resolver
 
 // Hash password before saving/updating a user (if it has changed)
 userSchema.pre<IUser>('save', async function (next) {
@@ -54,7 +53,6 @@ userSchema.pre<IUser>('save', async function (next) {
     this.password = hashedPassword;
     next();
   } catch (err) {
-    console.error(err);
     throw new GraphQLError('An error occurred while saving the user', {
       extensions: { code: ErrorCodes.INTERNAL_SERVER_ERROR },
     });
