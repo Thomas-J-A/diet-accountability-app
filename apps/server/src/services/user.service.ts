@@ -1,14 +1,20 @@
+// TODO: create a reusable function which extracts logic for formatting
+// a user from a mongoose document into corresponding graphql type
 import { GraphQLError } from 'graphql';
 import { HydratedDocument } from 'mongoose';
+import bcrypt from 'bcrypt';
 import {
-  RegisterInput,
-  RegisterPayload,
+  SignUpInput,
+  SignUpPayload,
+  SignInInput,
+  SignInPayload,
   User as UserType,
 } from '../__generated__/resolvers-types';
 import User, { IUser } from '../models/user.model';
 import ErrorCodes from '../types/error-codes';
+import generateToken from '../utils/generate-token';
 
-export const register = async (input: RegisterInput) => {
+export const signUp = async (input: SignUpInput) => {
   const { firstName, lastName, email, password } = input;
 
   // Check if a user with that email address already exists
@@ -41,23 +47,84 @@ export const register = async (input: RegisterInput) => {
 
   await newUser.save();
 
-  // Transform user into correct type
-  const transformedUser: UserType = {
+  // Format user into correct type
+  const formattedUser: UserType = {
     id: newUser._id.toString(),
     firstName: newUser.firstName,
     lastName: newUser.lastName,
     email: newUser.email,
   };
 
+  // Generate access token
+  // TODO: refresh token
+  const accessToken = generateToken(formattedUser.id);
+
   // Create correct response format
-  const response: RegisterPayload = {
-    code: 'REGISTERED_USER',
+  const response: SignUpPayload = {
+    code: 'SIGNED_UP_USER',
     success: true,
-    message: 'User registered successfully',
-    user: transformedUser,
+    message: 'User signed up successfully',
+    user: formattedUser,
+    tokens: {
+      accessToken,
+      // refreshToken,
+    },
   };
 
   return response;
 };
 
-export default { register };
+const signIn = async (input: SignInInput) => {
+  const { email, password } = input;
+
+  // Check if a user exists in database with given email
+  const user = await User.findOne({ email }).exec();
+
+  if (!user) {
+    throw new GraphQLError('Email or password is incorrect', {
+      extensions: {
+        code: ErrorCodes.INVALID_CREDENTIALS,
+      },
+    });
+  }
+
+  // Compare passwords
+  const isMatch = await bcrypt.compare(password, user.password);
+
+  if (!isMatch) {
+    throw new GraphQLError('Email or password is incorrect', {
+      extensions: {
+        code: ErrorCodes.INVALID_CREDENTIALS,
+      },
+    });
+  }
+
+  // Format user into correct type
+  const formattedUser: UserType = {
+    id: user._id.toString(),
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+  };
+
+  // Generate access token
+  // TODO: refresh token
+  const accessToken = generateToken(formattedUser.id);
+
+  // Return user and tokens
+  const response: SignInPayload = {
+    code: 'SIGNED_IN_USER',
+    success: true,
+    message: 'User signed in successfully',
+    user: formattedUser,
+    tokens: {
+      accessToken,
+    },
+  };
+
+  return response;
+};
+
+// TODO: signOut
+
+export default { signUp, signIn };

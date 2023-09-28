@@ -4,11 +4,13 @@ import express, { Application } from 'express';
 import cors from 'cors';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
-import { Model } from 'mongoose';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import { applyMiddleware } from 'graphql-middleware';
 import resolvers from './resolvers';
+import permissions from './auth/permissions';
 import connectDB from './configs/db';
-import User, { IUser } from './models/user.model';
 import ErrorCodes from './types/error-codes';
+import { Context, createContext } from './auth/context';
 
 // Import GraphQL schema
 const typeDefs = readFileSync(path.join(__dirname, 'schema.graphql'), 'utf-8');
@@ -19,21 +21,19 @@ app.use(cors());
 app.use(express.json());
 
 // Connect to MongoDB
-// Function definition contains a catch block for errors
+// Function body contains a catch block for errors
 void connectDB();
-
-// Interface for resolver contextValue arg
-export interface Context {
-  models: {
-    User: Model<IUser>;
-  };
-}
 
 // Create and start up Apollo server instance
 const startServer = async () => {
+  const schema = makeExecutableSchema({ typeDefs, resolvers });
+
+  // Add graphql-shield auth middleware
+  const schemaWithPermissions = applyMiddleware(schema, permissions);
+
+  // Create Apollo Server instance
   const server = new ApolloServer<Context>({
-    typeDefs,
-    resolvers,
+    schema: schemaWithPermissions,
     formatError: (formattedErr, err) => {
       console.error(err);
 
@@ -53,12 +53,7 @@ const startServer = async () => {
   await server.start();
 
   // Add Apollo Server middleware to app which handles graphql requests
-  app.use(
-    '/graphql',
-    // Context function must return a Promise
-    // eslint-disable-next-line @typescript-eslint/require-await
-    expressMiddleware(server, { context: async () => ({ models: { User } }) }),
-  );
+  app.use('/graphql', expressMiddleware(server, { context: createContext }));
 };
 
 startServer().catch(() => {
