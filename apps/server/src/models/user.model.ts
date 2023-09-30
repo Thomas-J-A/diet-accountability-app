@@ -41,8 +41,6 @@ const userSchema = new Schema<IUser>(
   { timestamps: true },
 );
 
-// TODO: Add static method for comparing password here instead of in resolver
-
 // Hash password before saving/updating a user (if it has changed)
 userSchema.pre<IUser>('save', async function (next) {
   try {

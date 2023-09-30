@@ -8,17 +8,17 @@ import {
   SignUpPayload,
   SignInInput,
   SignInPayload,
-  User as UserType,
+  User,
 } from '../__generated__/resolvers-types';
-import User, { IUser } from '../models/user.model';
+import UserModel, { IUser } from '../models/user.model';
 import ErrorCodes from '../types/error-codes';
 import generateToken from '../utils/generate-token';
 
-export const signUp = async (input: SignUpInput) => {
+const signUp = async (input: SignUpInput) => {
   const { firstName, lastName, email, password } = input;
 
   // Check if a user with that email address already exists
-  const existingUser = await User.findOne({ email }).exec();
+  const existingUser = await UserModel.findOne({ email }).exec();
 
   if (existingUser) {
     throw new GraphQLError(`A user with the email ${email} already exists`, {
@@ -38,7 +38,7 @@ export const signUp = async (input: SignUpInput) => {
   }
 
   // Create a new user
-  const newUser: HydratedDocument<IUser> = new User({
+  const newUser: HydratedDocument<IUser> = new UserModel({
     firstName,
     lastName,
     email,
@@ -48,7 +48,7 @@ export const signUp = async (input: SignUpInput) => {
   await newUser.save();
 
   // Format user into correct type
-  const formattedUser: UserType = {
+  const userFormatted: User = {
     id: newUser._id.toString(),
     firstName: newUser.firstName,
     lastName: newUser.lastName,
@@ -57,14 +57,14 @@ export const signUp = async (input: SignUpInput) => {
 
   // Generate access token
   // TODO: refresh token
-  const accessToken = generateToken(formattedUser.id);
+  const accessToken = generateToken(userFormatted.id);
 
   // Create correct response format
   const response: SignUpPayload = {
-    code: 'SIGNED_UP_USER',
+    code: '201',
     success: true,
-    message: 'User signed up successfully',
-    user: formattedUser,
+    message: 'User was signed up successfully',
+    user: userFormatted,
     tokens: {
       accessToken,
       // refreshToken,
@@ -78,7 +78,7 @@ const signIn = async (input: SignInInput) => {
   const { email, password } = input;
 
   // Check if a user exists in database with given email
-  const user = await User.findOne({ email }).exec();
+  const user = await UserModel.findOne({ email }).exec();
 
   if (!user) {
     throw new GraphQLError('Email or password is incorrect', {
@@ -100,7 +100,7 @@ const signIn = async (input: SignInInput) => {
   }
 
   // Format user into correct type
-  const formattedUser: UserType = {
+  const userFormatted: User = {
     id: user._id.toString(),
     firstName: user.firstName,
     lastName: user.lastName,
@@ -109,14 +109,14 @@ const signIn = async (input: SignInInput) => {
 
   // Generate access token
   // TODO: refresh token
-  const accessToken = generateToken(formattedUser.id);
+  const accessToken = generateToken(userFormatted.id);
 
   // Return user and tokens
   const response: SignInPayload = {
-    code: 'SIGNED_IN_USER',
+    code: '200',
     success: true,
-    message: 'User signed in successfully',
-    user: formattedUser,
+    message: 'User was signed in successfully',
+    user: userFormatted,
     tokens: {
       accessToken,
     },

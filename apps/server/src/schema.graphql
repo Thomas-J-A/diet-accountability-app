@@ -4,6 +4,7 @@ Top level queries
 type Query {
   hello: String
   protected: String
+  dayEvents(input: DayEventsInput!): [DayEvent!]!
 }
 
 """
@@ -12,6 +13,71 @@ Top level mutations
 type Mutation {
   signUp(input: SignUpInput!): SignUpPayload
   signIn(input: SignInInput!): SignInPayload
+}
+
+"""
+A day in the calendar
+"""
+type DayEvent {
+  id: ID!
+  date: Int!
+  healthyHabits: [HealthyHabit!]!
+  meals: [Meal!]!
+}
+
+"""
+A breakfast/lunch/dinner
+"""
+type Meal {
+  id: ID!
+  description: String!
+  location: Location!
+  rating: Int!
+  photoUrls: [String!]!
+  type: MealType!
+}
+
+"""
+All possible healthy habits
+"""
+enum HealthyHabit {
+  CARDIO
+  RESISTANCE_TRAINING
+  STUDY
+  SLEEP
+  MEDITATION
+  WATER
+  SOCIAL_ACTIVITY
+  OFFLINE_MODE
+}
+
+"""
+All possible locations to eat a meal
+"""
+enum Location {
+  HOME
+  WORK
+  RESTAURANT
+  TRAVEL
+  OUTDOORS
+  OTHER
+}
+
+"""
+All recordable mealtimes
+"""
+enum MealType {
+  BREAKFAST
+  LUNCH
+  DINNER
+}
+
+"""
+Input type when fetching day events
+"""
+input DayEventsInput {
+  endDate: Int!
+  startDate: Int!
 }
 
 """
