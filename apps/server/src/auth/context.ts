@@ -3,11 +3,12 @@ import { Request } from 'express';
 import { GraphQLError } from 'graphql';
 import jwt, { JwtPayload, TokenExpiredError } from 'jsonwebtoken';
 import env from '../configs/env';
+import { isString } from '../helpers/type-guards';
 import ErrorCodes from '../types/error-codes';
 
 // Interface for contextValue
 export interface Context {
-  currentUser: string | JwtPayload | null;
+  currentUser: JwtPayload | null;
 }
 
 // Returns currentUser in context (possibly null)
@@ -16,15 +17,25 @@ export const createContext = async ({
 }: {
   req: Request;
 }): Promise<Context> => {
-  const token = req.headers.authorization ?? '';
+  const authorization = req.headers.authorization ?? '';
 
-  if (token) {
+  if (authorization) {
     try {
       // Remove 'Bearer' prefix
-      const jwtToken = token.split(' ')[1];
+      const token = authorization.split(' ')[1];
 
       // Verify token
-      const user = jwt.verify(jwtToken, env.ACCESS_TOKEN_SECRET);
+      const user = jwt.verify(token, env.ACCESS_TOKEN_SECRET);
+
+      // Ensure that payload is not a string value
+      // (In edge cases verify function can return payload as a string)
+      if (isString(user)) {
+        throw new GraphQLError('Token is invalid', {
+          extensions: {
+            code: ErrorCodes.TOKEN_INVALID,
+          },
+        });
+      }
 
       // Optionally fetch entire user document, if more data needed
       // const user = await User.findById(user.sub);

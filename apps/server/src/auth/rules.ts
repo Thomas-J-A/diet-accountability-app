@@ -8,7 +8,7 @@ export const isAuthenticated = rule({ cache: 'contextual' })((
   { currentUser },
 ) => {
   // Return true if user is authenticated
-  if (currentUser) return true;
+  if (currentUser !== null) return true;
 
   // Return custom error if not
   return new GraphQLError('You must be authenticated to access this data', {
