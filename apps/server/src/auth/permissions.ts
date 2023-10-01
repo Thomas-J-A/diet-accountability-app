@@ -8,7 +8,9 @@ const permissions = shield(
       protected: isAuthenticated,
       dayEvents: isAuthenticated,
     },
-    Mutation: {},
+    Mutation: {
+      createMeal: isAuthenticated,
+    },
   },
   { fallbackRule: allow, allowExternalErrors: true },
 );
