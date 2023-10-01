@@ -20,8 +20,6 @@ const checkSubClaim = (payload: JwtPayload): void => {
 
 const resolvers: Resolvers = {
   Query: {
-    hello: () => 'foo',
-    protected: () => 'For authed eyes only',
     dayEvents: async (_, { input }, { currentUser }) => {
       // graphql-shield isAuthenticated rule should filter out null type
       const currentUserAsJwtPayload = currentUser!;

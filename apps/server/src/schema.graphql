@@ -2,8 +2,6 @@
 Top level queries
 """
 type Query {
-  hello: String
-  protected: String
   dayEvents(input: DayEventsInput!): [DayEvent!]!
 }
 
