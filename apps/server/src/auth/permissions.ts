@@ -5,10 +5,11 @@ import { isAuthenticated } from './rules';
 const permissions = shield(
   {
     Query: {
-      protected: isAuthenticated,
       dayEvents: isAuthenticated,
     },
-    Mutation: {},
+    Mutation: {
+      createMeal: isAuthenticated,
+    },
   },
   { fallbackRule: allow, allowExternalErrors: true },
 );

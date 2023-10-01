@@ -10,7 +10,7 @@ export interface IMeal extends Document {
   description: string;
   location: Location;
   rating: number;
-  photoUrls: string[];
+  // photoUrls: string[];
   type: MealType;
 }
 
@@ -31,7 +31,7 @@ const mealSchema = new Schema<IMeal>({
     min: 1,
     max: 10,
   },
-  photoUrls: [String],
+  // photoUrls: [String],
   type: {
     type: String,
     enum: MealType,

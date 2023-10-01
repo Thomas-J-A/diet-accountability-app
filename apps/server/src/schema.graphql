@@ -2,8 +2,6 @@
 Top level queries
 """
 type Query {
-  hello: String
-  protected: String
   dayEvents(input: DayEventsInput!): [DayEvent!]!
 }
 
@@ -13,6 +11,7 @@ Top level mutations
 type Mutation {
   signUp(input: SignUpInput!): SignUpPayload
   signIn(input: SignInInput!): SignInPayload
+  createMeal(input: CreateMealInput!): CreateMealPayload
 }
 
 """
@@ -27,13 +26,14 @@ type DayEvent {
 
 """
 A breakfast/lunch/dinner
+
+TODO: add photos: photoUrls: [String!]! <<<<
 """
 type Meal {
   id: ID!
   description: String!
   location: Location!
   rating: Int!
-  photoUrls: [String!]!
   type: MealType!
 }
 
@@ -147,4 +147,32 @@ type SignInPayload implements Payload {
   message: String!
   user: User!
   tokens: Tokens!
+}
+
+"""
+Input type when saving a meal
+
+TODO: photoUrls: [String!]! (flow with S3 probably requires a separate operation) <<<<
+"""
+input CreateMealInput {
+  date: Int!
+  description: String!
+  location: Location!
+  rating: Int!
+  type: MealType!
+}
+
+"""
+Response type for saving a meal
+
+TODO: return updated/newly created dayEvent in order to keep client cache up to date
+# dayEvent: DayEvent!
+
+TODO: photoUrls: [String!]! <<<<
+"""
+type CreateMealPayload implements Payload {
+  code: String!
+  success: Boolean!
+  message: String!
+  meal: Meal!
 }
