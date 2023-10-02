@@ -63,6 +63,10 @@ const resolvers: Resolvers = {
       );
       return result;
     },
+    updateMeal: async (_, { input }) => {
+      const result = await mealService.updateMeal(input);
+      return result;
+    },
   },
 };
 

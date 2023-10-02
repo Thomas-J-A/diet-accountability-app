@@ -12,6 +12,7 @@ type Mutation {
   signUp(input: SignUpInput!): SignUpPayload
   signIn(input: SignInInput!): SignInPayload
   createMeal(input: CreateMealInput!): CreateMealPayload
+  updateMeal(input: UpdateMealInput!): UpdateMealPayload
 }
 
 """
@@ -171,6 +172,27 @@ TODO: return updated/newly created dayEvent in order to keep client cache up to 
 TODO: photoUrls: [String!]! <<<<
 """
 type CreateMealPayload implements Payload {
+  code: String!
+  success: Boolean!
+  message: String!
+  meal: Meal!
+}
+
+"""
+Input type when updating an existing meal
+Only id field is required, any combination of the other, optional fields is okay
+"""
+input UpdateMealInput {
+  id: ID!
+  description: String
+  location: Location
+  rating: Int
+}
+
+"""
+Response type when updating an existing meal
+"""
+type UpdateMealPayload implements Payload {
   code: String!
   success: Boolean!
   message: String!
