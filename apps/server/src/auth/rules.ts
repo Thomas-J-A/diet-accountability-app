@@ -12,8 +12,6 @@ export const isAuthenticated = rule({ cache: 'contextual' })((
 
   // Return custom error if not
   return new GraphQLError('You must be authenticated to access this data', {
-    extensions: {
-      code: ErrorCodes.UNAUTHENTICATED,
-    },
+    extensions: { code: ErrorCodes.UNAUTHENTICATED },
   });
 });

@@ -1,44 +1,32 @@
-// TODO: create a reusable function which extracts logic for formatting
-// a user from a mongoose document into corresponding graphql type
 import { GraphQLError } from 'graphql';
-import { HydratedDocument } from 'mongoose';
 import bcrypt from 'bcrypt';
-import {
-  SignUpInput,
-  SignUpPayload,
-  SignInInput,
-  SignInPayload,
-  User,
-} from '../__generated__/resolvers-types';
-import UserModel, { IUser } from '../models/user.model';
+import { SignUpInput, SignInInput } from '../__generated__/resolvers-types';
+import User from '../models/user.model';
 import ErrorCodes from '../types/error-codes';
 import generateToken from '../utils/generate-token';
 
-const signUp = async (input: SignUpInput) => {
-  const { firstName, lastName, email, password } = input;
+// Registers a new user in the database
+const signUp = async (userData: SignUpInput) => {
+  const { firstName, lastName, email, password } = userData;
 
   // Check if a user with that email address already exists
-  const existingUser = await UserModel.findOne({ email }).exec();
+  const existingUser = await User.findOne({ email }).exec();
 
   if (existingUser) {
     throw new GraphQLError(`A user with the email ${email} already exists`, {
-      extensions: {
-        code: ErrorCodes.USERNAME_TAKEN,
-      },
+      extensions: { code: ErrorCodes.USERNAME_TAKEN },
     });
   }
 
   // Validate password length
   if (password.length < 8) {
     throw new GraphQLError('Password must be at least 8 characters long', {
-      extensions: {
-        code: ErrorCodes.BAD_USER_INPUT,
-      },
+      extensions: { code: ErrorCodes.BAD_USER_INPUT },
     });
   }
 
   // Create a new user
-  const newUser: HydratedDocument<IUser> = new UserModel({
+  const newUser = new User({
     firstName,
     lastName,
     email,
@@ -47,24 +35,16 @@ const signUp = async (input: SignUpInput) => {
 
   await newUser.save();
 
-  // Format user into correct type
-  const userFormatted: User = {
-    id: newUser._id.toString(),
-    firstName: newUser.firstName,
-    lastName: newUser.lastName,
-    email: newUser.email,
-  };
-
   // Generate access token
   // TODO: refresh token
-  const accessToken = generateToken(userFormatted.id);
+  const accessToken = generateToken(newUser._id.toString());
 
-  // Create correct response format
-  const response: SignUpPayload = {
-    code: '201',
+  // Format response to match schema
+  const response = {
+    code: 201,
     success: true,
     message: 'User was signed up successfully',
-    user: userFormatted,
+    user: newUser,
     tokens: {
       accessToken,
       // refreshToken,
@@ -74,17 +54,16 @@ const signUp = async (input: SignUpInput) => {
   return response;
 };
 
-const signIn = async (input: SignInInput) => {
-  const { email, password } = input;
+// Authenticates the user
+const signIn = async (credentials: SignInInput) => {
+  const { email, password } = credentials;
 
   // Check if a user exists in database with given email
-  const user = await UserModel.findOne({ email }).exec();
+  const user = await User.findOne({ email }).exec();
 
   if (!user) {
     throw new GraphQLError('Email or password is incorrect', {
-      extensions: {
-        code: ErrorCodes.INVALID_CREDENTIALS,
-      },
+      extensions: { code: ErrorCodes.INVALID_CREDENTIALS },
     });
   }
 
@@ -93,30 +72,20 @@ const signIn = async (input: SignInInput) => {
 
   if (!isMatch) {
     throw new GraphQLError('Email or password is incorrect', {
-      extensions: {
-        code: ErrorCodes.INVALID_CREDENTIALS,
-      },
+      extensions: { code: ErrorCodes.INVALID_CREDENTIALS },
     });
   }
 
-  // Format user into correct type
-  const userFormatted: User = {
-    id: user._id.toString(),
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
-  };
-
   // Generate access token
   // TODO: refresh token
-  const accessToken = generateToken(userFormatted.id);
+  const accessToken = generateToken(user._id.toString());
 
-  // Return user and tokens
-  const response: SignInPayload = {
-    code: '200',
+  // Format response to match schema
+  const response = {
+    code: 200,
     success: true,
     message: 'User was signed in successfully',
-    user: userFormatted,
+    user,
     tokens: {
       accessToken,
     },
@@ -125,6 +94,37 @@ const signIn = async (input: SignInInput) => {
   return response;
 };
 
-// TODO: signOut
+// Deletes the currently authenticated user
+const deleteUser = async (id: string, userId: string) => {
+  // Ensure authed user is deleting their own account
+  if (id !== userId) {
+    throw new GraphQLError('You may only delete your own account', {
+      extensions: { code: ErrorCodes.FORBIDDEN },
+    });
+  }
 
-export default { signUp, signIn };
+  // Look for user in database
+  const user = await User.findById(id).exec();
+
+  // Ensure a user with that id was found (JWT token may come from any server)
+  if (!user) {
+    throw new GraphQLError(`A user with id of ${id} was not found`, {
+      extensions: { code: ErrorCodes.RESOURCE_NOT_FOUND },
+    });
+  }
+
+  // Delete user - mongoose middleware will delete associated DayEvents and Meals in a cascade
+  const deletedUser = await user.deleteOne();
+
+  // Format response to match schema
+  const response = {
+    code: 200,
+    success: true,
+    message: `User with id ${id} and their associated data were deleted successfully`,
+    user: deletedUser,
+  };
+
+  return response;
+};
+
+export default { signUp, signIn, deleteUser };

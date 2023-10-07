@@ -1,47 +1,103 @@
 """
+Custom scalars
+"""
+scalar Date
+
+"""
 Top level queries
 """
 type Query {
-  dayEvents(input: DayEventsInput!): [DayEvent!]!
+  """
+  Retrieve a list of events (meals, stickers) for a specific day
+  """
+  dayEvents(dateRange: DayEventsInput!): [DayEvent!]!
 }
 
 """
 Top level mutations
 """
 type Mutation {
-  signUp(input: SignUpInput!): SignUpPayload
-  signIn(input: SignInInput!): SignInPayload
-  createMeal(input: CreateMealInput!): CreateMealPayload
-  updateMeal(input: UpdateMealInput!): UpdateMealPayload
+  """
+  Sign up a new user
+  """
+  signUp(userData: SignUpInput!): SignUpPayload!
+  """
+  Sign in an existing user
+  """
+  signIn(credentials: SignInInput!): SignInPayload!
+  """
+  Delete an existing user
+  """
+  deleteUser(id: ID!): DeleteUserPayload!
+  """
+  Create a new meal entry
+  """
+  createMeal(mealData: CreateMealInput!): CreateMealPayload!
+  """
+  Update an existing meal entry
+  """
+  updateMeal(id: ID!, updatedMealData: UpdateMealInput!): UpdateMealPayload!
+  """
+  Add a healthy habit to the list of a day's events
+  """
+  addSticker(stickerData: AddStickerInput!): AddStickerPayload!
+  """
+  Remove a healthy habit from the list of a day's events
+  """
+  removeSticker(stickerData: RemoveStickerInput!): RemoveStickerPayload!
 }
 
 """
-A day in the calendar
+A single day on which data is recorded
 """
 type DayEvent {
+  """
+  The unique identifier for this day event
+  """
   id: ID!
-  date: Int!
-  healthyHabits: [HealthyHabit!]!
+  """
+  The date formatted as YYYY-MM-DD
+  """
+  date: Date!
+  """
+  A list of all healthy habits associated with this day
+  """
+  healthyHabits: [HealthyHabitEnum!]!
+  """
+  A list of meals consumed on this day
+  """
   meals: [Meal!]!
 }
 
 """
-A breakfast/lunch/dinner
+A representation of a meal, which can be breakfast, lunch, or dinner
 
-TODO: add photos: photoUrls: [String!]! <<<<
+TODO: Add photos (photoUrls: [String!]!)
 """
 type Meal {
   id: ID!
+  """
+  A short description of the meal
+  """
   description: String!
-  location: Location!
+  """
+  The location where the meal was consumed
+  """
+  location: LocationEnum!
+  """
+  A rating between 1 and 10 assigned to the meal
+  """
   rating: Int!
-  type: MealType!
+  """
+  The type of meal (breakfast, lunch, or dinner)
+  """
+  type: MealTypeEnum!
 }
 
 """
-All possible healthy habits
+Possible healthy habits that can be associated with a day event
 """
-enum HealthyHabit {
+enum HealthyHabitEnum {
   CARDIO
   RESISTANCE_TRAINING
   STUDY
@@ -53,9 +109,9 @@ enum HealthyHabit {
 }
 
 """
-All possible locations to eat a meal
+Possible locations where a meal can be consumed
 """
-enum Location {
+enum LocationEnum {
   HOME
   WORK
   RESTAURANT
@@ -65,136 +121,291 @@ enum Location {
 }
 
 """
-All recordable mealtimes
+Possible mealtimes that can be recorded
 """
-enum MealType {
+enum MealTypeEnum {
   BREAKFAST
   LUNCH
   DINNER
 }
 
 """
-Input type when fetching day events
+Input type for fetching day events
 """
 input DayEventsInput {
-  endDate: Int!
-  startDate: Int!
+  """
+  The end date formatted as YYYY-MM-DD
+  """
+  endDate: Date!
+  """
+  The start date formatted as YYYY-MM-DD
+  """
+  startDate: Date!
 }
 
 """
-Standard interface for all mutation responses.
+Standard interface for all mutation responses
 Operation-specific return data added per type
 """
 interface Payload {
-  code: String!
+  """
+  The status code of the response
+  """
+  code: Int!
+  """
+  Indicates whether the mutation was successful
+  """
   success: Boolean!
+  """
+  Human-readable message for the UI
+  """
   message: String!
 }
 
 """
-Represents auth tokens a user must send to
-receive authenticated data
+Represents authentication tokens a user must send to receive authenticated data
 """
-type Tokens {
+type AuthTokens {
+  """
+  A JWT token used to authenticate a user and access protected resources
+  """
   accessToken: String!
-  # refreshToken: String!
+  #   """
+  #   A JWT token used to refresh authentication and receive new access tokens
+  #   """
+  #   refreshToken: String!
 }
 
 """
-Represents a user
+Represents a user entity
 """
 type User {
   id: ID!
+  """
+  The first name of the user
+  """
   firstName: String!
+  """
+  The last name of the user
+  """
   lastName: String!
+  """
+  The unique email address associated with the user
+  """
   email: String!
 }
 
 """
-Input type when registering a new user
+Input type for registering a new user
 """
 input SignUpInput {
+  """
+  The first name of the user
+  """
   firstName: String!
+  """
+  The last name of the user
+  """
   lastName: String!
+  """
+  The unique email address associated with the user
+  """
   email: String!
+  """
+  The password for the user's account
+  """
   password: String!
 }
 
 """
-Response type for registering a user
+Payload for user registration
 """
 type SignUpPayload implements Payload {
-  code: String!
+  code: Int!
   success: Boolean!
   message: String!
+  """
+  The newly registered user
+  """
   user: User!
-  tokens: Tokens!
+  """
+  Authentication tokens associated with the user session
+  """
+  tokens: AuthTokens!
 }
 
 """
-Input type when signing in
+Input type for user sign-in
 """
 input SignInInput {
+  """
+  The user's email address
+  """
   email: String!
+  """
+  The user's password
+  """
   password: String!
 }
 
 """
-Response type for signing in
+Payload for signing in
 """
 type SignInPayload implements Payload {
-  code: String!
+  code: Int!
   success: Boolean!
   message: String!
-  user: User!
-  tokens: Tokens!
+  """
+  The authenticated user
+  """
+  user: User
+  """
+  Authentication tokens associated with the user session
+  """
+  tokens: AuthTokens
 }
 
 """
-Input type when saving a meal
+Payload for deleting a user
+"""
+type DeleteUserPayload implements Payload {
+  code: Int!
+  success: Boolean!
+  message: String!
+  """
+  The deleted user
+  """
+  user: User
+}
 
-TODO: photoUrls: [String!]! (flow with S3 probably requires a separate operation) <<<<
+"""
+Input type for creating a meal
 """
 input CreateMealInput {
-  date: Int!
+  """
+  The date of the meal (formatted as YYYY-MM-DD)
+  """
+  date: Date!
+  """
+  A short description of the meal (under 80 characters)
+  """
   description: String!
-  location: Location!
+  """
+  The location where the meal was consumed
+  """
+  location: LocationEnum!
+  """
+  A rating between 1 and 10 assigned to the meal
+  """
   rating: Int!
-  type: MealType!
+  """
+  The type of meal (breakfast, lunch, or dinner)
+  """
+  type: MealTypeEnum!
 }
 
 """
-Response type for saving a meal
+Payload for creating a meal
 
-TODO: return updated/newly created dayEvent in order to keep client cache up to date
-# dayEvent: DayEvent!
-
-TODO: photoUrls: [String!]! <<<<
+TODO: Consider handling photo upload separately (e.g., using S3) (photoUrls: [String!]!)
 """
 type CreateMealPayload implements Payload {
-  code: String!
+  code: Int!
   success: Boolean!
   message: String!
-  meal: Meal!
+  """
+  The newly saved meal
+  """
+  meal: Meal
+  """
+  The created/updated day event
+  """
+  dayEvent: DayEvent
 }
 
 """
-Input type when updating an existing meal
-Only id field is required, any combination of the other, optional fields is okay
+Input type for updating an existing meal
+You must specify at least one updated field
+Any combination of the optional fields is acceptable
 """
 input UpdateMealInput {
-  id: ID!
+  """
+  A new description for the meal (optional)
+  """
   description: String
-  location: Location
+  """
+  A new location (optional)
+  """
+  location: LocationEnum
+  """
+  A new rating for the meal (optional)
+  """
   rating: Int
 }
 
 """
-Response type when updating an existing meal
+Payload for updating an existing meal
 """
 type UpdateMealPayload implements Payload {
-  code: String!
+  code: Int!
   success: Boolean!
   message: String!
-  meal: Meal!
+  """
+  The updated meal
+  """
+  meal: Meal
+}
+
+"""
+Input type for adding a HealthyHabit sticker
+"""
+input AddStickerInput {
+  """
+  The date on which the HealthyHabit was performed, formatted as YYYY-MM-DD
+  """
+  date: Date!
+  """
+  The HealthyHabit to be added to the list
+  """
+  healthyHabit: HealthyHabitEnum!
+}
+
+"""
+Payload for adding a HealthyHabit sticker to a particular day
+"""
+type AddStickerPayload implements Payload {
+  code: Int!
+  success: Boolean!
+  message: String!
+  """
+  The DayEvent which contains the updated HealthyHabits list
+  """
+  dayEvent: DayEvent
+}
+
+"""
+Input type for removing a HealthyHabit sticker
+"""
+input RemoveStickerInput {
+  """
+  The date on which the HealthyHabit was performed, formatted as YYYY-MM-DD
+  """
+  date: Date!
+  """
+  The HealthyHabit to be removed from the list
+  """
+  healthyHabit: HealthyHabitEnum!
+}
+
+"""
+Payload for removing a HealthyHabit sticker from a particular day
+"""
+type RemoveStickerPayload implements Payload {
+  code: Int!
+  success: Boolean!
+  message: String!
+  """
+  The DayEvent which contains the updated HealthyHabits list
+  """
+  dayEvent: DayEvent
 }
