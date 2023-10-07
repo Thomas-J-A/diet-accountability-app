@@ -46,17 +46,13 @@ export const createContext = async ({
       // If error is related to an expired token, client needs to know so it can ask for a refresh
       if (err instanceof TokenExpiredError) {
         throw new GraphQLError('Token has expired', {
-          extensions: {
-            code: ErrorCodes.TOKEN_EXPIRED,
-          },
+          extensions: { code: ErrorCodes.TOKEN_EXPIRED },
         });
       }
 
       // Else, throw a less specific error
       throw new GraphQLError('Token is invalid', {
-        extensions: {
-          code: ErrorCodes.TOKEN_INVALID,
-        },
+        extensions: { code: ErrorCodes.TOKEN_INVALID },
       });
     }
   }

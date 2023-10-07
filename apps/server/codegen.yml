@@ -4,6 +4,12 @@ generates:
     config:
       useIndexSignature: true
       contextType: ../auth/context#Context
+      mappers:
+        DayEvent: ../models/day-event.model#IDayEvent
+        Meal: ../models/meal.model#IMeal
+        User: ../models/user.model#IUser
+      scalars:
+        Date: Date
     plugins:
       - add:
           content: '// @ts-nocheck'

@@ -1,17 +1,14 @@
 import { Schema, Document, Types, model } from 'mongoose';
-import { Location, MealType } from '../__generated__/resolvers-types';
+import { LocationEnum, MealTypeEnum } from '../__generated__/resolvers-types';
 
 // Document interface
 export interface IMeal extends Document {
   _id: Types.ObjectId;
-
-  // Explicitly defined because it's added automatically and clashes with another type
-  id: string;
   description: string;
-  location: Location;
+  location: LocationEnum;
   rating: number;
   // photoUrls: string[];
-  type: MealType;
+  type: MealTypeEnum;
 }
 
 // Schema
@@ -22,7 +19,7 @@ const mealSchema = new Schema<IMeal>({
   },
   location: {
     type: String,
-    enum: Location,
+    enum: LocationEnum,
     required: true,
   },
   rating: {
@@ -34,7 +31,7 @@ const mealSchema = new Schema<IMeal>({
   // photoUrls: [String],
   type: {
     type: String,
-    enum: MealType,
+    enum: MealTypeEnum,
     required: true,
   },
 });
