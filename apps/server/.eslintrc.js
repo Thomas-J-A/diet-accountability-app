@@ -11,6 +11,7 @@ module.exports = {
     'build',
     'package-lock.json',
     '.eslintrc.js',
+    'jest.config.ts',
     'src/__generated__/*',
   ],
   overrides: [
@@ -49,6 +50,12 @@ module.exports = {
           { exceptions: { types: ['AuthTokens'], suffixes: ['Payload'] } },
         ],
       },
+    },
+    {
+      files: ['tests/**/*.test.ts'],
+      env: { 'jest/globals': true },
+      extends: ['plugin:jest/recommended', 'plugin:jest/style'],
+      plugins: ['jest'],
     },
   ],
 };
