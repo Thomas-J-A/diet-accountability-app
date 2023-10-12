@@ -8,8 +8,8 @@ services:
       dockerfile: Dockerfile.dev
     ports:
       - 3000:3000
-    env_file:
-      - ./apps/server/.env.dev
+    environment:
+      - NODE_ENV=dev
     volumes:
       - ./apps/server:/usr/src/app
       - /usr/src/app/node_modules
