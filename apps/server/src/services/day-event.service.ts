@@ -15,7 +15,9 @@ const getDayEvents = async (dateRange: DayEventsInput, userId: string) => {
   const dayEvents = await DayEvent.find({
     user: userId,
     date: { $lte: endDate, $gte: startDate },
-  }).exec();
+  })
+    .sort({ date: 'asc' })
+    .exec();
 
   return dayEvents;
 };

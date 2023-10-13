@@ -20,7 +20,7 @@ const validateRating = (rating: number) => {
 
 // Reusable function for ensuring 'description' value does not exceed character limit
 const validateDescription = (description: string) => {
-  if (description.length > 60) {
+  if (description.length > 100) {
     throw new GraphQLError('Description must not exceed 60 characters', {
       extensions: { code: ErrorCodes.BAD_USER_INPUT },
     });

@@ -4,6 +4,9 @@ const config: Config = {
   testMatch: ['**/tests/**/*.test.ts'],
   testEnvironment: 'node',
   preset: 'ts-jest',
+  // transform: {
+  //   '\\.(gql|graphql)$': 'jest-transform-graphql',
+  // },
   verbose: true,
 };
 

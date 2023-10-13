@@ -7,6 +7,7 @@ import { Context } from '../auth/context';
 import permissions from '../../src/auth/permissions';
 import ErrorCodes from '../types/error-codes';
 import resolvers from '../../src/resolvers';
+import env from '../../src/configs/env';
 
 // Import GraphQL schema
 const typeDefs = readFileSync(
@@ -24,7 +25,9 @@ const createApolloServer = () => {
   const server = new ApolloServer<Context>({
     schema: schemaWithPermissions,
     formatError: (formattedErr, err) => {
-      console.error(err);
+      if (env.NODE_ENV !== 'test') {
+        console.error(err);
+      }
 
       // If error is from an uncaught/unhandled exception, return a generic message
       if (formattedErr.extensions?.code === ErrorCodes.INTERNAL_SERVER_ERROR) {
