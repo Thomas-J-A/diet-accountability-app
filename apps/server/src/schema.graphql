@@ -227,11 +227,11 @@ type SignUpPayload implements Payload {
   """
   The newly registered user
   """
-  user: User!
+  user: User
   """
   Authentication tokens associated with the user session
   """
-  tokens: AuthTokens!
+  tokens: AuthTokens
 }
 
 """
@@ -287,7 +287,7 @@ input CreateMealInput {
   """
   date: Date!
   """
-  A short description of the meal (under 80 characters)
+  A short description of the meal (under 100 characters)
   """
   description: String!
   """
