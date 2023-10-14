@@ -1,5 +1,6 @@
 import express, { Application } from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
 import { expressMiddleware } from '@apollo/server/express4';
 import connectDB from './configs/db';
 import env from './configs/env';
@@ -12,6 +13,12 @@ const app: Application = express();
 
 app.use(cors());
 app.use(express.json());
+
+// CSP settings too restrictive for dev and testing
+// (blocking Apollo Server Playground, etc)
+if (env.NODE_ENV === 'production') {
+  app.use(helmet());
+}
 
 // Connect to MongoDB
 // Function body contains a catch block for errors
