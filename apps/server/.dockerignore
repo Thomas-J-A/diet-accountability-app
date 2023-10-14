@@ -7,3 +7,4 @@ Dockerfile.dev
 .gitignore
 node_modules
 __generated__
+build
