@@ -55,8 +55,8 @@ jobs:
 
       - name: Compile TypeScript
         working-directory: ./apps/server
-        run: npm build
+        run: npm run build
 
       - name: Run integration tests
         working-directory: ./apps/server
-        run: npm test
+        run: npm run test
