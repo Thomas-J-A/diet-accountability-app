@@ -59,6 +59,9 @@ jobs:
       - name: Debug
         run: ls
 
+      - name: Generate types
+        run: npm run generate
+
       - name: Compile TypeScript
         run: npm run build
 
