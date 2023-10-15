@@ -38,6 +38,9 @@ jobs:
   build_test_server:
     name: 🏗️ Build and test server
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./apps/server
     # needs:
     #   - lint_project
     steps:
@@ -51,19 +54,13 @@ jobs:
           # cache: npm
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Debug
         run: ls
 
-      - name: Debug server
-        working-directory: ./apps/server
-        run: ls
-
       - name: Compile TypeScript
-        working-directory: ./apps/server
         run: npm run build
 
       - name: Run integration tests
-        working-directory: ./apps/server
         run: npm run test
