@@ -1,6 +1,7 @@
 # TODO: build_test_client job
 # TODO: E2E tests (Docker)
 # TODO: Add caching for npm dependencies
+# TODO: Refactor duplicated setup code in each job
 
 name: CI
 
@@ -13,12 +14,14 @@ on:
       - synchronize
 
 jobs:
-  lint_project:
-    name: 🧹 Lint project
+  lint_scan_project:
+    name: 🧹 Lint project and 🔐 scan for secrets
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Setup Node environment
         uses: actions/setup-node@v3
@@ -26,11 +29,24 @@ jobs:
           node-version: 19
           # cache: npm
 
-      - name: Install dependencies
+      - name: Install root dependencies
         run: npm ci
+
+      - name: Install server dependencies
+        working-directory: ./apps/server
+        run: npm ci
+
+      - name: Generate types from GraphQL schema
+        working-directory: ./apps/server
+        run: npm run generate
 
       - name: Lint and format project
         run: npm run lint
+
+      - name: Scan for secrets
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build_test_server:
     name: 🏗️ Build and test server
@@ -39,7 +55,7 @@ jobs:
       run:
         working-directory: ./apps/server
     needs:
-      - lint_project
+      - lint_scan_project
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
