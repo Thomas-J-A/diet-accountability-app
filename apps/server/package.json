@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "generate": "graphql-codegen --config ./codegen.yml --watch './src/**/*'",
+    "generate": "graphql-codegen --config ./codegen.yml",
     "start:dev": "ts-node-dev src/server.ts",
-    "start:dev:generate": "concurrently -n \"SERVER,CODEGEN\" -c \"bgYellow,bgMagenta\" \"npm:start:dev\" \"npm:generate\"",
+    "start:dev:generate": "concurrently -n \"SERVER,CODEGEN\" -c \"bgYellow,bgMagenta\" \"npm:start:dev\" \"npm:generate --watch './src/**/*'\"",
     "start": "node build/index.js",
+    "build": "tsc",
     "test": "jest"
   },
   "author": "",
