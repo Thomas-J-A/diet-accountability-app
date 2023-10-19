@@ -1,0 +1,10 @@
+Dockerfile.dev
+.dockerignore
+.env
+.env.dev
+.env.test
+.env.template
+.gitignore
+node_modules
+__generated__
+dist

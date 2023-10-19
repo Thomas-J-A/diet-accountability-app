@@ -1,0 +1,19 @@
+FROM node:19.0.0-alpine
+
+RUN mkdir -p /usr/src/app
+
+# Allow 'node' user to make changes to fs when running
+# Vite needs to make temporary files/directories
+RUN chown -R node:node /usr/src/app
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+USER node
+
+CMD ["npm", "run", "dev"]

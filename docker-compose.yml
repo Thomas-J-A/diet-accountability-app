@@ -1,6 +1,23 @@
 version: '3'
 
 services:
+  client:
+    image: client-dev
+    build:
+      context: ./apps/client
+      dockerfile: Dockerfile.dev
+    ports:
+      - 5173:5173
+    environment:
+      - NODE_ENV=dev
+    volumes:
+      - ./apps/client:/usr/src/app
+      - /usr/src/app/node_modules
+    tty: true
+    container_name: client-dev
+    depends_on:
+      - server
+
   server:
     image: server-dev
     build:
