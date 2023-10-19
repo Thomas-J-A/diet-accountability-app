@@ -4,7 +4,12 @@ module.exports = {
     browser: true,
     es2020: true,
   },
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  ignorePatterns: [
+    'dist',
+    '.eslintrc.cjs',
+    '.lintstagedrc.ts',
+    'vite.config.ts',
+  ],
   overrides: [
     {
       files: ['*.ts?(x)'],
@@ -14,6 +19,11 @@ module.exports = {
         sourceType: 'module',
         project: './tsconfig.json',
         tsconfigRootDir: __dirname,
+      },
+      settings: {
+        react: {
+          version: 'detect',
+        },
       },
       plugins: ['react', 'react-refresh', '@typescript-eslint'],
       extends: [
