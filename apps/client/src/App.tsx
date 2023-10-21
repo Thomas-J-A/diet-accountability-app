@@ -1,5 +1,44 @@
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import CalendarPage from './pages/calendar/CalendarPage/CalendarPage';
+import RAQsPage from './pages/RAQs/RAQsPage/RAQsPage';
+import LandingPage from './pages/landing/LandingPage/LandingPage';
+import StatisticsPage from './pages/statistics/StatisticsPage/StatisticsPage';
+import Layout from './components/layout/Layout/Layout';
+import Root from './components/layout/Root/Root';
+import DefaultError from './components/UI/DefaultError/DefaultError';
+
+// TODO: Add nested error boundaries
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Root />,
+    errorElement: <DefaultError />,
+    children: [
+      {
+        element: <Layout />,
+        children: [
+          { index: true, element: <LandingPage /> },
+          {
+            path: '/calendar',
+            element: <CalendarPage />,
+          },
+          {
+            path: '/statistics',
+            element: <StatisticsPage />,
+          },
+          {
+            path: '/raqs',
+            element: <RAQsPage />,
+          },
+        ],
+      },
+    ],
+  },
+]);
+
+// TODO: Add <Theme> & other Context Providers
 const App = () => {
-  return <h1>Hello, world</h1>;
+  return <RouterProvider router={router} />;
 };
 
 export default App;
