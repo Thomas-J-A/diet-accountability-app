@@ -1,8 +1,11 @@
+import { Text } from '@radix-ui/themes';
+import * as S from './LandingPage.styled';
+
 const LandingPage = () => {
   return (
-    <div>
-      <div>Landing Stuff</div>
-    </div>
+    <S.LandingPage p="2">
+      <Text>Landing Stuff</Text>
+    </S.LandingPage>
   );
 };
 

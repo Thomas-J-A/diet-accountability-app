@@ -1,5 +1,7 @@
 // import { useLocation } from 'react-router-dom';
 // import useMediaQuery from '../../../hooks/useMediaQuery';
+import { Heading } from '@radix-ui/themes';
+import * as S from './Header.styled';
 
 // On mobile - logo, hamburger icon
 // On landing - logo, sign in form
@@ -9,7 +11,11 @@ const Header = () => {
   // const isDesktop = useMediaQuery('(min-width: 960px)');
   // const isLandingPage = location.pathname === '/';
 
-  return <div>This is a header</div>;
+  return (
+    <S.Header p="2" height="auto">
+      <Heading size="5">Plate2Progress</Heading>
+    </S.Header>
+  );
 };
 
 export default Header;
