@@ -1,20 +1,29 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
-import useMediaQuery from '../../../hooks/useMediaQuery';
+import * as S from './Layout.styled';
 
-// TODO: Get min-width value from RadixUI token
+// Landing page has same grid on mobile and desktop
+// Other pages have a different grid to factor in sidebar component on desktop
 const Layout = () => {
   const location = useLocation();
-  const isDesktop = useMediaQuery('(min-width: 960px)');
-  const isNotLandingPage = location.pathname !== '/';
+  const isLandingPage = location.pathname === '/';
+
+  if (isLandingPage) {
+    return (
+      <S.Layout rows="auto 1fr">
+        <Header />
+        <Outlet />
+      </S.Layout>
+    );
+  }
 
   return (
-    <div>
-      {isDesktop && isNotLandingPage && <Sidebar />}
+    <S.Layout rows="auto 1fr" columns={{ initial: '1', md: 'auto 1fr' }}>
+      <Sidebar />
       <Header />
       <Outlet />
-    </div>
+    </S.Layout>
   );
 };
 
