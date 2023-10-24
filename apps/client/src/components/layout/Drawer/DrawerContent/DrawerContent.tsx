@@ -4,7 +4,7 @@ import { Heading, Text, VisuallyHidden } from '@radix-ui/themes';
 import * as S from './DrawerContent.styled';
 
 const DrawerContent = () => {
-  const [isAuthed, setIsAuthed] = useState(false);
+  const [isAuthed] = useState(false);
 
   if (isAuthed) {
     return (

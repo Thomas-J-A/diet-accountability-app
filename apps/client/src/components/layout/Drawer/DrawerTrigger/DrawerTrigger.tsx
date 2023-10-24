@@ -4,7 +4,7 @@ import { IconButton, Button } from '@radix-ui/themes';
 import { HamburgerMenuIcon, PersonIcon } from '@radix-ui/react-icons';
 
 const DrawerTrigger = () => {
-  const [isAuthed, setIsAuthed] = useState(false);
+  const [isAuthed] = useState(false);
 
   if (isAuthed) {
     return (
