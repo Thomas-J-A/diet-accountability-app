@@ -3,7 +3,7 @@ import * as S from './LandingPage.styled';
 
 const LandingPage = () => {
   return (
-    <S.LandingPage p="2">
+    <S.LandingPage p="3">
       <Text>Landing Stuff</Text>
     </S.LandingPage>
   );
