@@ -1,4 +1,4 @@
-# TODO: build_test_client job
+# TODO: Add unit tests for components, hooks, utils, etc
 # TODO: E2E tests (Docker)
 # TODO: Add caching for npm dependencies
 # TODO: Refactor duplicated setup code in each job
@@ -14,6 +14,7 @@ on:
       - synchronize
 
 jobs:
+  # This works on entire repo
   lint_scan_project:
     name: 🧹 Lint project and 🔐 scan for secrets
     runs-on: ubuntu-latest
@@ -51,6 +52,30 @@ jobs:
         uses: gitleaks/gitleaks-action@4df650038e2eb9f7329218df929c2780866e61a3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build_test_client:
+    name: 🏗️ Build and test client
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./apps/client
+      needs:
+        - lint_scan_project
+      steps:
+        - name: Checkout repo
+          uses: actions/checkout@v3
+
+        - name: Setup Node environment
+          uses: actions/setup-node@v3
+          with:
+            node-version: 19
+            # cache: npm
+
+        - name: Install dependencies
+          run: npm ci
+
+        - name: Build production bundle
+          run: npm build
 
   build_test_server:
     name: 🏗️ Build and test server
