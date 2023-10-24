@@ -75,7 +75,7 @@ jobs:
         run: npm ci
 
       - name: Build production bundle
-        run: npm build
+        run: npm run build
 
   build_test_server:
     name: 🏗️ Build and test server
