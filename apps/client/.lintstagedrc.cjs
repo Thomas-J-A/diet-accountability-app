@@ -1,5 +1,3 @@
-// TODO: stylelint --fix
-
 module.exports = {
   '**/*.ts?(x)': [
     () => 'tsc -p ./tsconfig.json --noEmit --skipLibCheck',
@@ -7,5 +5,6 @@ module.exports = {
     'prettier --write',
     // 'jest --config ./apps/client/jest.config.ts --bail --findRelatedTests --passWithNoTests',
   ],
+  '**/*.styled.tsx': 'stylelint --fix',
   '**/*': 'gitleaks protect -v --staged',
 };

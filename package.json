@@ -8,8 +8,9 @@
     "pre-commit": "lint-staged",
     "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true",
     "commit-msg": "npx --no --commitlint --edit ${1}",
-    "lint": "npm run lint:js && npm run format",
+    "lint": "npm run lint:js && npm run lint:css && npm run format",
     "lint:js": "eslint .",
+    "lint:css": "stylelint './apps/client/src/**/*.styled.tsx'",
     "format": "prettier --write ."
   },
   "author": "",
@@ -27,7 +28,12 @@
     "eslint-plugin-jest": "^27.4.2",
     "husky": "^8.0.0",
     "lint-staged": "^14.0.1",
-    "prettier": "^3.0.3"
+    "postcss-styled-syntax": "^0.5.0",
+    "prettier": "^3.0.3",
+    "stylelint": "^15.11.0",
+    "stylelint-config-recess-order": "^4.3.0",
+    "stylelint-config-standard": "^34.0.0",
+    "stylelint-declaration-block-no-ignored-properties": "^2.7.0"
   },
   "dependencies": {
     "graphql-config": "^5.0.2"
