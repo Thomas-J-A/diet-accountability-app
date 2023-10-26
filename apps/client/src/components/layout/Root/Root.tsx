@@ -1,11 +1,23 @@
+import { useCallback } from 'react';
 import { Outlet } from 'react-router-dom';
 import Footer from '../Footer/Footer';
 import * as S from './Root.styled';
+import { useContainerNode } from '../../../contexts/ContainerNodeContext';
 
-// 'id' is used so Drawer can use Root as a portal target
 const Root = () => {
+  const [, setContainerNode] = useContainerNode();
+
+  // When node inserted into DOM tree, update context so that
+  // Drawer can use node as a portal target immediately
+  const updateContext = useCallback((node: HTMLDivElement | null) => {
+    setContainerNode(node);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <S.Root id="container" rows="1fr auto">
+    // S.Root is a portal target for Drawer component
+    <S.Root ref={updateContext} rows="1fr auto">
       <Outlet />
       <Footer />
     </S.Root>
