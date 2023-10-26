@@ -9,6 +9,7 @@ import Layout from './components/layout/Layout/Layout';
 import Root from './components/layout/Root/Root';
 import DefaultError from './components/UI/DefaultError/DefaultError';
 import GlobalStyle from './styles/GlobalStyle';
+import { ContainerNodeContextProvider } from './contexts/ContainerNodeContext';
 // import theme from './styles/theme';
 
 // TODO: Add nested error boundaries
@@ -51,7 +52,9 @@ const App = () => {
         scaling="100%"
         radius="medium"
       >
-        <RouterProvider router={router} />
+        <ContainerNodeContextProvider>
+          <RouterProvider router={router} />
+        </ContainerNodeContextProvider>
       </Theme>
     </>
   );
