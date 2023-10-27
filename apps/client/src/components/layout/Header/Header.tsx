@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import useMediaQuery from '../../../hooks/useMediaQuery';
 import { Heading, Text } from '@radix-ui/themes';
-import ToggleDrawerButton from './ToggleDrawerButton/ToggleDrawerButton';
+import Drawer from '../Drawer/Drawer';
 import * as S from './Header.styled';
 
 type PathnameOptions = '' | 'Calendar' | 'Statistics' | 'RAQs';
@@ -16,7 +16,7 @@ const Header = () => {
     return (
       <S.Header justify="between" align="center" p="3">
         <Heading size="6">Plate2Progress</Heading>
-        <ToggleDrawerButton />
+        <Drawer />
       </S.Header>
     );
   }
