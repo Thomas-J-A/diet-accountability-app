@@ -5,7 +5,6 @@ const useMediaQuery = (query: string) => {
   const [isMatching, setIsMatching] = useState(mql.matches);
 
   useEffect(() => {
-    console.log('runs');
     const handler = () => {
       setIsMatching(mql.matches);
     };

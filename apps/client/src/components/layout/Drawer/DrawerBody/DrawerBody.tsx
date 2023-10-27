@@ -1,32 +1,29 @@
-import { useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { Heading, Text, VisuallyHidden } from '@radix-ui/themes';
-import * as S from './DrawerContent.styled';
+import * as S from './DrawerBody.styled';
 
-const DrawerContent = () => {
-  const [isAuthed] = useState(false);
-
+const DrawerBody = ({ isAuthed }: { isAuthed: boolean }) => {
   if (isAuthed) {
     return (
-      <S.DrawerContent direction="column" gap="2">
+      <S.DrawerBody direction="column" gap="2">
         <VisuallyHidden asChild>
           <Dialog.Title asChild>
             <Heading size="3">Navigation Menu</Heading>
           </Dialog.Title>
         </VisuallyHidden>
-        <Text>Links</Text>
-      </S.DrawerContent>
+        <Text>Links here</Text>
+      </S.DrawerBody>
     );
   }
 
   return (
-    <S.DrawerContent direction="column" gap="2">
-      <Dialog.Title className="TITLE" asChild>
+    <S.DrawerBody direction="column" gap="2">
+      <Dialog.Title asChild>
         <Heading size="3">Sign in using your email and password</Heading>
       </Dialog.Title>
       <Text>Sign In fields here</Text>
-    </S.DrawerContent>
+    </S.DrawerBody>
   );
 };
 
-export default DrawerContent;
+export default DrawerBody;

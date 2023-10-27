@@ -6,7 +6,7 @@ import * as S from './DrawerHeader.styled';
 const Header = () => {
   return (
     <S.DrawerHeader mb="2">
-      <Dialog.Close className="CLOSE" asChild>
+      <Dialog.Close asChild>
         <IconButton size="1" variant="ghost">
           <Cross1Icon />
         </IconButton>
