@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Flex } from '@radix-ui/themes';
 
-export const Footer = styled(Flex)`
-  border-top: 1px solid var(--gray-a6);
+export const PageHeader = styled(Flex)`
+  border-bottom: 1px solid var(--gray-a6);
 `;

@@ -7,7 +7,7 @@ import { useContainerNode } from './../../../contexts/ContainerNodeContext';
 import * as S from './Drawer.styled';
 
 const Drawer = () => {
-  const [isAuthed] = useState(false);
+  const [isAuthed] = useState(true);
   const [containerNode] = useContainerNode();
 
   return (

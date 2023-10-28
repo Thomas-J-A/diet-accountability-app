@@ -1,27 +1,30 @@
 import { Outlet, useLocation } from 'react-router-dom';
-import Header from '../Header/Header';
+import MainHeader from '../MainHeader/MainHeader';
 import Sidebar from '../Sidebar/Sidebar';
+import PageHeader from '../PageHeader/PageHeader';
+import useMediaQuery from '../../../hooks/useMediaQuery';
 import * as S from './Layout.styled';
 
-// Landing page has same grid on mobile and desktop
-// Other pages have a different grid to factor in sidebar component on desktop
 const Layout = () => {
   const location = useLocation();
+  const isDesktop = useMediaQuery('(min-width: 1024px)');
   const isLandingPage = location.pathname === '/';
 
-  if (isLandingPage) {
+  // All mobile pages and landing page on desktop share similar layout
+  if (!isDesktop || isLandingPage) {
     return (
       <S.Layout rows="auto 1fr">
-        <Header />
+        <MainHeader isDesktop={isDesktop} />
         <Outlet />
       </S.Layout>
     );
   }
 
+  // All other pages on desktop have a more complex layout with sidebar
   return (
-    <S.Layout rows="auto 1fr" columns={{ initial: '1', md: 'auto 1fr' }}>
+    <S.Layout rows="auto 1fr" columns="1fr 4fr">
       <Sidebar />
-      <Header />
+      <PageHeader />
       <Outlet />
     </S.Layout>
   );
