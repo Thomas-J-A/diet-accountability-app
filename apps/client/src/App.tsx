@@ -10,6 +10,7 @@ import Root from './components/layout/Root/Root';
 import DefaultError from './components/UI/DefaultError/DefaultError';
 import GlobalStyle from './styles/GlobalStyle';
 import { ContainerNodeContextProvider } from './contexts/ContainerNodeContext';
+import { ToggleDrawerContextProvider } from './contexts/ToggleDrawerContext';
 // import theme from './styles/theme';
 
 // TODO: Add nested error boundaries
@@ -53,7 +54,9 @@ const App = () => {
         radius="medium"
       >
         <ContainerNodeContextProvider>
-          <RouterProvider router={router} />
+          <ToggleDrawerContextProvider>
+            <RouterProvider router={router} />
+          </ToggleDrawerContextProvider>
         </ContainerNodeContextProvider>
       </Theme>
     </>
