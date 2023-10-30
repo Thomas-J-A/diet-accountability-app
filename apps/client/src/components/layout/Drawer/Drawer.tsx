@@ -17,7 +17,7 @@ const Drawer = () => {
         <Dialog.Portal container={containerNode}>
           <S.DrawerOverlay />
           <Dialog.Content aria-describedby={undefined} asChild>
-            <S.DrawerContent direction="column" p="2">
+            <S.DrawerContent direction="column">
               <DrawerHeader />
               <DrawerBody isAuthed={isAuthed} />
             </S.DrawerContent>

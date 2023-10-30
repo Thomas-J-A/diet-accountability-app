@@ -1,15 +1,14 @@
 import * as Dialog from '@radix-ui/react-dialog';
-import { IconButton } from '@radix-ui/themes';
 import { Cross1Icon } from '@radix-ui/react-icons';
 import * as S from './DrawerHeader.styled';
 
 const Header = () => {
   return (
-    <S.DrawerHeader mb="2">
+    <S.DrawerHeader justify="end" px="3" pt="3">
       <Dialog.Close asChild>
-        <IconButton size="1" variant="ghost">
+        <S.ExitButton size="1" variant="ghost">
           <Cross1Icon />
-        </IconButton>
+        </S.ExitButton>
       </Dialog.Close>
     </S.DrawerHeader>
   );
