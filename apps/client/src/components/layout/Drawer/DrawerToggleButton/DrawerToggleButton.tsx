@@ -1,14 +1,15 @@
 import * as Dialog from '@radix-ui/react-dialog';
-import { IconButton, Button } from '@radix-ui/themes';
+import { Button } from '@radix-ui/themes';
 import { HamburgerMenuIcon, PersonIcon } from '@radix-ui/react-icons';
+import * as S from './DrawerToggleButton.styled';
 
 const DrawerToggleButton = ({ isAuthed }: { isAuthed: boolean }) => {
   if (isAuthed) {
     return (
       <Dialog.Trigger asChild>
-        <IconButton size="1" variant="ghost">
+        <S.HamburgerButton size="1" variant="ghost">
           <HamburgerMenuIcon height="30" width="30" />
-        </IconButton>
+        </S.HamburgerButton>
       </Dialog.Trigger>
     );
   }

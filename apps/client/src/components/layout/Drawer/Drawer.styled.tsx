@@ -62,7 +62,7 @@ export const DrawerContent = styled(Flex)`
   position: fixed;
   top: 0;
   right: 0;
-  width: 200px;
+  width: 220px;
   height: 100vh;
   background-color: var(--gray-6);
 

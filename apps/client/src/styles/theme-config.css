@@ -1,0 +1,9 @@
+/* Override default outline for all buttons in project */
+button:focus-visible,
+[type='button']:focus-visible,
+[type='reset']:focus-visible,
+[type='submit']:focus-visible {
+  /* outline: 1px dotted ButtonText; */
+  outline: none !important;
+  box-shadow: 0 0 0 2px var(--accent-8) !important;
+}

@@ -22,7 +22,7 @@ const Layout = () => {
 
   // All other pages on desktop have a more complex layout with sidebar
   return (
-    <S.Layout rows="auto 1fr" columns="1fr 4fr">
+    <S.Layout rows="auto 1fr" columns="1fr 5fr">
       <Sidebar />
       <PageHeader />
       <Outlet />
