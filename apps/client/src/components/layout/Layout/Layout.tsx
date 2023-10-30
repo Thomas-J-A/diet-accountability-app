@@ -1,9 +1,9 @@
 import { Outlet, useLocation } from 'react-router-dom';
+import { Grid } from '@radix-ui/themes';
 import MainHeader from '../MainHeader/MainHeader';
 import Sidebar from '../Sidebar/Sidebar';
 import PageHeader from '../PageHeader/PageHeader';
 import useMediaQuery from '../../../hooks/useMediaQuery';
-import * as S from './Layout.styled';
 
 const Layout = () => {
   const location = useLocation();
@@ -13,20 +13,20 @@ const Layout = () => {
   // All mobile pages and landing page on desktop share similar layout
   if (!isDesktop || isLandingPage) {
     return (
-      <S.Layout rows="auto 1fr">
+      <Grid rows="auto 1fr">
         <MainHeader isDesktop={isDesktop} />
         <Outlet />
-      </S.Layout>
+      </Grid>
     );
   }
 
   // All other pages on desktop have a more complex layout with sidebar
   return (
-    <S.Layout rows="auto 1fr" columns="1fr 5fr">
+    <Grid rows="auto 1fr" columns="1fr 5fr">
       <Sidebar />
       <PageHeader />
       <Outlet />
-    </S.Layout>
+    </Grid>
   );
 };
 

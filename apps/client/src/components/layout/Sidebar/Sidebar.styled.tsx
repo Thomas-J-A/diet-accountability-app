@@ -9,5 +9,3 @@ export const Sidebar = styled(Flex)`
 export const Logo = styled(Box)`
   border-bottom: 1px solid var(--gray-a6);
 `;
-
-export const Nav = styled(Flex)``;
