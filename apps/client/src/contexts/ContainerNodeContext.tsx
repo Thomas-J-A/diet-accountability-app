@@ -1,4 +1,4 @@
-import { useState, useContext, createContext } from 'react';
+import { useState, useContext, createContext, ReactNode } from 'react';
 
 type ContainerNodeContextType = [
   HTMLDivElement | null,
@@ -12,7 +12,7 @@ const ContainerNodeContext = createContext<ContainerNodeContextType | null>(
 export const ContainerNodeContextProvider = ({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) => {
   const [containerNode, setContainerNode] = useState<HTMLDivElement | null>(
     null,

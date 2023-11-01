@@ -2,11 +2,11 @@ import { Heading, Text } from '@radix-ui/themes';
 import Drawer from '../Drawer/Drawer';
 import * as S from './MainHeader.styled';
 
-interface IMainHeader {
+interface MainHeaderProps {
   isDesktop: boolean;
 }
 
-const MainHeader = ({ isDesktop }: IMainHeader) => {
+const MainHeader = ({ isDesktop }: MainHeaderProps) => {
   // All mobile pages
   if (!isDesktop) {
     return (

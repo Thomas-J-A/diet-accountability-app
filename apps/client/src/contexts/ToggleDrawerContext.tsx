@@ -1,4 +1,4 @@
-import { useState, useContext, createContext } from 'react';
+import { useState, useContext, createContext, ReactNode } from 'react';
 
 type ToggleDrawerContextType = [
   boolean,
@@ -10,7 +10,7 @@ const ToggleDrawerContext = createContext<ToggleDrawerContextType | null>(null);
 export const ToggleDrawerContextProvider = ({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
