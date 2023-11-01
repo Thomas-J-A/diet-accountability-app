@@ -1,13 +1,14 @@
+import { ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useToggleDrawer } from '../../../../../contexts/ToggleDrawerContext';
 import * as S from './NavLink.styled';
 
-interface INavLink {
+interface NavLinkProps {
   to: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-const NavLink = ({ to, children }: INavLink) => {
+const NavLink = ({ to, children }: NavLinkProps) => {
   const [, setIsOpen] = useToggleDrawer();
   const location = useLocation();
   const isActive = location.pathname === to;
