@@ -37,13 +37,17 @@ jobs:
         working-directory: ./apps/server
         run: npm ci
 
-      - name: Generate types from GraphQL schema
+      - name: Generate types from GraphQL schema - server
         working-directory: ./apps/server
         run: npm run generate
 
       - name: Install client dependencies
         working-directory: ./apps/client
         run: npm ci
+
+      - name: Generate types from GraphQL schema - client
+        working-directory: ./apps/client
+        run: npm run generate
 
       - name: Lint and format project
         run: npm run lint
