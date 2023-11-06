@@ -7,5 +7,10 @@ export default defineConfig({
   server: {
     // Allows server to receive requests when Dockerized
     host: '0.0.0.0',
+    proxy: {
+      '/graphql': {
+        target: 'http://server:3000',
+      },
+    },
   },
 });

@@ -5,14 +5,16 @@ module.exports = {
     es2020: true,
   },
   ignorePatterns: [
+    'node_modules',
     'dist',
     '.eslintrc.cjs',
     '.lintstagedrc.ts',
     'vite.config.ts',
+    'src/__generated__/',
   ],
   overrides: [
     {
-      files: ['*.ts?(x)'],
+      files: ['src/**/*.ts?(x)'],
       parser: '@typescript-eslint/parser',
       parserOptions: {
         ecmaVersion: 'lastest',
@@ -40,7 +42,23 @@ module.exports = {
           'warn',
           { allowConstantExport: true },
         ],
+        '@typescript-eslint/no-misused-promises': [
+          2,
+          {
+            checksVoidReturn: {
+              attributes: false,
+            },
+          },
+        ],
       },
+    },
+    {
+      files: ['src/operations/*.tsx'],
+      processor: '@graphql-eslint/graphql',
+    },
+    {
+      files: ['*.graphql'],
+      extends: ['plugin:@graphql-eslint/operations-recommended'],
     },
   ],
 };

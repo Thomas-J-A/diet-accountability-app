@@ -1,6 +1,7 @@
 import * as Dialog from '@radix-ui/react-dialog';
-import { Flex, Heading, Text, VisuallyHidden } from '@radix-ui/themes';
+import { Flex, Heading, VisuallyHidden, Separator } from '@radix-ui/themes';
 import Menu from '../../Menu/Menu';
+import SignInForm from '../../SignInForm/SignInForm';
 
 const DrawerBody = ({ isAuthed }: { isAuthed: boolean }) => {
   if (isAuthed) {
@@ -19,9 +20,10 @@ const DrawerBody = ({ isAuthed }: { isAuthed: boolean }) => {
   return (
     <Flex direction="column" gap="2">
       <Dialog.Title asChild>
-        <Heading size="3">Sign in using your email and password</Heading>
+        <Heading size="3">Sign in and get the party started!</Heading>
       </Dialog.Title>
-      <Text>Sign In fields here</Text>
+      <Separator size="4" />
+      <SignInForm />
     </Flex>
   );
 };

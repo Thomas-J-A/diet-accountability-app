@@ -96,7 +96,7 @@ describe('Mutations', () => {
         'HealthyHabit was successfully added and DayEvent was created',
       );
       expect(
-        res.body.singleResult.data?.addSticker.dayEvent?.healthyHabits,
+        res.body.singleResult.data?.addSticker.dayEvent.healthyHabits,
       ).toContain(stickerData.healthyHabit);
     });
 
@@ -124,7 +124,7 @@ describe('Mutations', () => {
         'HealthyHabit was successfully added and DayEvent was updated',
       );
       expect(
-        res.body.singleResult.data?.addSticker.dayEvent?.healthyHabits,
+        res.body.singleResult.data?.addSticker.dayEvent.healthyHabits,
       ).toContain(stickerData.healthyHabit);
     });
   });
@@ -155,7 +155,7 @@ describe('Mutations', () => {
         `${stickerData.healthyHabit} was successfully removed`,
       );
       expect(
-        res.body.singleResult.data?.removeSticker.dayEvent?.healthyHabits,
+        res.body.singleResult.data?.removeSticker.dayEvent.healthyHabits,
       ).not.toContain(stickerData.healthyHabit);
     });
 

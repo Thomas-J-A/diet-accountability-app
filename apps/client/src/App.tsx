@@ -1,6 +1,8 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { ApolloProvider } from '@apollo/client';
 import { Theme } from '@radix-ui/themes';
-// import { ThemeProvider } from 'styled-components';
+import { Cross1Icon } from '@radix-ui/react-icons';
 import CalendarPage from './pages/calendar/CalendarPage/CalendarPage';
 import RAQsPage from './pages/RAQs/RAQsPage/RAQsPage';
 import LandingPage from './pages/landing/LandingPage/LandingPage';
@@ -8,10 +10,14 @@ import StatisticsPage from './pages/statistics/StatisticsPage/StatisticsPage';
 import Layout from './components/layout/Layout/Layout';
 import Root from './components/layout/Root/Root';
 import DefaultError from './components/UI/DefaultError/DefaultError';
-import GlobalStyle from './styles/GlobalStyle';
 import { ContainerNodeContextProvider } from './contexts/ContainerNodeContext';
 import { ToggleDrawerContextProvider } from './contexts/ToggleDrawerContext';
-// import theme from './styles/theme';
+import createApolloClient from './utils/create-apollo-client';
+import GlobalStyle from './styles/GlobalStyle';
+import * as S from './App.styled';
+
+// Create client with all Apollo Links and settings configured
+const client = createApolloClient();
 
 // TODO: Add nested error boundaries
 const router = createBrowserRouter([
@@ -42,7 +48,6 @@ const router = createBrowserRouter([
   },
 ]);
 
-// TODO: <ThemeProvider>
 const App = () => {
   return (
     <>
@@ -53,9 +58,20 @@ const App = () => {
         scaling="100%"
         radius="medium"
       >
+        <S.ToastContainer
+          autoClose={3000}
+          position={toast.POSITION.TOP_CENTER}
+          closeButton={({ closeToast }) => (
+            <S.CloseButton size="1" variant="ghost" onClick={closeToast}>
+              <Cross1Icon height="12" width="12" />
+            </S.CloseButton>
+          )}
+        />
         <ContainerNodeContextProvider>
           <ToggleDrawerContextProvider>
-            <RouterProvider router={router} />
+            <ApolloProvider client={client}>
+              <RouterProvider router={router} />
+            </ApolloProvider>
           </ToggleDrawerContextProvider>
         </ContainerNodeContextProvider>
       </Theme>

@@ -48,11 +48,11 @@ describe('Mutations', () => {
 
       assert(res.body.kind === 'single');
       expect(res.body.singleResult.errors).toBeUndefined();
-      expect(res.body.singleResult.data?.signUp.user?.firstName).toBe(
+      expect(res.body.singleResult.data?.signUp.user.firstName).toBe(
         userData.firstName,
       );
       expect(
-        res.body.singleResult.data?.signUp.tokens?.accessToken,
+        res.body.singleResult.data?.signUp.tokens.accessToken,
       ).toBeDefined();
     });
 
@@ -76,7 +76,7 @@ describe('Mutations', () => {
       assert(res.body.kind === 'single');
       expect(res.body.singleResult.errors).toBeDefined();
       expect(res.body.singleResult.errors![0].extensions!.code).toBe(
-        'USERNAME_TAKEN',
+        'EMAIL_TAKEN',
       );
       expect(res.body.singleResult.errors![0].message).toBe(
         `A user with the email ${userData.email} already exists`,
@@ -126,9 +126,9 @@ describe('Mutations', () => {
 
       assert(res.body.kind === 'single');
       expect(res.body.singleResult.errors).toBeUndefined();
-      expect(res.body.singleResult.data?.signIn.user?.email).toBe(email);
+      expect(res.body.singleResult.data?.signIn.user.email).toBe(email);
       expect(
-        res.body.singleResult.data?.signIn.tokens?.accessToken,
+        res.body.singleResult.data?.signIn.tokens.accessToken,
       ).toBeDefined();
     });
 

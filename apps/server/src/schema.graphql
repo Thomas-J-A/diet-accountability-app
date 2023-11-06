@@ -227,11 +227,11 @@ type SignUpPayload implements Payload {
   """
   The newly registered user
   """
-  user: User
+  user: User!
   """
   Authentication tokens associated with the user session
   """
-  tokens: AuthTokens
+  tokens: AuthTokens!
 }
 
 """
@@ -258,11 +258,11 @@ type SignInPayload implements Payload {
   """
   The authenticated user
   """
-  user: User
+  user: User!
   """
   Authentication tokens associated with the user session
   """
-  tokens: AuthTokens
+  tokens: AuthTokens!
 }
 
 """
@@ -275,7 +275,7 @@ type DeleteUserPayload implements Payload {
   """
   The deleted user
   """
-  user: User
+  user: User!
 }
 
 """
@@ -316,11 +316,11 @@ type CreateMealPayload implements Payload {
   """
   The newly saved meal
   """
-  meal: Meal
+  meal: Meal!
   """
   The created/updated day event
   """
-  dayEvent: DayEvent
+  dayEvent: DayEvent!
 }
 
 """
@@ -353,7 +353,7 @@ type UpdateMealPayload implements Payload {
   """
   The updated meal
   """
-  meal: Meal
+  meal: Meal!
 }
 
 """
@@ -380,7 +380,7 @@ type AddStickerPayload implements Payload {
   """
   The DayEvent which contains the updated HealthyHabits list
   """
-  dayEvent: DayEvent
+  dayEvent: DayEvent!
 }
 
 """
@@ -407,5 +407,5 @@ type RemoveStickerPayload implements Payload {
   """
   The DayEvent which contains the updated HealthyHabits list
   """
-  dayEvent: DayEvent
+  dayEvent: DayEvent!
 }

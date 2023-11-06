@@ -1,5 +1,6 @@
-import { Heading, Text } from '@radix-ui/themes';
+import { Heading } from '@radix-ui/themes';
 import Drawer from '../Drawer/Drawer';
+import SignInForm from '../SignInForm/SignInForm';
 import * as S from './MainHeader.styled';
 
 interface MainHeaderProps {
@@ -21,7 +22,7 @@ const MainHeader = ({ isDesktop }: MainHeaderProps) => {
   return (
     <S.MainHeader justify="between" align="center" p="3">
       <Heading size="6">Plate2Progress</Heading>
-      <Text>Sign in fields here</Text>
+      <SignInForm />
     </S.MainHeader>
   );
 };

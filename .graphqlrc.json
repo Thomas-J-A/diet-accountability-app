@@ -1,3 +1,4 @@
 {
-  "schema": "./apps/server/src/schema.graphql"
+  "schema": "./apps/server/src/schema.graphql",
+  "documents": "./apps/client/src/operations/*.tsx"
 }

@@ -3,7 +3,7 @@ module.exports = {
     () => 'tsc -p ./tsconfig.json --noEmit --skipLibCheck',
     'eslint --fix',
     'prettier --write',
-    // 'jest --config ./apps/client/jest.config.ts --bail --findRelatedTests --passWithNoTests',
+    // 'jest --config ./jest.config.ts --bail --findRelatedTests --passWithNoTests',
   ],
   '**/*.styled.tsx': 'stylelint --fix',
   '**/*': 'gitleaks protect -v --staged',

@@ -204,7 +204,7 @@ describe('Mutations', () => {
       expect(res.body.singleResult.data?.updateMeal.message).toBe(
         'Meal was successfully updated',
       );
-      expect(res.body.singleResult.data?.updateMeal.meal?.rating).toBe(8);
+      expect(res.body.singleResult.data?.updateMeal.meal.rating).toBe(8);
     });
 
     it("should return an error if 'id' is not an ObjectId", async () => {
