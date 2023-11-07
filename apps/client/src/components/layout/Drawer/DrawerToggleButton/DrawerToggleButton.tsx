@@ -1,5 +1,4 @@
 import * as Dialog from '@radix-ui/react-dialog';
-import { Button } from '@radix-ui/themes';
 import { HamburgerMenuIcon, PersonIcon } from '@radix-ui/react-icons';
 import * as S from './DrawerToggleButton.styled';
 
@@ -16,9 +15,9 @@ const DrawerToggleButton = ({ isAuthed }: { isAuthed: boolean }) => {
 
   return (
     <Dialog.Trigger asChild>
-      <Button>
+      <S.SignInButton>
         <PersonIcon /> Sign In
-      </Button>
+      </S.SignInButton>
     </Dialog.Trigger>
   );
 };
