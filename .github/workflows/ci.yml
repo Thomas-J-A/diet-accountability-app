@@ -52,10 +52,6 @@ jobs:
           # In dev (Docker) schema fetched in an HTTP request but in CI can be a relative path
           GRAPHQL_SCHEMA: '../server/src/schema.graphql'
 
-      - name: DEBUG - log files/directories
-        working-directory: ./apps/client
-        run: ls . && ls ./src && ls ./src/__generated__
-
       - name: Lint and format project
         run: npm run lint
 
@@ -84,6 +80,11 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Generate types
+        run: npm run generate
+        env:
+          GRAPHQL_SCHEMA: '../server/src/schema.graphql'
 
       - name: Build production bundle
         run: npm run build
