@@ -10,6 +10,7 @@ services:
       - 5173:5173
     environment:
       - NODE_ENV=dev
+      - GRAPHQL_SCHEMA=http://server:3000/graphql # Used by GraphQL codegen
     volumes:
       - ./apps/client:/usr/src/app
       - /usr/src/app/node_modules

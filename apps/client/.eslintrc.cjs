@@ -10,6 +10,7 @@ module.exports = {
     '.eslintrc.cjs',
     '.lintstagedrc.ts',
     'vite.config.ts',
+    'codegen.ts',
     'src/__generated__/',
   ],
   overrides: [

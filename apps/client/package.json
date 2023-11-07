@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "generate": "graphql-codegen --config ./codegen.yml",
+    "generate": "graphql-codegen --config ./codegen.ts",
     "dev": "vite",
     "dev:generate": "concurrently -n \"CLIENT,CODEGEN\" -c \"bgCyan,bgMagenta\" \"npm:dev\" \"sleep 5 && npm run generate --watch './src/**/*'\"",
     "build": "tsc && vite build",

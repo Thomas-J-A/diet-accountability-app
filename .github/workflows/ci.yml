@@ -48,6 +48,9 @@ jobs:
       - name: Generate types from GraphQL schema - client
         working-directory: ./apps/client
         run: npm run generate
+        env:
+          # In dev (Docker) schema fetched in an HTTP request but in CI can be a relative path
+          GRAPHQL_SCHEMA: '../server/src/schema.graphql'
 
       - name: Lint and format project
         run: npm run lint

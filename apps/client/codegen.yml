@@ -1,9 +1,0 @@
-# TODO: Set schema value via env variable like `${import.meta.env.VITE_APP_SERVER_URL}/graphql`
-schema: http://server:3000/graphql
-documents: ./src/operations/*.tsx
-ignoreNoDocuments: true
-generates:
-  ./src/__generated__/:
-    preset: client
-    presetConfig:
-      fragmentMasking: false
