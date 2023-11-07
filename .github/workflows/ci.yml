@@ -52,6 +52,10 @@ jobs:
           # In dev (Docker) schema fetched in an HTTP request but in CI can be a relative path
           GRAPHQL_SCHEMA: '../server/src/schema.graphql'
 
+      - name: DEBUG - log files/directories
+        working-directory: ./apps/client
+        run: ls . && ls ./src && ls ./src/__generated__
+
       - name: Lint and format project
         run: npm run lint
 
