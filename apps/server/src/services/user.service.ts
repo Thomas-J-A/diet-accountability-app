@@ -14,7 +14,7 @@ const signUp = async (userData: SignUpInput) => {
 
   if (existingUser) {
     throw new GraphQLError(`A user with the email ${email} already exists`, {
-      extensions: { code: ErrorCodes.USERNAME_TAKEN },
+      extensions: { code: ErrorCodes.EMAIL_TAKEN },
     });
   }
 

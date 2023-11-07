@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import Footer from '../Footer/Footer';
 import * as S from './Root.styled';
 import { useContainerNode } from '../../../contexts/ContainerNodeContext';
+import { AuthContextProvider } from '../../../contexts/AuthContext';
 
 const Root = () => {
   const [, setContainerNode] = useContainerNode();
@@ -18,8 +19,10 @@ const Root = () => {
   return (
     // S.Root is a portal target for Drawer component
     <S.Root ref={updateContext} rows="1fr auto">
-      <Outlet />
-      <Footer />
+      <AuthContextProvider>
+        <Outlet />
+        <Footer />
+      </AuthContextProvider>
     </S.Root>
   );
 };
