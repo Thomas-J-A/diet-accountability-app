@@ -9,6 +9,8 @@ import LandingPage from './pages/landing/LandingPage/LandingPage';
 import StatisticsPage from './pages/statistics/StatisticsPage/StatisticsPage';
 import Layout from './components/layout/Layout/Layout';
 import Root from './components/layout/Root/Root';
+import PrivateRoute from './components/routing/PrivateRoute/PrivateRoute';
+import PublicRoute from './components/routing/PublicRoute/PublicRoute';
 import DefaultError from './components/UI/DefaultError/DefaultError';
 import { ContainerNodeContextProvider } from './contexts/ContainerNodeContext';
 import { ToggleDrawerContextProvider } from './contexts/ToggleDrawerContext';
@@ -29,18 +31,37 @@ const router = createBrowserRouter([
       {
         element: <Layout />,
         children: [
-          { index: true, element: <LandingPage /> },
+          {
+            index: true,
+            element: (
+              <PublicRoute redirectPath="/calendar">
+                <LandingPage />
+              </PublicRoute>
+            ),
+          },
           {
             path: '/calendar',
-            element: <CalendarPage />,
+            element: (
+              <PrivateRoute redirectPath="/">
+                <CalendarPage />
+              </PrivateRoute>
+            ),
           },
           {
             path: '/statistics',
-            element: <StatisticsPage />,
+            element: (
+              <PrivateRoute redirectPath="/">
+                <StatisticsPage />
+              </PrivateRoute>
+            ),
           },
           {
             path: '/raqs',
-            element: <RAQsPage />,
+            element: (
+              <PrivateRoute redirectPath="/">
+                <RAQsPage />
+              </PrivateRoute>
+            ),
           },
         ],
       },
