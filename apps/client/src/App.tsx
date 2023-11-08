@@ -7,6 +7,7 @@ import CalendarPage from './pages/calendar/CalendarPage/CalendarPage';
 import RAQsPage from './pages/RAQs/RAQsPage/RAQsPage';
 import LandingPage from './pages/landing/LandingPage/LandingPage';
 import StatisticsPage from './pages/statistics/StatisticsPage/StatisticsPage';
+import NotFoundPage from './pages/not-found/NotFoundPage/NotFoundPage';
 import Layout from './components/layout/Layout/Layout';
 import Root from './components/layout/Root/Root';
 import PrivateRoute from './components/routing/PrivateRoute/PrivateRoute';
@@ -64,6 +65,10 @@ const router = createBrowserRouter([
             ),
           },
         ],
+      },
+      {
+        path: '*',
+        element: <NotFoundPage />,
       },
     ],
   },
