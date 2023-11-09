@@ -1,8 +1,8 @@
 import { Grid } from '@radix-ui/themes';
-import HeroText from '../HeroText/HeroText';
-import SignUpForm from '../SignUpForm/SignUpForm';
-import TestimonialsCarousel from '../TestimonialsCarousel/TestimonialsCarousel';
-import FeaturedCarousel from '../FeaturedCarousel/FeaturedCarousel';
+import HeroText from './HeroText/HeroText';
+import SignUpForm from './SignUpForm/SignUpForm';
+import TestimonialsCarousel from './TestimonialsCarousel/TestimonialsCarousel';
+import FeaturedCarousel from './FeaturedCarousel/FeaturedCarousel';
 import * as S from './LandingPage.styled';
 
 const LandingPage = () => {
