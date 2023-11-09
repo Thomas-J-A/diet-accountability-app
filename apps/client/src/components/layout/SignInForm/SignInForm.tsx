@@ -7,7 +7,7 @@ import { EnterIcon } from '@radix-ui/react-icons';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import FieldError from '../../UI/FieldError/FieldError';
-import { toastError } from '../../UI/Toast/toast';
+import { toastError, toastSuccess } from '../../UI/Toast/toast';
 import ToastMessages from '../../../constants/toast-messages';
 import { useAuthContext } from '../../../contexts/AuthContext';
 import { useToggleDrawer } from '../../../contexts/ToggleDrawerContext';
@@ -57,17 +57,19 @@ const SignInForm = () => {
   const [signIn, { loading }] = useMutation(SIGN_IN_MUTATION, {
     onCompleted: ({ signIn }) => {
       logIn({
-        type: 'SIGN_IN',
         currentUser: signIn.user,
         accessToken: signIn.tokens.accessToken,
       });
+
+      // Display success message
+      toastSuccess(ToastMessages.SIGNED_IN_SUCCESSFULLY);
 
       // On mobile, close drawer component
       closeDrawer();
     },
     onError: ({ graphQLErrors }) => {
       if (graphQLErrors.length) {
-        graphQLErrors.forEach((err) => {
+        for (const err of graphQLErrors) {
           if (err.extensions.code === 'INVALID_CREDENTIALS') {
             // Email/password validation failure in resolver should be displayed in UI
             setError('root', {
@@ -80,7 +82,7 @@ const SignInForm = () => {
 
           // Unexpected error
           toastError(ToastMessages.INTERNAL_SERVER_ERROR);
-        });
+        }
       }
     },
   });

@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import SignUpHeader from './SignUpHeader/SignUpHeader';
 import FieldError from '../../../components/UI/FieldError/FieldError';
-import { toastError } from '../../../components/UI/Toast/toast';
+import { toastError, toastSuccess } from '../../../components/UI/Toast/toast';
 import ToastMessages from '../../../constants/toast-messages';
 import { useAuthContext } from '../../../contexts/AuthContext';
 import { SIGN_UP_MUTATION } from '../../../operations/mutations';
@@ -70,15 +70,17 @@ const SignUpForm = () => {
   const [signUp, { loading }] = useMutation(SIGN_UP_MUTATION, {
     onCompleted: ({ signUp }) => {
       logIn({
-        type: 'SIGN_UP',
         currentUser: signUp.user,
         accessToken: signUp.tokens.accessToken,
       });
+
+      // Display success message
+      toastSuccess(ToastMessages.SIGNED_UP_SUCCESSFULLY);
     },
     onError: ({ graphQLErrors }) => {
       // Parsing, validation, resolver errors (network errors handled in Apollo Link)
       if (graphQLErrors.length) {
-        graphQLErrors.forEach((err) => {
+        for (const err of graphQLErrors) {
           if (err.extensions.code === 'EMAIL_TAKEN') {
             // Email validation failure in resolver should be displayed in UI
             setError('email', {
@@ -91,7 +93,7 @@ const SignUpForm = () => {
 
           // Unexpected error
           toastError(ToastMessages.INTERNAL_SERVER_ERROR);
-        });
+        }
       }
     },
   });

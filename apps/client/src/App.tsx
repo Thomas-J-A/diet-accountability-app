@@ -1,6 +1,5 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { ApolloProvider } from '@apollo/client';
 import { Theme } from '@radix-ui/themes';
 import { Cross1Icon } from '@radix-ui/react-icons';
 import CalendarPage from './pages/calendar/CalendarPage/CalendarPage';
@@ -15,18 +14,21 @@ import PublicRoute from './components/routing/PublicRoute/PublicRoute';
 import DefaultError from './components/UI/DefaultError/DefaultError';
 import { ContainerNodeContextProvider } from './contexts/ContainerNodeContext';
 import { ToggleDrawerContextProvider } from './contexts/ToggleDrawerContext';
-import createApolloClient from './utils/create-apollo-client';
+import { AuthContextProvider } from './contexts/AuthContext';
 import GlobalStyle from './styles/GlobalStyle';
 import * as S from './App.styled';
 
-// Create client with all Apollo Links and settings configured
-const client = createApolloClient();
-
 // TODO: Add nested error boundaries
+// AuthContext declared here because it must be below React-Router
+// and above Apollo Client in component tree
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Root />,
+    element: (
+      <AuthContextProvider>
+        <Root />
+      </AuthContextProvider>
+    ),
     errorElement: <DefaultError />,
     children: [
       {
@@ -95,9 +97,7 @@ const App = () => {
         />
         <ContainerNodeContextProvider>
           <ToggleDrawerContextProvider>
-            <ApolloProvider client={client}>
-              <RouterProvider router={router} />
-            </ApolloProvider>
+            <RouterProvider router={router} />
           </ToggleDrawerContextProvider>
         </ContainerNodeContextProvider>
       </Theme>
