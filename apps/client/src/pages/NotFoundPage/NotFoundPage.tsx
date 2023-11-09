@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { Flex, Heading, Text } from '@radix-ui/themes';
 import { QuestionMarkCircledIcon } from '@radix-ui/react-icons';
-import { useAuthContext } from '../../../contexts/AuthContext';
+import { useAuthContext } from '../../contexts/AuthContext';
 import * as S from './NotFoundPage.styled';
 
 const NotFoundPage = () => {
