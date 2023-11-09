@@ -19,6 +19,6 @@ export const toastError = (message: string) => {
 
 export const toastInfo = (message: string) => {
   toast.info(message, {
-    icon: <InfoCircledIcon height="20" width="20" color="yellow" />,
+    icon: <InfoCircledIcon height="20" width="20" color="blue" />,
   });
 };
