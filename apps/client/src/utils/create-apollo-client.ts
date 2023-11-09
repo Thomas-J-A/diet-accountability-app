@@ -6,10 +6,10 @@ import {
   from,
 } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
-import { toastError } from '../components/UI/Toast/toast';
+import { toastError, toastInfo } from '../components/UI/Toast/toast';
 import ToastMessages from '../constants/toast-messages';
 
-const createApolloClient = () => {
+const createApolloClient = (logOut: () => void) => {
   // Endpoint for Apollo server (proxied by Vite)
   const httpLink = new HttpLink({
     uri: '/graphql',
@@ -28,11 +28,25 @@ const createApolloClient = () => {
     return forward(operation);
   });
 
-  // TODO: Update this Link to implement refresh tokens
-  // https://www.apollographql.com/docs/react/data/error-handling/#retrying-operations
-  // Handle network errors in a generic way
-  // GraphQLErrors are handled inside calling code
-  const networkErrorLink = onError(({ networkError }) => {
+  const errorLink = onError(({ networkError, graphQLErrors }) => {
+    if (graphQLErrors) {
+      for (const err of graphQLErrors) {
+        if (err.extensions.code === 'TOKEN_EXPIRED') {
+          // Access token has expired, get user to re-authenticate
+          logOut();
+          void client.resetStore();
+          toastInfo('Token has expired. Please sign in again. 🔄');
+        }
+
+        if (err.extensions.code === 'TOKEN_INVALID') {
+          // Access token not verified
+          logOut();
+          void client.resetStore();
+          toastError('Token is invalid 🔐');
+        }
+      }
+    }
+
     if (networkError) {
       toastError(ToastMessages.NETWORK_ERROR);
     }
@@ -42,7 +56,7 @@ const createApolloClient = () => {
   const client = new ApolloClient({
     // connectToDevTools: true,
     cache: new InMemoryCache(),
-    link: from([authLink, networkErrorLink, httpLink]),
+    link: from([authLink, errorLink, httpLink]),
   });
 
   return client;

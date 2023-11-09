@@ -1,15 +1,20 @@
+import { useApolloClient } from '@apollo/client';
 import { Flex } from '@radix-ui/themes';
 import { ExitIcon, TrashIcon } from '@radix-ui/react-icons';
+import { toastSuccess } from '../../../UI/Toast/toast';
 import { useAuthContext } from '../../../../contexts/AuthContext';
 import { useToggleDrawer } from '../../../../contexts/ToggleDrawerContext';
 import * as S from './AccountOptions.styled';
 
 const AccountOptions = () => {
+  const client = useApolloClient();
   const { logOut } = useAuthContext();
   const [, setIsOpen] = useToggleDrawer();
 
   const logOutAndCloseDrawer = () => {
     logOut();
+    void client.resetStore();
+    toastSuccess('Signed out successfully 👋');
     setIsOpen(false);
   };
 

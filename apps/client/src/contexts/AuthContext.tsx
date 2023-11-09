@@ -1,12 +1,8 @@
 import { useState, useContext, createContext, ReactNode } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useApolloClient } from '@apollo/client';
 import { User } from '../__generated__/graphql';
-import { toastSuccess } from '../components/UI/Toast/toast';
-import ToastMessages from '../constants/toast-messages';
 
 interface LogIn {
-  type: 'SIGN_UP' | 'SIGN_IN';
   currentUser: User;
   accessToken: string;
 }
@@ -28,7 +24,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
   const locationState = useLocation().state as LocationState | undefined;
-  const client = useApolloClient();
+  // const client = useApolloClient();
 
   // Rehydrate local state after refreshing page to ensure user isn't signed out
   // This will be null on initial page load
@@ -39,7 +35,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   );
 
   // Helper function to auth user into app after registering
-  const logIn = ({ type, currentUser, accessToken }: LogIn) => {
+  const logIn = ({ currentUser, accessToken }: LogIn) => {
     // Add user details to localStorage for rehydrating on refresh
     localStorage.setItem('currentUser', JSON.stringify(currentUser));
 
@@ -54,14 +50,6 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     // Redirect to referer, or default /calendar
     const from = locationState?.from ?? '/calendar';
     navigate(from, { replace: true });
-
-    // Display successful sign up/in notification
-    const message =
-      type === 'SIGN_UP'
-        ? ToastMessages.SIGNED_UP_SUCCESSFULLY
-        : ToastMessages.SIGNED_IN_SUCCESSFULLY;
-
-    toastSuccess(message);
   };
 
   const logOut = () => {
@@ -73,14 +61,8 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem('accessToken');
     // localStorage.removeItem('refreshToken');
 
-    // Reset Apollo Client cache so there is no authed data remaining
-    void client.resetStore();
-
     // Navigate back to landing page
     navigate('/', { replace: true });
-
-    // Display successful sign out notification
-    toastSuccess(ToastMessages.SIGNED_OUT_SUCCESSFULLY);
   };
 
   // Quick check for auth status

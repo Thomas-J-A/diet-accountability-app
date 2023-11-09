@@ -27,3 +27,14 @@ export const SIGN_IN_MUTATION = graphql(/* GraphQL */ `
     }
   }
 `);
+
+// export const DELETE_USER_MUTATION = graphql(/* GraphQL */ `
+//   mutation DeleteUser($id: ID!) {
+//     deleteUser(id: $id) {
+//       ...PayloadStandard
+//       user {
+//         ...UserDetails
+//       }
+//     }
+//   }
+// `);
