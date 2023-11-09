@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import { Flex } from '@radix-ui/themes';
 
-export const MainHeader = styled(Flex)`
+export const MainHeader = styled.header`
   border-bottom: 1px solid var(--gray-a6);
 `;

@@ -1,11 +1,13 @@
-import { Text } from '@radix-ui/themes';
+import { Box, Text } from '@radix-ui/themes';
 import * as S from './StatisticsPage.styled';
 
 const StatisticsPage = () => {
   return (
-    <S.StatisticsPage p="3">
-      <Text>Statistics Stuff</Text>
-    </S.StatisticsPage>
+    <Box p="3" asChild>
+      <S.StatisticsPage>
+        <Text>Statistics Stuff</Text>
+      </S.StatisticsPage>
+    </Box>
   );
 };
 

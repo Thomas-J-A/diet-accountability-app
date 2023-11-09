@@ -1,4 +1,4 @@
-import { Heading } from '@radix-ui/themes';
+import { Flex, Heading } from '@radix-ui/themes';
 import Drawer from '../Drawer/Drawer';
 import SignInForm from '../SignInForm/SignInForm';
 import * as S from './MainHeader.styled';
@@ -11,19 +11,23 @@ const MainHeader = ({ isDesktop }: MainHeaderProps) => {
   // All mobile pages
   if (!isDesktop) {
     return (
-      <S.MainHeader justify="between" align="center" p="3">
-        <Heading size="6">Plate2Progress</Heading>
-        <Drawer />
-      </S.MainHeader>
+      <Flex justify="between" align="center" p="3" asChild>
+        <S.MainHeader>
+          <Heading size="6">Plate2Progress</Heading>
+          <Drawer />
+        </S.MainHeader>
+      </Flex>
     );
   }
 
   // Desktop landing page
   return (
-    <S.MainHeader justify="between" align="center" p="3">
-      <Heading size="6">Plate2Progress</Heading>
-      <SignInForm />
-    </S.MainHeader>
+    <Flex justify="between" align="center" p="3" asChild>
+      <S.MainHeader>
+        <Heading size="6">Plate2Progress</Heading>
+        <SignInForm />
+      </S.MainHeader>
+    </Flex>
   );
 };
 
