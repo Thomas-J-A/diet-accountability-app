@@ -1,11 +1,13 @@
-import { Text } from '@radix-ui/themes';
+import { Box, Text } from '@radix-ui/themes';
 import * as S from './CalendarPage.styled';
 
 const CalendarPage = () => {
   return (
-    <S.CalendarPage p="3">
-      <Text>Calendar Stuff</Text>
-    </S.CalendarPage>
+    <Box p="3" asChild>
+      <S.CalendarPage>
+        <Text>Calendar Stuff</Text>
+      </S.CalendarPage>
+    </Box>
   );
 };
 

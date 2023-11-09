@@ -1,11 +1,13 @@
-import { Text } from '@radix-ui/themes';
+import { Box, Text } from '@radix-ui/themes';
 import * as S from './RAQsPage.styled';
 
 const RAQsPage = () => {
   return (
-    <S.RAQsPage p="3">
-      <Text>RAQs Stuff</Text>
-    </S.RAQsPage>
+    <Box p="3" asChild>
+      <S.RAQsPage>
+        <Text>RAQs Stuff</Text>
+      </S.RAQsPage>
+    </Box>
   );
 };
 
