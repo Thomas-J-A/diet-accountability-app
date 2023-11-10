@@ -9,6 +9,13 @@ button:focus-visible,
 }
 
 a {
+  padding: var(--space-1);
   color: var(--accent-a11);
   text-decoration: none;
+  border-radius: var(--radius-2);
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--accent-8);
+  }
 }
