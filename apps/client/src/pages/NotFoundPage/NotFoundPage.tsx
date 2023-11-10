@@ -1,8 +1,7 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { Flex, Heading, Text } from '@radix-ui/themes';
 import { QuestionMarkCircledIcon } from '@radix-ui/react-icons';
 import { useAuthContext } from '../../contexts/AuthContext';
-import * as S from './NotFoundPage.styled';
 
 const NotFoundPage = () => {
   const location = useLocation();
@@ -11,20 +10,20 @@ const NotFoundPage = () => {
   const authLinks = (
     <Flex direction="column">
       <Text>Here are some helpful links:</Text>
-      <S.StyledLink to="/calendar">
+      <Link to="/calendar">
         <Text size="2">Calendar</Text>
-      </S.StyledLink>
-      <S.StyledLink to="/statistics">
+      </Link>
+      <Link to="/statistics">
         <Text size="2">Statistics</Text>
-      </S.StyledLink>
-      <S.StyledLink to="/raqs">
+      </Link>
+      <Link to="/raqs">
         <Text size="2">Rarely Asked Questions</Text>
-      </S.StyledLink>
+      </Link>
     </Flex>
   );
   const unauthedLinks = (
     <Text>
-      Please <S.StyledLink to="/">sign in</S.StyledLink> to access more features
+      Please <Link to="/">sign in</Link> to access more features
     </Text>
   );
 

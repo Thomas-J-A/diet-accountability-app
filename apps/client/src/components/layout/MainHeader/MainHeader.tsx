@@ -1,6 +1,8 @@
+import { Link } from 'react-router-dom';
 import { Flex, Heading } from '@radix-ui/themes';
 import Drawer from '../Drawer/Drawer';
 import SignInForm from '../SignInForm/SignInForm';
+import { useAuthContext } from '../../../contexts/AuthContext';
 import * as S from './MainHeader.styled';
 
 interface MainHeaderProps {
@@ -8,24 +10,15 @@ interface MainHeaderProps {
 }
 
 const MainHeader = ({ isDesktop }: MainHeaderProps) => {
-  // All mobile pages
-  if (!isDesktop) {
-    return (
-      <Flex justify="between" align="center" p="3" asChild>
-        <S.MainHeader>
-          <Heading size="6">Plate2Progress</Heading>
-          <Drawer />
-        </S.MainHeader>
-      </Flex>
-    );
-  }
+  const { isAuthenticated } = useAuthContext();
 
-  // Desktop landing page
   return (
     <Flex justify="between" align="center" p="3" asChild>
       <S.MainHeader>
-        <Heading size="6">Plate2Progress</Heading>
-        <SignInForm />
+        <Link to={isAuthenticated ? '/calendar' : '/'}>
+          <Heading size="6">Plate2Progress</Heading>
+        </Link>
+        {isDesktop ? <SignInForm /> : <Drawer />}
       </S.MainHeader>
     </Flex>
   );

@@ -7,3 +7,8 @@ button:focus-visible,
   outline: none !important;
   box-shadow: 0 0 0 2px var(--accent-8) !important;
 }
+
+a {
+  color: var(--accent-a11);
+  text-decoration: none;
+}
