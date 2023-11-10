@@ -7,7 +7,7 @@ interface FieldErrorProps {
 
 const FieldError = ({ text }: FieldErrorProps) => {
   return (
-    <Callout.Root size="1" color="red" role="alert" highContrast>
+    <Callout.Root size="1" color="red" role="alert" highContrast variant="soft">
       <Callout.Icon>
         <ExclamationTriangleIcon height="14" width="14" />
       </Callout.Icon>

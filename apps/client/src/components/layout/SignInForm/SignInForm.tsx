@@ -102,7 +102,7 @@ const SignInForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Flex direction={{ initial: 'column', md: 'row' }} align="center" gap="2">
-        <Flex direction="column" gap="2" width="100%">
+        <Flex direction="column" gap="2" width="100%" position="relative">
           <Label.Root>
             <VisuallyHidden>Email</VisuallyHidden>
             <TextField.Input
@@ -114,10 +114,14 @@ const SignInForm = () => {
               placeholder="marco@gmail.com"
             />
           </Label.Root>
-          {errors.email && <FieldError text={errors.email.message!} />}
+          {errors.email && (
+            <S.AbsolutelyPositionedError>
+              <FieldError text={errors.email.message!} />
+            </S.AbsolutelyPositionedError>
+          )}
         </Flex>
 
-        <Flex direction="column" gap="2" width="100%">
+        <Flex direction="column" gap="2" width="100%" position="relative">
           <Label.Root>
             <VisuallyHidden>Password</VisuallyHidden>
             <TextField.Input
@@ -129,14 +133,24 @@ const SignInForm = () => {
               placeholder="********"
             />
           </Label.Root>
-          {errors.password && <FieldError text={errors.password.message!} />}
+          {errors.password && (
+            <S.AbsolutelyPositionedError>
+              <FieldError text={errors.password.message!} />
+            </S.AbsolutelyPositionedError>
+          )}
         </Flex>
 
-        {errors.root?.message && <FieldError text={errors.root.message} />}
+        <Flex direction="column" gap="2" width="100%" position="relative">
+          <S.SubmitButton type="submit" disabled={loading}>
+            <EnterIcon /> Sign In
+          </S.SubmitButton>
 
-        <S.SubmitButton type="submit" disabled={loading}>
-          <EnterIcon /> Sign In
-        </S.SubmitButton>
+          {errors.root?.message && (
+            <S.AbsolutelyPositionedError>
+              <FieldError text={errors.root.message} />
+            </S.AbsolutelyPositionedError>
+          )}
+        </Flex>
       </Flex>
     </form>
   );
