@@ -21,7 +21,7 @@ const MainHeader = ({ isDesktop }: MainHeaderProps) => {
     >
       <S.MainHeader>
         <Link to={isAuthenticated ? '/calendar' : '/'}>
-          <Heading size={{ initial: '6', md: '7' }}>Plate2Progress</Heading>
+          <Heading size={{ initial: '6', md: '8' }}>Plate2Progress</Heading>
         </Link>
         {isDesktop ? <SignInForm /> : <Drawer />}
       </S.MainHeader>

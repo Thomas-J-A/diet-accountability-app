@@ -6,6 +6,13 @@ export const SubmitButton = styled(Button)`
   cursor: pointer;
 
   @media (width >= 1024px) {
-    width: auto;
+    width: 200px;
+  }
+`;
+
+export const AbsolutelyPositionedError = styled.div`
+  @media (width >= 1024px) {
+    position: absolute;
+    top: var(--space-7);
   }
 `;
