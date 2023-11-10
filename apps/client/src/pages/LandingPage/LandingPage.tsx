@@ -1,4 +1,4 @@
-import { Grid, Box } from '@radix-ui/themes';
+import { Grid, Box, Container } from '@radix-ui/themes';
 import HeroText from './HeroText/HeroText';
 import SignUpForm from './SignUpForm/SignUpForm';
 import TestimonialsCarousel from './TestimonialsCarousel/TestimonialsCarousel';
@@ -9,12 +9,19 @@ const LandingPage = () => {
   return (
     <Box p="6" asChild>
       <S.LandingPage>
-        <Grid gap="5">
-          <HeroText />
-          <SignUpForm />
-          <TestimonialsCarousel />
-          <FeaturedCarousel />
-        </Grid>
+        <Container size={{ initial: '1', md: '3' }}>
+          <Grid
+            gap="5"
+            columns={{ md: '3fr 2fr' }}
+            rows={{ md: '2fr 1fr' }}
+            align="center"
+          >
+            <HeroText />
+            <SignUpForm />
+            <TestimonialsCarousel />
+            <FeaturedCarousel />
+          </Grid>
+        </Container>
       </S.LandingPage>
     </Box>
   );

@@ -113,22 +113,23 @@ const SignUpForm = () => {
   };
 
   return (
-    <S.SignUpForm direction="column" p="3" gap="2">
+    <S.SignUpForm direction="column" p={{ initial: '3', md: '5' }} gap="2">
       <SignUpHeader />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Flex direction="column" gap="2">
+        <Flex direction="column" gap={{ initial: '2', md: '4' }}>
           <Flex gap="3">
             <Flex direction="column" gap="2">
               <Label.Root>
-                <Text size="1" weight="bold">
+                <Text size={{ initial: '1', md: '2' }} weight="bold">
                   First Name*
                 </Text>
                 <TextField.Input
                   {...register('firstName')}
                   aria-invalid={errors.firstName ? true : false}
-                  size="1"
+                  size={{ initial: '1', md: '2' }}
                   variant="soft"
                   placeholder="Marcus"
+                  mt={{ initial: '1', md: '2' }}
                 />
               </Label.Root>
               {errors.firstName && (
@@ -138,15 +139,16 @@ const SignUpForm = () => {
 
             <Flex direction="column" gap="2">
               <Label.Root>
-                <Text size="1" weight="bold">
+                <Text size={{ initial: '1', md: '2' }} weight="bold">
                   Last Name*
                 </Text>
                 <TextField.Input
                   {...register('lastName')}
                   aria-invalid={errors.lastName ? true : false}
-                  size="1"
+                  size={{ initial: '1', md: '2' }}
                   variant="soft"
                   placeholder="Aurelius"
+                  mt={{ initial: '1', md: '2' }}
                 />
               </Label.Root>
               {errors.lastName && (
@@ -157,16 +159,17 @@ const SignUpForm = () => {
 
           <Flex direction="column" gap="2">
             <Label.Root>
-              <Text size="1" weight="bold">
+              <Text size={{ initial: '1', md: '2' }} weight="bold">
                 Email*
               </Text>
               <TextField.Input
                 {...register('email')}
                 aria-invalid={errors.email ? true : false}
-                size="1"
+                size={{ initial: '1', md: '2' }}
                 variant="soft"
                 type="email"
                 placeholder="marco@gmail.com"
+                mt={{ initial: '1', md: '2' }}
               />
             </Label.Root>
             {errors.email && <FieldError text={errors.email.message!} />}
@@ -174,16 +177,17 @@ const SignUpForm = () => {
 
           <Flex direction="column" gap="2">
             <Label.Root>
-              <Text size="1" weight="bold">
+              <Text size={{ initial: '1', md: '2' }} weight="bold">
                 Password*
               </Text>
               <TextField.Input
                 {...register('password')}
                 aria-invalid={errors.password ? true : false}
-                size="1"
+                size={{ initial: '1', md: '2' }}
                 variant="soft"
                 type="password"
                 placeholder="********"
+                mt={{ initial: '1', md: '2' }}
               />
             </Label.Root>
             {errors.password && <FieldError text={errors.password.message!} />}
@@ -191,16 +195,17 @@ const SignUpForm = () => {
 
           <Flex direction="column" gap="2">
             <Label.Root>
-              <Text size="1" weight="bold">
+              <Text size={{ initial: '1', md: '2' }} weight="bold">
                 Confirm Password*
               </Text>
               <TextField.Input
                 {...register('confirmPassword')}
                 aria-invalid={errors.confirmPassword ? true : false}
-                size="1"
+                size={{ initial: '1', md: '2' }}
                 variant="soft"
                 type="password"
                 placeholder="********"
+                mt={{ initial: '1', md: '2' }}
               />
             </Label.Root>
             {errors.confirmPassword && (
