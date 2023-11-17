@@ -16,3 +16,24 @@ export const USER_DETAILS = gql`
     email
   }
 `;
+
+export const MEAL_DETAILS = gql`
+  fragment MealDetails on Meal {
+    id
+    description
+    location
+    rating
+    type
+  }
+`;
+
+export const DAY_EVENT_DETAILS = gql`
+  fragment DayEventDetails on DayEvent {
+    id
+    date
+    healthyHabits
+    meals {
+      ...MealDetails
+    }
+  }
+`;
