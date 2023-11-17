@@ -5,10 +5,24 @@ const config: CodegenConfig = {
   documents: './src/operations/*.tsx',
   ignoreNoDocuments: true,
   generates: {
+    // Types for hook data and variables
     './src/__generated__/': {
       preset: 'client',
       presetConfig: {
         fragmentMasking: false,
+      },
+      config: {
+        scalars: {
+          Date: 'Date',
+        },
+      },
+    },
+    // Used to build client schema for apollo-link-scalars
+    // which serializes and parses Date values
+    './src/__generated__/introspection.json': {
+      plugins: ['introspection'],
+      config: {
+        minify: true,
       },
     },
   },
