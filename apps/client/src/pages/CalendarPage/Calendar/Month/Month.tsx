@@ -28,6 +28,11 @@ const Month = forwardRef<HTMLDivElement, MonthProps>(
       monthDays.push({ day, date, dayEvent });
     }
 
+    // Generate an array of day components
+    const days = monthDays.map(({ day, date, dayEvent }) => (
+      <Day key={day} day={day} date={date} dayEvent={dayEvent} />
+    ));
+
     return (
       // Only current month will receive a ref
       <Box ref={ref ? ref : null}>
@@ -37,9 +42,7 @@ const Month = forwardRef<HTMLDivElement, MonthProps>(
           p="1"
           style={{ gap: '1px', background: 'var(--accent-a11)' }}
         >
-          {monthDays.map(({ day, date, dayEvent }) => (
-            <Day key={day} day={day} date={date} dayEvent={dayEvent} />
-          ))}
+          {days}
         </Grid>
       </Box>
     );

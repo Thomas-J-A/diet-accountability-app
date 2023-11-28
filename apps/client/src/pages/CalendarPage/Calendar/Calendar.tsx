@@ -1,24 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
-import { useQuery } from '@apollo/client';
+import { useEffect, useRef } from 'react';
 import { Grid, Flex, Box, Text, ScrollArea } from '@radix-ui/themes';
 import { DayEvent } from '../../../__generated__/graphql';
 import Month from './Month/Month';
 import ScrollToTodayButton from './ScrollToTodayButton/ScrollToTodayButton';
-import { DAY_EVENTS_QUERY } from '../../../operations/queries';
-
-const getTwelveMonthsEarlier = (date: Date): Date => {
-  // Make a copy to avoid modifying original date
-  const copiedDate = new Date(date);
-
-  // Subtract 12 months from the copied date
-  // setMonth implementation handles changing the year accordingly
-  copiedDate.setMonth(copiedDate.getMonth() - 12);
-
-  // Set the day to 1 to get the first day of the month
-  copiedDate.setDate(1);
-
-  return copiedDate;
-};
 
 const WeekdayHeader = () => {
   return (
@@ -40,40 +24,31 @@ const WeekdayHeader = () => {
   );
 };
 
-const Calendar = () => {
-  const [today] = useState(new Date());
-  const [startDate] = useState(getTwelveMonthsEarlier(today));
+interface CalendarProps {
+  today: Date;
+  startDate: Date;
+  dayEvents: DayEvent[];
+}
 
+const Calendar = ({ today, startDate, dayEvents }: CalendarProps) => {
   // Used to scroll to current month on load and button click
+  const calendarContainerRef = useRef<HTMLDivElement>(null);
   const currentMonthRef = useRef<HTMLDivElement>(null);
 
-  // Fetch dayEvent data for previous twelve months
-  const { loading, error, data } = useQuery(DAY_EVENTS_QUERY, {
-    variables: {
-      dateRange: { endDate: today, startDate },
-    },
-  });
-
-  // Scroll calendar down to current month after initial data loads
-  useEffect(() => {
-    if (!loading && currentMonthRef.current) {
-      currentMonthRef.current.scrollIntoView({
+  // Scrolls calendar smoothly to current day/month
+  const scrollToCurrentMonth = () => {
+    if (currentMonthRef.current && calendarContainerRef.current) {
+      calendarContainerRef.current.scrollTo({
+        top: currentMonthRef.current.offsetTop,
         behavior: 'smooth',
-        block: 'start',
       });
     }
-  }, [loading]);
+  };
 
-  if (loading) {
-    return <Text>Loading...</Text>;
-  }
-
-  if (error) {
-    return <Text>Error!</Text>;
-  }
-
-  // After previous checks data should not be undefined
-  const dayEvents = data?.dayEvents as DayEvent[];
+  // Scroll to current month after initial data loads
+  useEffect(() => {
+    scrollToCurrentMonth();
+  }, []);
 
   // Number of months displayed in UI
   const monthsInCalendar = 19;
@@ -117,20 +92,27 @@ const Calendar = () => {
   });
 
   return (
-    <Box position="relative" style={{ border: '1px solid var(--gray-a6)' }}>
+    <Box
+      position="relative"
+      style={{ border: '1px solid var(--gray-a6)', alignSelf: 'start' }}
+    >
       <WeekdayHeader />
-      <ScrollArea scrollbars="vertical" style={{ height: '400px' }}>
+      <ScrollArea
+        scrollbars="vertical"
+        style={{ height: '420px' }}
+        ref={calendarContainerRef}
+      >
         <Box>
           <Flex p="2">
             <Text size="2">Who even cares what you ate here? 🤷‍♂️</Text>
           </Flex>
           {months}
           <Flex p="2">
-            <Text size="2">End of the road, Eager McBeaver.</Text>
+            <Text size="2">End of the road, Eager McBeaver 🏁</Text>
           </Flex>
         </Box>
       </ScrollArea>
-      <ScrollToTodayButton ref={currentMonthRef} />
+      <ScrollToTodayButton onClick={scrollToCurrentMonth} />
     </Box>
   );
 };

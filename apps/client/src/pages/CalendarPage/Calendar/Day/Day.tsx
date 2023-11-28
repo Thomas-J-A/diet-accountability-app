@@ -1,6 +1,7 @@
-import { Text } from '@radix-ui/themes';
-import { isAfter, isToday } from 'date-fns';
+import { isAfter, isToday, isSameDay } from 'date-fns';
 import { DayEvent } from '../../../../__generated__/graphql';
+import { useDateInEditor } from '../../../../contexts/DateInEditorContext';
+import useMediaQuery from '../../../../hooks/useMediaQuery';
 import * as S from './Day.styled';
 
 // Compute average rating across 1-3 meals for current day
@@ -27,11 +28,15 @@ interface DayProps {
 }
 
 const Day = ({ day, date, dayEvent }: DayProps) => {
+  const { dateInEditor, setDateInEditor } = useDateInEditor();
+  const isDesktop = useMediaQuery('(min-width: 1024px)');
+
   // Style Day differently depending on following props
   const dynamicProps: {
     $gridColumn?: number;
     $isToday?: boolean;
     $isFuture?: boolean;
+    $isDisplayedInEditor?: boolean;
     $averageRating?: number;
   } = {};
 
@@ -56,6 +61,11 @@ const Day = ({ day, date, dayEvent }: DayProps) => {
     dynamicProps.$isFuture = true;
   }
 
+  // Day currently being displayed in meal editor should be highlighted
+  if (isSameDay(date, dateInEditor)) {
+    dynamicProps.$isDisplayedInEditor = true;
+  }
+
   // Each day has a gradient corresponding to the average rating so
   // user can see at a glance how healthily they've been eating
   const averageRating = calculateAverageRating(dayEvent);
@@ -70,12 +80,24 @@ const Day = ({ day, date, dayEvent }: DayProps) => {
       p="1"
       {...dynamicProps}
       onClick={() => {
-        dynamicProps.$isFuture ? null : console.log('Clicked date: ', date);
+        if (!dynamicProps.$isFuture) {
+          // Update date displayed in meal editor when user clicks on calendar day
+          setDateInEditor(date);
+
+          // On mobile, scroll window to show meal editor with updated date
+          // On desktop, the editor appears alongside calendar rather than below
+          if (!isDesktop) {
+            window.scrollTo({
+              top: document.body.scrollHeight,
+              behavior: 'smooth',
+            });
+          }
+        }
       }}
     >
-      <Text size="1" style={{ color: 'var(--gray-6)' }}>
+      <S.DayNumber size="1" {...dynamicProps}>
         {day}
-      </Text>
+      </S.DayNumber>
     </S.Day>
   );
 };

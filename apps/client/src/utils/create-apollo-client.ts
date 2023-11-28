@@ -28,7 +28,6 @@ const createApolloClient = (logOut: () => void) => {
   // Add jwt token to every request
   const authLink = new ApolloLink((operation, forward) => {
     const token = localStorage.getItem('accessToken');
-
     operation.setContext(({ headers = {} }) => ({
       headers: token
         ? { ...headers, authorization: `Bearer ${token}` }

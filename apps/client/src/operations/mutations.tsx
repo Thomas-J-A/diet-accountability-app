@@ -38,3 +38,28 @@ export const SIGN_IN_MUTATION = graphql(/* GraphQL */ `
 //     }
 //   }
 // `);
+
+export const CREATE_MEAL_MUTATION = graphql(/* GraphQL */ `
+  mutation CreateMeal($mealData: CreateMealInput!) {
+    createMeal(mealData: $mealData) {
+      ...PayloadStandard
+      meal {
+        ...MealDetails
+      }
+      dayEvent {
+        ...DayEventDetails
+      }
+    }
+  }
+`);
+
+export const UPDATE_MEAL_MUTATION = graphql(/* GraphQL */ `
+  mutation UpdateMeal($id: ID!, $updatedMealData: UpdateMealInput!) {
+    updateMeal(id: $id, updatedMealData: $updatedMealData) {
+      ...PayloadStandard
+      meal {
+        ...MealDetails
+      }
+    }
+  }
+`);
