@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { Flex } from '@radix-ui/themes';
+import { Flex, Text } from '@radix-ui/themes';
 
 export const Day = styled(Flex)<{
   $gridColumn?: number;
@@ -29,8 +29,22 @@ export const Day = styled(Flex)<{
         to right,
         green 0%,
         green ${props.$averageRating * 10}%,
-        white ${props.$averageRating * 13}%,
-        white 100%
+        var(--gray-12) ${props.$averageRating * 13}%,
+        var(--gray-12) 100%
       );
     `}
+`;
+
+export const DayNumber = styled(Text)<{
+  $isToday?: boolean;
+  $isDisplayedInEditor?: boolean;
+}>`
+  color: var(--gray-6);
+
+  /* Today's date should be highlighted */
+  ${(props) => props.$isToday && 'text-decoration: underline;'}
+
+  /* Date currently displayed in meal editor component should be highlighted in a different way */
+  ${(props) =>
+    props.$isDisplayedInEditor && 'font-weight: var(--font-weight-bold)'}
 `;
