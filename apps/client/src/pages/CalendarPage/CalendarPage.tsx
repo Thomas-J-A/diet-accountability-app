@@ -61,10 +61,10 @@ const CalendarPage = () => {
 
   return (
     <DateInEditorContextProvider>
-      <Box p="3" asChild>
+      <Box p={{ initial: '3', md: '6' }} asChild>
         <main>
           <Container size={{ initial: '1', md: '3' }}>
-            <Grid gap="3" columns={{ md: '5fr 4fr' }}>
+            <Grid gap={{ initial: '3', md: '6' }} columns={{ md: '5fr 4fr' }}>
               {!isDesktop && (
                 <Box height="9" style={{ background: 'red' }}>
                   Ads
@@ -75,7 +75,7 @@ const CalendarPage = () => {
                 startDate={startDate}
                 dayEvents={dayEvents}
               />
-              <Flex direction="column" gap="3">
+              <Flex direction="column" gap={{ initial: '3', md: '6' }}>
                 {isDesktop && (
                   <Box height="9" style={{ background: 'red' }}>
                     Ads
