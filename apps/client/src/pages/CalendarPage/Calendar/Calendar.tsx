@@ -94,7 +94,12 @@ const Calendar = ({ today, startDate, dayEvents }: CalendarProps) => {
   return (
     <Box
       position="relative"
-      style={{ border: '1px solid var(--gray-a6)', alignSelf: 'start' }}
+      style={{
+        border: '1px solid var(--gray-a6)',
+        borderTopLeftRadius: 'var(--radius-2)',
+        borderTopRightRadius: 'var(--radius-2)',
+        alignSelf: 'start',
+      }}
     >
       <WeekdayHeader />
       <ScrollArea

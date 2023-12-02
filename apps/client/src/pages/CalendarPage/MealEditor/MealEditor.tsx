@@ -22,7 +22,10 @@ const MealEditor = ({ dayEvents }: MealEditorProps) => {
       direction="column"
       gap="2"
       p="3"
-      style={{ border: '1px solid var(--gray-a6)' }}
+      style={{
+        border: '1px solid var(--gray-a6)',
+        borderRadius: 'var(--radius-2)',
+      }}
     >
       <EditorHeader />
       <EditorMain currentDayEvent={currentDayEvent} />
@@ -30,7 +33,10 @@ const MealEditor = ({ dayEvents }: MealEditorProps) => {
         p="3"
         justify="center"
         align="center"
-        style={{ border: '1px solid var(--gray-a6' }}
+        style={{
+          border: '1px solid var(--gray-a6',
+          borderRadius: 'var(--radius-2)',
+        }}
       >
         <Text size="1">HealthyHabits&trade; stickers, coming soon! 🎉</Text>
       </Flex>

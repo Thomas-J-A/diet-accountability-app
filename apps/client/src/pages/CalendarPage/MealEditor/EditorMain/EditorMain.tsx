@@ -16,7 +16,12 @@ const EditorMain = ({ currentDayEvent }: MainEditorProps) => {
   const [activeTab, setActiveTab] = useState(MealTypeEnum.Breakfast);
 
   return (
-    <Box style={{ border: '1px solid var(--gray-a6' }}>
+    <Box
+      style={{
+        border: '1px solid var(--gray-a6',
+        borderRadius: 'var(--radius-2)',
+      }}
+    >
       {formMode ? (
         <AddEditMealForm
           meal={currentDayEvent?.meals.find((m) => m.type === activeTab)}
