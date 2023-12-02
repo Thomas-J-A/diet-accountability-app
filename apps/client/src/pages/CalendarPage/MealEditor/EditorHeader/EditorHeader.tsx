@@ -46,7 +46,14 @@ const EditorHeader = () => {
   const isFollowingDayFuture = isAfter(followingDay, today);
 
   return (
-    <Flex align="center" p="3" style={{ border: '1px solid var(--gray-a6' }}>
+    <Flex
+      align="center"
+      p="3"
+      style={{
+        border: '1px solid var(--gray-a6',
+        borderRadius: 'var(--radius-2)',
+      }}
+    >
       <IconButton
         style={{ cursor: 'pointer' }}
         disabled={isPreviousDayBeforeEarliestDate}
