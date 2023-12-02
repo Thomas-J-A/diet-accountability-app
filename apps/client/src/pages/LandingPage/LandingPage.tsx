@@ -7,7 +7,7 @@ import * as S from './LandingPage.styled';
 
 const LandingPage = () => {
   return (
-    <Box p="8" asChild>
+    <Box p={{ initial: '6', md: '8' }} asChild>
       <S.LandingPage>
         <Container size={{ initial: '1', md: '3' }}>
           <Grid
