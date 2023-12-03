@@ -1,15 +1,15 @@
 import Slider, { Settings } from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { Box } from '@radix-ui/themes';
 import Slide from './Slide/Slide';
 import testimonials from '../../../data/testimonials';
+import * as S from './Testimonials.styled';
 
 const TestimonialsCarousel = () => {
   const settings: Settings = {
     infinite: true,
     speed: 500,
-    slidesToShow: 2,
+    slidesToShow: 3,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
@@ -26,17 +26,13 @@ const TestimonialsCarousel = () => {
   };
 
   return (
-    <Box
-      px={{ initial: '3', md: '6' }}
-      width="100%"
-      style={{ overflow: 'hidden' }}
-    >
+    <S.StyledBox px={{ initial: '3', md: '6' }}>
       <Slider {...settings}>
         {testimonials.map((t) => (
           <Slide key={t.id} testimonial={t} />
         ))}
       </Slider>
-    </Box>
+    </S.StyledBox>
   );
 };
 

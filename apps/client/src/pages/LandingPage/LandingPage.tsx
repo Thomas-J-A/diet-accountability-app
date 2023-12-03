@@ -2,7 +2,6 @@ import { Grid, Box, Container } from '@radix-ui/themes';
 import HeroText from './HeroText/HeroText';
 import SignUpForm from './SignUpForm/SignUpForm';
 import TestimonialsCarousel from './TestimonialsCarousel/TestimonialsCarousel';
-import FeaturedCarousel from './FeaturedCarousel/FeaturedCarousel';
 import * as S from './LandingPage.styled';
 
 const LandingPage = () => {
@@ -17,9 +16,10 @@ const LandingPage = () => {
             align="center"
           >
             <HeroText />
+
             <SignUpForm />
+
             <TestimonialsCarousel />
-            <FeaturedCarousel />
           </Grid>
         </Container>
       </S.LandingPage>

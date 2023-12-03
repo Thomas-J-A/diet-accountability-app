@@ -1,4 +1,4 @@
-import { Flex, Heading, Text } from '@radix-ui/themes';
+import { Flex, Heading, Text, Em } from '@radix-ui/themes';
 
 const HeroText = () => {
   return (
@@ -10,8 +10,8 @@ const HeroText = () => {
         </Heading>
       </Flex>
       <Text size={{ initial: '1', md: '4' }}>
-        Potentially one of the West Midlands&apos; top 100 diet accountability
-        apps. Register today and power your progress!
+        <Em>Potentially</Em> one of the West Midlands&apos; top 100 diet
+        accountability apps. Register today and power your progress!
       </Text>
     </Flex>
   );
