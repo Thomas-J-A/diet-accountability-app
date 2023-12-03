@@ -5,6 +5,7 @@ import { Grid, Flex, Box, Container, Text } from '@radix-ui/themes';
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import MealEditor from './MealEditor/MealEditor';
 import Calendar from './Calendar/Calendar';
+import AdsCarousel from '../../components/UI/AdsCarousel/AdsCarousel';
 import { DateInEditorContextProvider } from '../../contexts/DateInEditorContext';
 import useMediaQuery from '../../hooks/useMediaQuery';
 import { DAY_EVENTS_QUERY } from '../../operations/queries';
@@ -65,22 +66,20 @@ const CalendarPage = () => {
         <main>
           <Container size={{ initial: '1', md: '3' }}>
             <Grid gap={{ initial: '3', md: '6' }} columns={{ md: '5fr 4fr' }}>
-              {!isDesktop && (
-                <Box height="9" style={{ background: 'red' }}>
-                  Ads
-                </Box>
-              )}
+              {!isDesktop && <AdsCarousel />}
+
               <Calendar
                 today={today}
                 startDate={startDate}
                 dayEvents={dayEvents}
               />
-              <Flex direction="column" gap={{ initial: '3', md: '6' }}>
-                {isDesktop && (
-                  <Box height="9" style={{ background: 'red' }}>
-                    Ads
-                  </Box>
-                )}
+
+              <Flex
+                direction="column"
+                gap={{ initial: '3', md: '6' }}
+                style={{ overflow: 'hidden' }}
+              >
+                {isDesktop && <AdsCarousel />}
                 <MealEditor dayEvents={dayEvents} />
               </Flex>
             </Grid>
