@@ -18,6 +18,7 @@ import { DayEvent } from '../../__generated__/graphql';
 import Charts from './Charts/Charts';
 import TimeframeSwitcher from './TimeframeSwitcher/TimeframeSwitcher';
 import MealsRecorded from './MealsRecorded/MealsRecorded';
+import AdsCarousel from '../../components/UI/AdsCarousel/AdsCarousel';
 
 const StatisticsPage = () => {
   const [timeframe, setTimeframe] = useState<7 | 30>(7);
@@ -80,7 +81,7 @@ const StatisticsPage = () => {
       <main>
         <Container size={{ initial: '1', md: '3' }}>
           <Grid gap={{ initial: '3', md: '6' }} columns={{ md: '5fr 4fr' }}>
-            <Flex direction="column" gap="3">
+            <Flex direction="column" gap="3" style={{ overflow: 'hidden' }}>
               <Heading size={{ initial: '7', md: '8' }}>
                 Tuck into some pie(<Em>charts</Em>)
               </Heading>
@@ -91,9 +92,7 @@ const StatisticsPage = () => {
 
               <Separator size="3" />
 
-              <Box height="9" style={{ background: 'red' }}>
-                Ads
-              </Box>
+              <AdsCarousel />
 
               <TimeframeSwitcher
                 timeframe={timeframe}

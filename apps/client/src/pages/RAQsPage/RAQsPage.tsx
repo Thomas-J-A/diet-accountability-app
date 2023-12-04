@@ -9,6 +9,8 @@ import {
   Separator,
 } from '@radix-ui/themes';
 import QuestionsAccordion from './QuestionsAccordion/QuestionsAccordion';
+import AdsCarousel from '../../components/UI/AdsCarousel/AdsCarousel';
+import SuitYourself from '../../components/UI/Ads/SuitYourself';
 
 const RAQsPage = () => {
   return (
@@ -27,11 +29,13 @@ const RAQsPage = () => {
               <Separator size="3" />
             </Flex>
 
-            <Box height="9" style={{ background: 'red' }}>
-              Ads
-            </Box>
+            <AdsCarousel />
 
             <QuestionsAccordion />
+
+            <Box>
+              <SuitYourself />
+            </Box>
           </Grid>
         </Container>
       </main>
