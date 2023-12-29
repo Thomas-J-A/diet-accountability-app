@@ -4,7 +4,7 @@ import { StarFilledIcon } from '@radix-ui/react-icons';
 const Stars = ({ rating }: { rating: number }) => {
   const stars = [];
   for (let i = 0; i < rating; i++) {
-    stars.push(<StarFilledIcon height="20" width="20" color="gold" />);
+    stars.push(<StarFilledIcon key={i} height="20" width="20" color="gold" />);
   }
 
   return <Flex>{stars}</Flex>;
