@@ -47,7 +47,12 @@ module.exports = {
       rules: {
         '@graphql-eslint/strict-id-in-types': [
           2,
-          { exceptions: { types: ['AuthTokens'], suffixes: ['Payload'] } },
+          {
+            exceptions: {
+              types: ['AuthTokens', 'PresignedPost', 'PresignedGet'],
+              suffixes: ['Payload'],
+            },
+          },
         ],
       },
     },

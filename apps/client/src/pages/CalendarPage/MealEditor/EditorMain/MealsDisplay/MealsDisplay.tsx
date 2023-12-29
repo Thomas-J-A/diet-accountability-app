@@ -56,9 +56,12 @@ const TabContent = ({ value, meal, setFormMode }: TabContentProps) => {
   return meal ? (
     <Tabs.Content value={value}>
       <Flex direction="column" align="center" gap="2" p="3">
-        <Text mb="7">
-          <Em>Photos go here</Em>
-        </Text>
+        <Flex p="2">
+          <Text size="1">
+            <Em>No photos to display</Em>
+          </Text>
+        </Flex>
+
         <Flex direction="column" gap="1">
           <Text size="1" weight="bold" align="center">
             {meal.location}
@@ -70,6 +73,7 @@ const TabContent = ({ value, meal, setFormMode }: TabContentProps) => {
             {mapRatingToText(meal.rating)}
           </Text>
         </Flex>
+
         <Button
           style={{ width: '100%', cursor: 'pointer' }}
           onClick={() => {
@@ -117,6 +121,23 @@ const MealsDisplay = ({
     setActiveTab(value as MealTypeEnum);
   };
 
+  // Extract meal from day event, if meal exists
+  const extractMeal = (
+    currentDayEvent: DayEvent,
+    mealType: MealTypeEnum,
+  ): Meal | undefined => {
+    return currentDayEvent.meals.find((m) => m.type === mealType);
+  };
+
+  const breakfast =
+    currentDayEvent && extractMeal(currentDayEvent, MealTypeEnum.Breakfast);
+
+  const lunch =
+    currentDayEvent && extractMeal(currentDayEvent, MealTypeEnum.Lunch);
+
+  const dinner =
+    currentDayEvent && extractMeal(currentDayEvent, MealTypeEnum.Dinner);
+
   return (
     <Box>
       <Tabs.Root value={activeTab} onValueChange={handleTabChange}>
@@ -129,25 +150,19 @@ const MealsDisplay = ({
         <Box>
           <TabContent
             value={MealTypeEnum.Breakfast}
-            meal={currentDayEvent?.meals.find(
-              (m) => m.type === MealTypeEnum.Breakfast,
-            )}
+            meal={breakfast}
             setFormMode={setFormMode}
           />
 
           <TabContent
             value={MealTypeEnum.Lunch}
-            meal={currentDayEvent?.meals.find(
-              (m) => m.type === MealTypeEnum.Lunch,
-            )}
+            meal={lunch}
             setFormMode={setFormMode}
           />
 
           <TabContent
             value={MealTypeEnum.Dinner}
-            meal={currentDayEvent?.meals.find(
-              (m) => m.type === MealTypeEnum.Dinner,
-            )}
+            meal={dinner}
             setFormMode={setFormMode}
           />
         </Box>

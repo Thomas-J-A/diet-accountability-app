@@ -24,6 +24,7 @@ export const MEAL_DETAILS = gql`
     location
     rating
     type
+    photoKeys
   }
 `;
 

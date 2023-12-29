@@ -1,7 +1,12 @@
 """
-Custom scalars
+Custom scalar for Date values
 """
 scalar Date
+
+"""
+Custom scalar for JSON values
+"""
+scalar JSON
 
 """
 Top level queries
@@ -11,6 +16,14 @@ type Query {
   Retrieve a list of events (meals, stickers) for a specific day
   """
   dayEvents(dateRange: DayEventsInput!): [DayEvent!]!
+  """
+  Retrieve an array of presigned URLs to upload images to S3
+  """
+  presignedUrlsPost(fileData: [PresignedUrlsPostInput!]!): [PresignedPost!]!
+  """
+  Retrieve an array of presigned URLs to download images from S3
+  """
+  presignedUrlsGet(keys: [String!]!): [PresignedGet!]!
 }
 
 """
@@ -71,8 +84,6 @@ type DayEvent {
 
 """
 A representation of a meal, which can be breakfast, lunch, or dinner
-
-TODO: Add photos (photoUrls: [String!]!)
 """
 type Meal {
   id: ID!
@@ -92,6 +103,10 @@ type Meal {
   The type of meal (breakfast, lunch, or dinner)
   """
   type: MealTypeEnum!
+  """
+  A list of keys referencing location in an S3 bucket of each photo associated with meal
+  """
+  photoKeys: [String!]!
 }
 
 """
@@ -141,6 +156,52 @@ input DayEventsInput {
   The start date formatted as YYYY-MM-DD
   """
   startDate: Date!
+}
+
+"""
+Input type for fetching POST presigned URLs
+"""
+input PresignedUrlsPostInput {
+  """
+  The name of the file to upload
+  """
+  filename: String!
+  """
+  The MIME type of the file to upload
+  """
+  contentType: String!
+}
+
+"""
+Represents a single presigned URL for a POST request to S3
+"""
+type PresignedPost {
+  """
+  The S3 object key
+  """
+  key: String!
+  """
+  URL to make the S3 request to
+  """
+  url: String!
+  """
+  Key/value pairs needed for authentication when POSTing FormData to S3
+  """
+  fields: JSON!
+}
+
+"""
+Represents a single presigned URL for a GET request to S3
+"""
+type PresignedGet {
+  """
+  The S3 object key
+  """
+  key: String!
+  """
+  A presigned URL for downloading from S3
+  """
+  url: String!
 }
 
 """
@@ -302,12 +363,14 @@ input CreateMealInput {
   The type of meal (breakfast, lunch, or dinner)
   """
   type: MealTypeEnum!
+  """
+  A list of keys referencing the location in an S3 bucket of each photo associated with meal
+  """
+  photoKeys: [String!]!
 }
 
 """
 Payload for creating a meal
-
-TODO: Consider handling photo upload separately (e.g., using S3) (photoUrls: [String!]!)
 """
 type CreateMealPayload implements Payload {
   code: Int!

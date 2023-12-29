@@ -10,6 +10,7 @@ generates:
         User: ../models/user.model#IUser
       scalars:
         Date: Date
+        JSON: object
     plugins:
       - add:
           content: '// @ts-nocheck'

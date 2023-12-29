@@ -123,3 +123,8 @@ jobs:
           PORT: 3000
           MONGODB_URI: not_needed_but_must_be_defined
           ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
+          AWS_ACCESS_KEY_ID: foo
+          AWS_SECRET_ACCESS_KEY: bar
+          AWS_REGION: baz
+          AWS_ROLE_ARN: qux
+          AWS_BUCKET_NAME: fooagain

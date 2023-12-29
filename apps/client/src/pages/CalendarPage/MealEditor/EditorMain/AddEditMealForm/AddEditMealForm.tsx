@@ -1,20 +1,19 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+// TODO: Extract form inputs into reusable FormGroup component with label and errors
+// TODO: Add file upload capability (commented out due to failing implementation elsewhere)
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useMutation } from '@apollo/client';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Flex,
-  Heading,
   Text,
   TextArea,
   Select,
   Slider,
   Button,
-  IconButton,
-  Separator,
+  Em,
 } from '@radix-ui/themes';
-import { ThickArrowLeftIcon } from '@radix-ui/react-icons';
 import {
   LocationEnum,
   MealTypeEnum,
@@ -32,6 +31,7 @@ import {
   toastSuccess,
   toastError,
 } from '../../../../../components/UI/Toast/toast';
+import FormHeader from './FormHeader/FormHeader';
 
 interface AddEditMealFormProps {
   meal: Meal | undefined;
@@ -39,6 +39,12 @@ interface AddEditMealFormProps {
   setFormMode: React.Dispatch<React.SetStateAction<'ADD' | 'EDIT' | null>>;
   activeTab: MealTypeEnum;
 }
+
+// Maximum size of image upload
+// const MAX_FILE_SIZE_MB = 10485760; // 10MB
+
+// List of accepted image MIME types
+// const VALID_MIME_TYPES = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp'];
 
 // Schema validation for add/edit meal form
 const formInputSchema = z.object({
@@ -54,10 +60,29 @@ const formInputSchema = z.object({
     .number()
     .min(1, { message: 'Rating must be greater than or equal to 1' })
     .max(10, { message: 'Rating must be less than or equal to 10' }),
+  // photos: z
+  //   .any()
+  //   .refine((files: FileList) => files.length <= 2, {
+  //     message: 'Maximum of two photos',
+  //   })
+  //   .refine(
+  //     (files: FileList) =>
+  //       Array.from(files).every((file) => file.size < MAX_FILE_SIZE_MB),
+  //     { message: 'Photos must be less than 10MB' },
+  //   )
+  //   .refine(
+  //     (files: FileList) =>
+  //       Array.from(files).every((file) => VALID_MIME_TYPES.includes(file.type)),
+  //     { message: 'Photos must be a .jpg, .jpeg, .png, or .webp file' },
+  //   )
+  //   .optional(),
 });
 
 // Generate form input type from Zod schema
-type FormInputType = z.infer<typeof formInputSchema>;
+export type FormInputType = z.infer<typeof formInputSchema>;
+
+// When in edit mode photos cannot be updated, so remove from type
+// type FormInputWithoutPhotos = Omit<FormInputType, 'photos'>;
 
 const AddEditMealForm = ({
   meal,
@@ -72,7 +97,7 @@ const AddEditMealForm = ({
   const {
     register,
     handleSubmit,
-    formState: { errors, isDirty, dirtyFields },
+    formState: { errors, isDirty, dirtyFields, isSubmitting },
     control,
   } = useForm<FormInputType>({
     defaultValues: {
@@ -84,118 +109,181 @@ const AddEditMealForm = ({
     resolver: zodResolver(formInputSchema),
   });
 
-  // Handle successful or failing form submission (adding new meal)
-  const [createMeal, { loading: loadingCreate }] = useMutation(
-    CREATE_MEAL_MUTATION,
-    {
-      onCompleted: () => {
-        // Remove form component and show new meal data in UI
-        setFormMode(null);
+  // Handle success/failure upon adding new meal
+  const [createMeal] = useMutation(CREATE_MEAL_MUTATION, {
+    onCompleted: () => {
+      // Remove form component and show new meal data in UI
+      setFormMode(null);
 
-        // Display success message
-        toastSuccess('Meal added successfully 🎉');
-      },
-      onError: () => {
-        // If normal use of app (no changing client code, etc), there are no expected errors
-        // Display generic error message
-        toastError('Meal creation not successful 😞');
-      },
-      // TODO: Update cache manually so that when a new DayEvent is returned
-      // in payload which isn't currently in Query.dayEvents, it is appended
-      // Currently, both existing and new DayEvents trigger a costly refetch
-      refetchQueries: [DAY_EVENTS_QUERY],
+      // Display success message
+      toastSuccess('Meal added successfully 🎉');
     },
-  );
-
-  // Handle successful or failing form submission (updating existing meal)
-  const [updateMeal, { loading: loadingUpdate }] = useMutation(
-    UPDATE_MEAL_MUTATION,
-    {
-      onCompleted: () => {
-        // Remove form component and show updated meal data in UI
-        setFormMode(null);
-
-        // Display success message
-        toastSuccess('Meal updated successfully 🎉');
-      },
-      onError: () => {
-        // Show generic error since none are expected
-        toastError('Meal update not successful 😞');
-      },
+    onError: () => {
+      // If normal use of app (no changing client code, etc), there are no expected errors
+      // Display generic error message
+      toastError('Meal creation not successful 😞');
     },
-  );
+    // TODO: Update cache manually so that when a new DayEvent is returned
+    // in payload which isn't currently in Query.dayEvents, it is appended
+    // Currently, both existing and new DayEvents trigger a costly refetch
+    refetchQueries: [DAY_EVENTS_QUERY],
+  });
+
+  // Handle success/failure upon updating existing meal
+  const [updateMeal] = useMutation(UPDATE_MEAL_MUTATION, {
+    onCompleted: () => {
+      // Remove form component and show updated meal data in UI
+      setFormMode(null);
+
+      // Display success message
+      toastSuccess('Meal updated successfully 🎉');
+    },
+    onError: () => {
+      // Show generic error since none are expected
+      toastError('Meal update not successful 😞');
+    },
+  });
+
+  // Fetch presigned POST URLs from Apollo Server backend
+  // const [fetchPostUrls] = useLazyQuery(PRESIGNED_URLS_POST_QUERY);
+
+  // Uploads selected photos to S3 via presigned POST URLs
+  // const uploadPhotosToS3 = async (files: FileList): Promise<string[]> => {
+  //   // Create an actual array from FileList type
+  //   const photos = Array.from(files);
+
+  //   // Ensure the caller has provided at least one file
+  //   if (!photos.length) {
+  //     throw new Error('You must provide a file to upload');
+  //   }
+
+  //   // Collect necessary data from each selected file
+  //   const fileData = photos.map((photo) => ({
+  //     filename: photo.name,
+  //     contentType: photo.type,
+  //   }));
+
+  //   try {
+  //     // Perform Apollo Client query operation to fetch presigned POST URLs and related data
+  //     const { data, error } = await fetchPostUrls({ variables: { fileData } });
+
+  //     // Ensure there were no errors
+  //     if (error ?? !data) {
+  //       throw new Error('Error fetching POST URLs');
+  //     }
+
+  //     // Upload each file to S3
+  //     const postUrlsList = data.presignedUrlsPost;
+  //     const promises = postUrlsList.map(async ({ key, url, fields }, i) => {
+  //       const formData = new FormData();
+
+  //       // Append each form field to formData object
+  //       Object.entries(fields).forEach(([field, value]) => {
+  //         formData.append(field, value as string);
+  //       });
+
+  //       // Append corresponding photo as last form field as required by S3 API
+  //       const photo = photos[i];
+  //       formData.append('file', photo);
+
+  //       // Upload photo to S3
+  //       const res = await fetch(url, { method: 'POST', body: formData });
+
+  //       if (!res.ok) {
+  //         throw new Error(`Error uploading file ${photo.name}`);
+  //       }
+
+  //       // Return bucket key so photo can be referenced later
+  //       return key;
+  //     });
+
+  //     const keys = await Promise.all(promises);
+
+  //     return keys;
+  //   } catch (err) {
+  //     console.error(err);
+  //     throw new Error('Failed to upload photos');
+  //   }
+  // };
+
+  // Handler for when user has added a new meal
+  const createNewMeal = async (formData: FormInputType) => {
+    // An array of keys representing location of uploads in S3 bucket
+    // let photoKeys: string[] = [];
+
+    // Check if user has uploaded photos along with their meal data
+    // 'photos' is typed as any because it facilitates Zod validation (File types aren't natively handled with Zod)
+    // const hasPhotos = Array.from(formData.photos as FileList).length;
+
+    // If photos have been selected, upload them to S3 before sending all data to backend
+    // if (hasPhotos) {
+    //   try {
+    //     photoKeys = await uploadPhotosToS3(formData.photos as FileList);
+    //   } catch (err) {
+    //     toastError('Failed to upload photos 😞');
+    //     return;
+    //   }
+    // }
+
+    // Adjust date value to account for any timezone offset when apollo-link-scalars serializes value to UTC,
+    // thus preventing a value representing previous/following day from being sent in request
+    const adjustedDate = adjustDateForUTC(dateInEditor);
+
+    // Perform Apollo Client mutation to save meal data in database
+    await createMeal({
+      variables: {
+        mealData: {
+          date: adjustedDate,
+          description: formData.description,
+          location: formData.location,
+          rating: formData.rating,
+          type: activeTab,
+          photoKeys: [],
+        },
+      },
+    });
+  };
+
+  // Handler for when user has updated an existing meal
+  const updateExistingMeal = async (formData: FormInputType) => {
+    // If existing meal is not given to component (a mistake, tampering?), do nothing
+    if (!meal) {
+      return;
+    }
+
+    // Find only the updated form fields
+    const updatedFields = Object.keys(dirtyFields).reduce<
+      Partial<FormInputType>
+    >(
+      (acc, currentField) => ({
+        ...acc,
+        [currentField]: formData[currentField as keyof FormInputType],
+      }),
+      {},
+    );
+
+    // Call mutate function to send mutation to backend
+    await updateMeal({
+      variables: {
+        id: meal.id,
+        updatedMealData: updatedFields,
+      },
+    });
+  };
 
   // Submit handler after passing form validation
   const onSubmit: SubmitHandler<FormInputType> = async (formData) => {
-    if (formMode === 'ADD') {
-      // User is adding a new meal
-
-      // Adjust date value to account for any timezone offset when apollo-link-scalars serializes value to UTC,
-      // thus preventing a value representing previous/following day from being sent in request
-      const adjustedDate = adjustDateForUTC(dateInEditor);
-
-      await createMeal({
-        variables: {
-          mealData: {
-            date: adjustedDate,
-            description: formData.description,
-            location: formData.location,
-            rating: formData.rating,
-            type: activeTab,
-          },
-        },
-      });
-    } else {
-      // User is updating an existing meal
-      // If existing meal is not given to component (a mistake, tampering?), do nothing
-      if (!meal) {
-        return;
-      }
-
-      // Find only the updated form fields
-      const updatedFields = Object.keys(dirtyFields).reduce<
-        Partial<FormInputType>
-      >(
-        (acc, currentField) => ({
-          ...acc,
-          [currentField]: formData[currentField as keyof FormInputType],
-        }),
-        {},
-      );
-
-      // Call mutate function to send query to backend
-      await updateMeal({
-        variables: {
-          id: meal.id,
-          updatedMealData: updatedFields,
-        },
-      });
-    }
+    formMode === 'ADD'
+      ? await createNewMeal(formData)
+      : await updateExistingMeal(formData);
   };
 
   return (
     <Flex direction="column" gap="3" p="3">
-      <Flex justify="between" align="center" gap="2">
-        <IconButton
-          onClick={() => {
-            setFormMode(null);
-          }}
-        >
-          <ThickArrowLeftIcon height="20" width="20" />
-        </IconButton>
-        <Heading size="5" align="center" style={{ flexGrow: '1' }}>
-          Record your {activeTab.toLowerCase()}
-        </Heading>
-      </Flex>
-
-      <Separator size="4" />
-
-      <Text size={{ initial: '1', md: '2' }} weight="light">
-        All fields marked with an asterisk (*) are required.
-      </Text>
+      <FormHeader setFormMode={setFormMode} activeTab={activeTab} />
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Flex direction="column" gap={{ initial: '2', md: '4' }}>
+        <Flex direction="column" gap="4">
           <Flex direction="column" gap="2">
             <Text as="label" size={{ initial: '1', md: '2' }} weight="bold">
               Description*
@@ -281,12 +369,19 @@ const AddEditMealForm = ({
             {errors.rating && <FieldError text={errors.rating.message!} />}
           </Flex>
 
+          {formMode === 'ADD' && (
+            // Temporary message in UI
+            <Text size="1">
+              <Em>Photo uploads will return shortly 📸</Em>
+            </Text>
+          )}
+
           <Button
             type="submit"
             style={{ width: '100%' }}
-            disabled={loadingCreate || loadingUpdate || !isDirty}
+            disabled={isSubmitting || !isDirty}
           >
-            {loadingCreate || loadingUpdate ? 'Saving...' : 'Save'}
+            {isSubmitting ? 'Saving...' : 'Save'}
           </Button>
         </Flex>
       </form>
@@ -295,3 +390,23 @@ const AddEditMealForm = ({
 };
 
 export default AddEditMealForm;
+
+// // File upload field
+// {
+//   formMode === 'ADD' && (
+//     <Flex direction="column" gap="2">
+//       <Text as="label" size={{ initial: '1', md: '2' }} weight="bold">
+//         Photos{' '}
+//         <Text size="1" weight="light">
+//           (Note: cannot be changed later)
+//         </Text>
+//         <PhotoUploadInput register={register} />
+//       </Text>
+
+//       {/* File inputs seem to have a different error type */}
+//       {errors.photos && (
+//         <FieldError text={errors.photos.message as string} />
+//       )}
+//     </Flex>
+//   );
+// }

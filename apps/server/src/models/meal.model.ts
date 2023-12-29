@@ -7,8 +7,8 @@ export interface IMeal extends Document {
   description: string;
   location: LocationEnum;
   rating: number;
-  // photoUrls: string[];
   type: MealTypeEnum;
+  photoKeys: string[];
 }
 
 // Schema
@@ -28,12 +28,14 @@ const mealSchema = new Schema<IMeal>({
     min: 1,
     max: 10,
   },
-  // photoUrls: [String],
   type: {
     type: String,
     enum: MealTypeEnum,
     required: true,
   },
+
+  // TODO: Make optional (requires changes to schema and resolver code too)
+  photoKeys: [{ type: String, required: true }],
 });
 
 const Meal = model<IMeal>('Meal', mealSchema);
