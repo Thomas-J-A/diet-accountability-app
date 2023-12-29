@@ -14,6 +14,7 @@ const config: CodegenConfig = {
       config: {
         scalars: {
           Date: 'Date',
+          JSON: 'object',
         },
       },
     },

@@ -1,3 +1,5 @@
+// TODO: Refactor to use Context to avoid passing so many props
+// Currently it's okay because it's only one or two levels deep and the component is pretty simple
 import { useState } from 'react';
 import { Box } from '@radix-ui/themes';
 import { DayEvent, MealTypeEnum } from '../../../../__generated__/graphql';
