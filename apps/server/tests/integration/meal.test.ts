@@ -49,6 +49,7 @@ describe('Mutations', () => {
         location: LocationEnum.Home,
         rating: 5,
         type: MealTypeEnum.Breakfast,
+        photoKeys: [],
       };
 
       const res = await testServer.executeOperation<{
@@ -83,6 +84,7 @@ describe('Mutations', () => {
         location: LocationEnum.Home,
         rating: 5,
         type: MealTypeEnum.Breakfast,
+        photoKeys: [],
       };
 
       const res = await testServer.executeOperation<{
@@ -108,6 +110,7 @@ describe('Mutations', () => {
         location: LocationEnum.Home,
         rating: 0,
         type: MealTypeEnum.Breakfast,
+        photoKeys: [],
       };
 
       const res = await testServer.executeOperation(
@@ -132,6 +135,7 @@ describe('Mutations', () => {
         location: LocationEnum.Home,
         rating: 11,
         type: MealTypeEnum.Breakfast,
+        photoKeys: [],
       };
 
       const res = await testServer.executeOperation(
@@ -156,6 +160,7 @@ describe('Mutations', () => {
         location: LocationEnum.Home,
         rating: 5,
         type: MealTypeEnum.Breakfast,
+        photoKeys: [],
       };
 
       const res = await testServer.executeOperation(

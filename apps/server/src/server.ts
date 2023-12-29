@@ -8,7 +8,6 @@ import { createContext } from './auth/context';
 import createApolloServer from './utils/create-apollo-server';
 
 const PORT = env.PORT;
-
 const app: Application = express();
 
 app.use(cors());

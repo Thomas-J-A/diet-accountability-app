@@ -12,6 +12,11 @@ const env = cleanEnv(process.env, {
   PORT: port({ default: 3000 }),
   MONGODB_URI: str(),
   ACCESS_TOKEN_SECRET: str(),
+  AWS_ACCESS_KEY_ID: str(),
+  AWS_SECRET_ACCESS_KEY: str(),
+  AWS_REGION: str(),
+  AWS_ROLE_ARN: str(),
+  AWS_BUCKET_NAME: str(),
 });
 
 export default env;

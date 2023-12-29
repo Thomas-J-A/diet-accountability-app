@@ -62,6 +62,7 @@ export const CREATE_MEAL = gql`
         location
         rating
         type
+        photoKeys
       }
       dayEvent {
         id
@@ -86,6 +87,7 @@ export const UPDATE_MEAL = gql`
         location
         rating
         type
+        photoKeys
       }
     }
   }

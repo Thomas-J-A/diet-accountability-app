@@ -6,6 +6,8 @@ const permissions = shield(
   {
     Query: {
       dayEvents: isAuthenticated,
+      presignedUrlsPost: isAuthenticated,
+      presignedUrlsGet: isAuthenticated,
     },
     Mutation: {
       deleteUser: isAuthenticated,

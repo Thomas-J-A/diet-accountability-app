@@ -12,6 +12,7 @@ export const DAY_EVENTS = gql`
         location
         rating
         type
+        photoKeys
       }
     }
   }

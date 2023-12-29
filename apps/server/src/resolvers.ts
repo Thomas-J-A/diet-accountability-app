@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { GraphQLError } from 'graphql';
-import { GraphQLDate } from 'graphql-scalars';
+import { GraphQLDate, GraphQLJSON } from 'graphql-scalars';
 import { JwtPayload } from 'jsonwebtoken';
 import { Resolvers } from './__generated__/resolvers-types';
 import ErrorCodes from './types/error-codes';
@@ -18,8 +18,21 @@ const checkSubClaim = (payload: JwtPayload): void => {
   }
 };
 
+// Helper function to aid TypeScript compiler
+// currentUser will have a payload with a valid sub property (the user ID)
+const validateCurrentUser = (currentUser: JwtPayload | null): JwtPayload => {
+  // Ensure currentUser is not null (handled by graphql-shield but unknown to compiler)
+  const currentUserAsJwtPayload = currentUser!;
+
+  // Ensure there is a sub claim in the JWT payload
+  checkSubClaim(currentUserAsJwtPayload);
+
+  return currentUserAsJwtPayload;
+};
+
 const resolvers: Resolvers = {
   Date: GraphQLDate,
+  JSON: GraphQLJSON,
   Query: {
     dayEvents: async (_, { dateRange }, { currentUser }) => {
       // Ensure currentUser is not null (handled by graphql-shield)
@@ -31,6 +44,26 @@ const resolvers: Resolvers = {
       // Fetch day events for the specified date range and user ID
       const result = await dayEventService.getDayEvents(
         dateRange,
+        currentUserAsJwtPayload.sub!,
+      );
+
+      return result;
+    },
+    presignedUrlsPost: async (_, { fileData }, { currentUser }) => {
+      const currentUserAsJwtPayload = validateCurrentUser(currentUser);
+
+      const result = await mealService.createPresignedUrlsPost(
+        fileData,
+        currentUserAsJwtPayload.sub!,
+      );
+
+      return result;
+    },
+    presignedUrlsGet: async (_, { keys }, { currentUser }) => {
+      const currentUserAsJwtPayload = validateCurrentUser(currentUser);
+
+      const result = await mealService.createPresignedUrlsGet(
+        keys,
         currentUserAsJwtPayload.sub!,
       );
 
