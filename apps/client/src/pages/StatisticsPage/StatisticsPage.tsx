@@ -83,7 +83,7 @@ const StatisticsPage = () => {
           <Grid gap={{ initial: '3', md: '6' }} columns={{ md: '5fr 4fr' }}>
             <Flex direction="column" gap="3" style={{ overflow: 'hidden' }}>
               <Heading size={{ initial: '7', md: '8' }}>
-                Tuck into some pie(<Em>charts</Em>)
+                Tuck into some pie (<Em>charts</Em>)
               </Heading>
 
               <Text size={{ initial: '2', md: '3' }}>
