@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Heading, Separator } from '@radix-ui/themes';
+import { Heading, Separator, Em } from '@radix-ui/themes';
 import Menu from '../Menu/Menu';
 import * as S from './Sidebar.styled';
 
@@ -8,7 +8,7 @@ const Sidebar = () => {
     <S.Sidebar direction="column" gap="3" p="3">
       <Link to="/calendar">
         <Heading align="center" size="6">
-          Plate2Progress
+          <Em>Piccy 📸 Eater</Em>
         </Heading>
       </Link>
       <Separator size="4" />
