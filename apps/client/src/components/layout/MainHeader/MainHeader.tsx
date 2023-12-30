@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Flex, Heading } from '@radix-ui/themes';
+import { Flex, Heading, Em } from '@radix-ui/themes';
 import Drawer from '../Drawer/Drawer';
 import SignInForm from '../SignInForm/SignInForm';
 import { useAuthContext } from '../../../contexts/AuthContext';
@@ -21,7 +21,9 @@ const MainHeader = ({ isDesktop }: MainHeaderProps) => {
     >
       <S.MainHeader>
         <Link to={isAuthenticated ? '/calendar' : '/'}>
-          <Heading size={{ initial: '6', md: '8' }}>Plate2Progress</Heading>
+          <Heading size={{ initial: '6', md: '8' }}>
+            <Em>Piccy 📸 Eater</Em>
+          </Heading>
         </Link>
         {isDesktop ? <SignInForm /> : <Drawer />}
       </S.MainHeader>
