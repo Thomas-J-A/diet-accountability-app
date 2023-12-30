@@ -35,11 +35,7 @@ const resolvers: Resolvers = {
   JSON: GraphQLJSON,
   Query: {
     dayEvents: async (_, { dateRange }, { currentUser }) => {
-      // Ensure currentUser is not null (handled by graphql-shield)
-      const currentUserAsJwtPayload = currentUser!;
-
-      // Ensure there is a sub claim in the JWT payload
-      checkSubClaim(currentUserAsJwtPayload);
+      const currentUserAsJwtPayload = validateCurrentUser(currentUser);
 
       // Fetch day events for the specified date range and user ID
       const result = await dayEventService.getDayEvents(
@@ -80,8 +76,7 @@ const resolvers: Resolvers = {
       return result;
     },
     deleteUser: async (_, { id }, { currentUser }) => {
-      const currentUserAsJwtPayload = currentUser!;
-      checkSubClaim(currentUserAsJwtPayload);
+      const currentUserAsJwtPayload = validateCurrentUser(currentUser);
 
       const result = await userService.deleteUser(
         id,
@@ -90,8 +85,7 @@ const resolvers: Resolvers = {
       return result;
     },
     createMeal: async (_, { mealData }, { currentUser }) => {
-      const currentUserAsJwtPayload = currentUser!;
-      checkSubClaim(currentUserAsJwtPayload);
+      const currentUserAsJwtPayload = validateCurrentUser(currentUser);
 
       const result = await mealService.createMeal(
         mealData,
@@ -105,8 +99,7 @@ const resolvers: Resolvers = {
       return result;
     },
     addSticker: async (_, { stickerData }, { currentUser }) => {
-      const currentUserAsJwtPayload = currentUser!;
-      checkSubClaim(currentUserAsJwtPayload);
+      const currentUserAsJwtPayload = validateCurrentUser(currentUser);
 
       const result = await dayEventService.addSticker(
         stickerData,
@@ -116,8 +109,7 @@ const resolvers: Resolvers = {
       return result;
     },
     removeSticker: async (_, { stickerData }, { currentUser }) => {
-      const currentUserAsJwtPayload = currentUser!;
-      checkSubClaim(currentUserAsJwtPayload);
+      const currentUserAsJwtPayload = validateCurrentUser(currentUser);
 
       const result = await dayEventService.removeSticker(
         stickerData,
