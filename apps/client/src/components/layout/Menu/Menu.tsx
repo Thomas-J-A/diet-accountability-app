@@ -1,4 +1,4 @@
-import { Flex, Text, Separator } from '@radix-ui/themes';
+import { Flex, Text, Separator, Strong } from '@radix-ui/themes';
 import { PersonIcon } from '@radix-ui/react-icons';
 import Navigation from './Navigation/Navigation';
 import AccountOptions from './AccountOptions/AccountOptions';
@@ -14,7 +14,9 @@ const Menu = () => {
       <AccountOptions />
       <Flex align="center" gap="2" mt="auto">
         <PersonIcon />
-        <Text>{`Signed in as ${currentUser?.firstName}`}</Text>
+        <Text>
+          Signed in as <Strong>{currentUser?.firstName}</Strong>
+        </Text>
       </Flex>
     </Flex>
   );
