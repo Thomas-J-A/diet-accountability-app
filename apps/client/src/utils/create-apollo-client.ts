@@ -68,7 +68,7 @@ const createApolloClient = (logOut: () => void) => {
 
   // Initialize Apollo client
   const client = new ApolloClient({
-    connectToDevTools: true,
+    // connectToDevTools: true,
     cache: new InMemoryCache(),
     link: from([dateScalarsLink, authLink, errorLink, httpLink]),
   });
