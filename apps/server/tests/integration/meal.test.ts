@@ -45,7 +45,7 @@ describe('Mutations', () => {
        */
       const mealData = {
         date: '2023-10-12',
-        description: faker.lorem.words(10),
+        description: faker.lorem.words(5),
         location: LocationEnum.Home,
         rating: 5,
         type: MealTypeEnum.Breakfast,
@@ -80,7 +80,7 @@ describe('Mutations', () => {
 
       const mealData = {
         date: '2023-10-12',
-        description: faker.lorem.words(10),
+        description: faker.lorem.words(5),
         location: LocationEnum.Home,
         rating: 5,
         type: MealTypeEnum.Breakfast,
@@ -106,7 +106,7 @@ describe('Mutations', () => {
     it('should return an error if rating is less than 1', async () => {
       const mealData = {
         date: '2023-10-12',
-        description: faker.lorem.words(10),
+        description: faker.lorem.words(5),
         location: LocationEnum.Home,
         rating: 0,
         type: MealTypeEnum.Breakfast,
@@ -131,7 +131,7 @@ describe('Mutations', () => {
     it('should return an error if rating is more than 10', async () => {
       const mealData = {
         date: '2023-10-12',
-        description: faker.lorem.words(10),
+        description: faker.lorem.words(5),
         location: LocationEnum.Home,
         rating: 11,
         type: MealTypeEnum.Breakfast,
