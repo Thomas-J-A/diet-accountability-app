@@ -58,7 +58,7 @@ interface ISeedMeal {
 
 export const seedMeal = async (data: ISeedMeal = {}) => {
   const meal = new Meal({
-    description: data.description ?? faker.lorem.words(10),
+    description: data.description ?? faker.lorem.words(5),
     location: data.location ?? LocationEnum.Home,
     rating: data.rating ?? 5,
     type: data.type ?? MealTypeEnum.Breakfast,

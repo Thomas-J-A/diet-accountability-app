@@ -286,7 +286,10 @@ const AddEditMealForm = ({
         <Flex direction="column" gap="4">
           <Flex direction="column" gap="2">
             <Text as="label" size={{ initial: '1', md: '2' }} weight="bold">
-              Description*
+              Description*{' '}
+              <Text size="1" weight="light">
+                (max 60)
+              </Text>
               <TextArea
                 {...register('description')}
                 aria-invalid={errors.description ? true : false}
