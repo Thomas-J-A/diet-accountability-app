@@ -8,7 +8,6 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import FieldError from '../../UI/FieldError/FieldError';
 import { toastError, toastSuccess } from '../../UI/Toast/toast';
-import ToastMessages from '../../../constants/toast-messages';
 import { useAuthContext } from '../../../contexts/AuthContext';
 import { useToggleDrawer } from '../../../contexts/ToggleDrawerContext';
 import { SIGN_IN_MUTATION } from '../../../operations/mutations';
@@ -62,7 +61,7 @@ const SignInForm = () => {
       });
 
       // Display success message
-      toastSuccess(ToastMessages.SIGNED_IN_SUCCESSFULLY);
+      toastSuccess('Signed in successfully 👍');
 
       // On mobile, close drawer component
       closeDrawer();
@@ -81,7 +80,7 @@ const SignInForm = () => {
           }
 
           // Unexpected error
-          toastError(ToastMessages.INTERNAL_SERVER_ERROR);
+          toastError('Something went south 💥');
         }
       }
     },

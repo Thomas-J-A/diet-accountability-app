@@ -8,7 +8,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import SignUpHeader from './SignUpHeader/SignUpHeader';
 import FieldError from '../../../components/UI/FieldError/FieldError';
 import { toastError, toastSuccess } from '../../../components/UI/Toast/toast';
-import ToastMessages from '../../../constants/toast-messages';
 import { useAuthContext } from '../../../contexts/AuthContext';
 import { SIGN_UP_MUTATION } from '../../../operations/mutations';
 import * as S from './SignUpForm.styled';
@@ -75,7 +74,7 @@ const SignUpForm = () => {
       });
 
       // Display success message
-      toastSuccess(ToastMessages.SIGNED_UP_SUCCESSFULLY);
+      toastSuccess('Signed up successfully 🎉');
     },
     onError: ({ graphQLErrors }) => {
       // Parsing, validation, resolver errors (network errors handled in Apollo Link)
@@ -92,7 +91,7 @@ const SignUpForm = () => {
           }
 
           // Unexpected error
-          toastError(ToastMessages.INTERNAL_SERVER_ERROR);
+          toastError('Something went south 💥');
         }
       }
     },

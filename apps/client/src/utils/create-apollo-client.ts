@@ -11,7 +11,6 @@ import { withScalars } from 'apollo-link-scalars';
 import { GraphQLDate } from 'graphql-scalars';
 import introspectionResult from '../__generated__/introspection.json';
 import { toastError, toastInfo } from '../components/UI/Toast/toast';
-import ToastMessages from '../constants/toast-messages';
 
 const createApolloClient = (logOut: () => void) => {
   // Serialize JS Date types into graphql-scalars' Date scalars, and parse Date scalars into JS Date types
@@ -58,7 +57,7 @@ const createApolloClient = (logOut: () => void) => {
     }
 
     if (networkError) {
-      toastError(ToastMessages.NETWORK_ERROR);
+      toastError('Some network problems. Again. 🌐');
     }
   });
 
