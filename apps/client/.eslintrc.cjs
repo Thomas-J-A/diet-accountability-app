@@ -61,5 +61,14 @@ module.exports = {
       files: ['*.graphql'],
       extends: ['plugin:@graphql-eslint/operations-recommended'],
     },
+    {
+      files: ['tests/**/*.test.ts', '**/?(*.)+(spec|test).[jt]s?(x)'],
+      env: { 'jest/globals': true },
+      extends: ['plugin:jest/recommended', 'plugin:jest/style'],
+      plugins: ['jest'],
+      parserOptions: {
+        sourceType: 'module',
+      },
+    },
   ],
 };
