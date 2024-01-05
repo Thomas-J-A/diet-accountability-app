@@ -15,7 +15,7 @@ module.exports = {
   ],
   overrides: [
     {
-      files: ['src/**/*.ts?(x)'],
+      files: ['src/**/*.ts?(x)', 'tests/**/*.ts'],
       parser: '@typescript-eslint/parser',
       parserOptions: {
         ecmaVersion: 'lastest',
@@ -64,8 +64,12 @@ module.exports = {
     {
       files: ['tests/**/*.test.ts', '**/?(*.)+(spec|test).[jt]s?(x)'],
       env: { 'jest/globals': true },
-      extends: ['plugin:jest/recommended', 'plugin:jest/style'],
-      plugins: ['jest'],
+      extends: [
+        'plugin:jest/recommended',
+        'plugin:jest/style',
+        'plugin:testing-library/react',
+      ],
+      plugins: ['jest', 'testing-library'],
       parserOptions: {
         sourceType: 'module',
       },
