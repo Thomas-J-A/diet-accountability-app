@@ -20,6 +20,7 @@ describe('adjustDateForUTC', () => {
   });
 
   it.skip('should adjust a date in eastern timezone correctly', () => {
+    // TODO: Implement test
     // // Set date to Japanese timezone (+8)
     // const japanDate = new Date(Date.UTC(2024, 0, 12, 6));
     // const timezoneOffsetHrs = 8;
@@ -33,5 +34,7 @@ describe('adjustDateForUTC', () => {
     // expect(adjustedDate.getTime()).toBe(expected);
   });
 
-  it.skip('should adjust a date in western timezone correctly', () => {});
+  it.skip('should adjust a date in western timezone correctly', () => {
+    // TODO: Implement test
+  });
 });
