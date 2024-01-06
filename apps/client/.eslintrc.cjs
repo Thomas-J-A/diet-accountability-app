@@ -12,6 +12,7 @@ module.exports = {
     'vite.config.ts',
     'codegen.ts',
     'src/__generated__/',
+    'setupTests.ts',
   ],
   overrides: [
     {
@@ -67,12 +68,10 @@ module.exports = {
       extends: [
         'plugin:jest/recommended',
         'plugin:jest/style',
+        'plugin:jest-dom/recommended',
         'plugin:testing-library/react',
       ],
-      plugins: ['jest', 'testing-library'],
-      parserOptions: {
-        sourceType: 'module',
-      },
+      plugins: ['jest', 'jest-dom', 'testing-library'],
     },
   ],
 };
