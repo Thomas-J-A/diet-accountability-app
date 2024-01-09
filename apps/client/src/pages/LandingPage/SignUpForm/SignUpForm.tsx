@@ -52,7 +52,7 @@ const SignUpForm = () => {
     register,
     handleSubmit,
     setError,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormInputType>({
     defaultValues: {
       firstName: '',
@@ -66,7 +66,7 @@ const SignUpForm = () => {
   });
 
   // Set up GraphQL mutation with success and error callbacks
-  const [signUp, { loading }] = useMutation(SIGN_UP_MUTATION, {
+  const [signUp] = useMutation(SIGN_UP_MUTATION, {
     onCompleted: ({ signUp }) => {
       logIn({
         currentUser: signUp.user,
@@ -212,8 +212,8 @@ const SignUpForm = () => {
             )}
           </Flex>
 
-          <S.SubmitButton type="submit" disabled={loading}>
-            {loading ? 'Submitting...' : 'Register'}
+          <S.SubmitButton type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Submitting...' : 'Register'}
           </S.SubmitButton>
         </Flex>
       </form>

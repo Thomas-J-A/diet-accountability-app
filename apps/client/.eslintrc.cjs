@@ -13,6 +13,7 @@ module.exports = {
     'codegen.ts',
     'src/__generated__/',
     'setupTests.ts',
+    '__mocks__/',
   ],
   overrides: [
     {
