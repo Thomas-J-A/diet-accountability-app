@@ -1,4 +1,8 @@
 import '@testing-library/jest-dom';
+import * as matchers from 'jest-extended';
+
+// Add Jest Extended matchers for bonus matchers like toBeBefore and toBeArray
+expect.extend(matchers);
 
 /**
  * Mock ResizeObserver API which isn't implemented in JSDOM but is needed by Radix Themes
@@ -8,6 +12,11 @@ window.ResizeObserver = jest.fn().mockImplementation(() => ({
   unobserve: jest.fn(),
   disconnect: jest.fn(),
 }));
+
+/**
+ * Mock scrollTo API
+ */
+window.scrollTo = jest.fn();
 
 /**
  * Mock PointerEvent API

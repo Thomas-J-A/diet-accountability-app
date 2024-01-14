@@ -70,9 +70,10 @@ module.exports = {
         'plugin:jest/recommended',
         'plugin:jest/style',
         'plugin:jest-dom/recommended',
+        'plugin:jest-extended/all',
         'plugin:testing-library/react',
       ],
-      plugins: ['jest', 'jest-dom', 'testing-library'],
+      plugins: ['jest', 'jest-dom', 'jest-extended', 'testing-library'],
     },
   ],
 };
