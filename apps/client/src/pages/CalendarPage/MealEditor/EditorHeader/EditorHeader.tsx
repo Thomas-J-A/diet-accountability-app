@@ -42,6 +42,8 @@ const EditorHeader = () => {
     getTwelveMonthsEarlier(today), // 12 months from today, i.e. beginning of calendar in UI
   );
 
+  // console.log(isPreviousDayBeforeEarliestDate);
+
   const followingDay = addDays(dateInEditor, 1);
   const isFollowingDayFuture = isAfter(followingDay, today);
 
@@ -56,6 +58,7 @@ const EditorHeader = () => {
     >
       <IconButton
         style={{ cursor: 'pointer' }}
+        aria-label="Go to previous day"
         disabled={isPreviousDayBeforeEarliestDate}
         onClick={() => {
           setDateInEditor(previousDay);
@@ -72,6 +75,7 @@ const EditorHeader = () => {
       <IconButton
         style={{ cursor: 'pointer' }}
         disabled={isFollowingDayFuture}
+        aria-label="Go to next day"
         onClick={() => {
           setDateInEditor(followingDay);
         }}

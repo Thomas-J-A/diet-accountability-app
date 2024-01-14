@@ -11,6 +11,7 @@ const FormHeader = ({ setFormMode, activeTab }: FormHeaderProps) => (
   <>
     <Flex justify="between" align="center" gap="2">
       <IconButton
+        aria-label="Go back"
         onClick={() => {
           setFormMode(null);
         }}
