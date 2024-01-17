@@ -1,23 +1,24 @@
-import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
-import {
-  createPresignedPost,
-  PresignedPostOptions,
-} from '@aws-sdk/s3-presigned-post';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+// TODO: Implement S3 presigned URL endpoints (currently commented out)
+// import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
+// import {
+//   createPresignedPost,
+//   PresignedPostOptions,
+// } from '@aws-sdk/s3-presigned-post';
+// import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { GraphQLError } from 'graphql';
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 import {
   CreateMealInput,
   UpdateMealInput,
-  PresignedUrlsPostInput,
+  // PresignedUrlsPostInput,
 } from '../__generated__/resolvers-types';
 import Meal from '../models/meal.model';
 import DayEvent from '../models/day-event.model';
 import ErrorCodes from '../types/error-codes';
 import isEmptyObject from '../utils/is-empty-object';
 import isValidObjectId from '../utils/is-valid-object-id';
-import createS3Client from '../utils/create-s3-client';
-import env from '../configs/env';
+// import createS3Client from '../utils/create-s3-client';
+// import env from '../configs/env';
 
 // Reusable function for ensuring 'rating' value is within range
 const validateRating = (rating: number) => {
@@ -38,17 +39,17 @@ const validateDescription = (description: string) => {
 };
 
 // Validates that an S3 image belongs to the authed user
-const validateImagePermission = (
-  key: string,
-  authedUserId: string,
-): boolean => {
-  // Extract userId from the image key
-  // Assumes the key format is 'uploads/<userId>/example.png'
-  const [, userId] = key.split('/');
+// const validateImagePermission = (
+//   key: string,
+//   authedUserId: string,
+// ): boolean => {
+//   // Extract userId from the image key
+//   // Assumes the key format is 'uploads/<userId>/example.png'
+//   const [, userId] = key.split('/');
 
-  // Check if the requesting user ID matches the userId in the image key
-  return authedUserId === userId;
-};
+//   // Check if the requesting user ID matches the userId in the image key
+//   return authedUserId === userId;
+// };
 
 const createMeal = async (mealData: CreateMealInput, userId: string) => {
   const { date, description, location, rating, type, photoKeys } = mealData;
@@ -171,83 +172,83 @@ const updateMeal = async (id: string, updatedMealData: UpdateMealInput) => {
 
 // Initialize S3 client
 // If in test environment, no need to make S3 client since following resolvers not currently being tested
-let s3Client: S3Client;
-if (env.NODE_ENV !== 'test') {
-  s3Client = createS3Client();
-}
+// let s3Client: S3Client;
+// if (env.NODE_ENV !== 'test') {
+//   s3Client = createS3Client();
+// }
 
 // Helper constants
-const TEN_MINUTES_S = 600;
-const MAX_CONTENT_LENGTH = 10485760; // 10MB
-const BUCKET_NAME = env.AWS_BUCKET_NAME;
+// const TEN_MINUTES_S = 600;
+// const MAX_CONTENT_LENGTH = 10485760; // 10MB
+// const BUCKET_NAME = env.AWS_BUCKET_NAME;
 
-const createPresignedUrlsPost = async (
-  fileData: PresignedUrlsPostInput[],
-  userId: string,
-) => {
-  // Create a promise for each image/file
-  const promises = fileData.map(async (file) => {
-    const params: PresignedPostOptions = {
-      Bucket: BUCKET_NAME,
-      Key: `users/${userId}/${uuidv4()}-${file.filename}`,
-      Conditions: [
-        ['content-length-range', 0, MAX_CONTENT_LENGTH],
-        ['starts-with', '$key', `users/${userId}/`],
-      ],
-      Fields: {
-        'Content-Type': `${file.contentType}`,
-      },
-      Expires: TEN_MINUTES_S,
-    };
+// const createPresignedUrlsPost = async (
+//   fileData: PresignedUrlsPostInput[],
+//   userId: string,
+// ) => {
+//   // Create a promise for each image/file
+//   const promises = fileData.map(async (file) => {
+//     const params: PresignedPostOptions = {
+//       Bucket: BUCKET_NAME,
+//       Key: `users/${userId}/${uuidv4()}-${file.filename}`,
+//       Conditions: [
+//         ['content-length-range', 0, MAX_CONTENT_LENGTH],
+//         ['starts-with', '$key', `users/${userId}/`],
+//       ],
+//       Fields: {
+//         'Content-Type': `${file.contentType}`,
+//       },
+//       Expires: TEN_MINUTES_S,
+//     };
 
-    const presignedPost = await createPresignedPost(s3Client, params);
+//     const presignedPost = await createPresignedPost(s3Client, params);
 
-    return {
-      key: params.Key,
-      url: presignedPost.url,
-      fields: presignedPost.fields,
-    };
-  });
+//     return {
+//       key: params.Key,
+//       url: presignedPost.url,
+//       fields: presignedPost.fields,
+//     };
+//   });
 
-  // Await all promises
-  const presignedPosts = await Promise.all(promises);
+//   // Await all promises
+//   const presignedPosts = await Promise.all(promises);
 
-  return presignedPosts;
-};
+//   return presignedPosts;
+// };
 
-const createPresignedUrlsGet = async (keys: string[], userId: string) => {
-  // Create a promise for each key
-  const promises = keys.map(async (key) => {
-    // Ensure user is requesting only their own uploads
-    const hasPermission = validateImagePermission(key, userId);
+// const createPresignedUrlsGet = async (keys: string[], userId: string) => {
+//   // Create a promise for each key
+//   const promises = keys.map(async (key) => {
+//     // Ensure user is requesting only their own uploads
+//     const hasPermission = validateImagePermission(key, userId);
 
-    if (!hasPermission) {
-      throw new GraphQLError('You may only download your own images', {
-        extensions: { code: ErrorCodes.FORBIDDEN },
-      });
-    }
+//     if (!hasPermission) {
+//       throw new GraphQLError('You may only download your own images', {
+//         extensions: { code: ErrorCodes.FORBIDDEN },
+//       });
+//     }
 
-    const command = new GetObjectCommand({
-      Bucket: BUCKET_NAME,
-      Key: key,
-    });
+//     const command = new GetObjectCommand({
+//       Bucket: BUCKET_NAME,
+//       Key: key,
+//     });
 
-    const presignedGet = await getSignedUrl(s3Client, command, {
-      expiresIn: TEN_MINUTES_S,
-    });
+//     const presignedGet = await getSignedUrl(s3Client, command, {
+//       expiresIn: TEN_MINUTES_S,
+//     });
 
-    // Return key as well as URL for convenience/client-side association
-    return { key, url: presignedGet };
-  });
+//     // Return key as well as URL for convenience/client-side association
+//     return { key, url: presignedGet };
+//   });
 
-  // Await all promises
-  const presignedGets = await Promise.all(promises);
-  return presignedGets;
-};
+//   // Await all promises
+//   const presignedGets = await Promise.all(promises);
+//   return presignedGets;
+// };
 
 export default {
   createMeal,
   updateMeal,
-  createPresignedUrlsPost,
-  createPresignedUrlsGet,
+  // createPresignedUrlsPost,
+  // createPresignedUrlsGet,
 };

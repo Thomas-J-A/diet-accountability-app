@@ -1,3 +1,4 @@
+// TODO: Implement S3 presigned URL endpoints (currently commented out)
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { GraphQLError } from 'graphql';
 import { GraphQLDate, GraphQLJSON } from 'graphql-scalars';
@@ -45,26 +46,26 @@ const resolvers: Resolvers = {
 
       return result;
     },
-    presignedUrlsPost: async (_, { fileData }, { currentUser }) => {
-      const currentUserAsJwtPayload = validateCurrentUser(currentUser);
+    // presignedUrlsPost: async (_, { fileData }, { currentUser }) => {
+    //   const currentUserAsJwtPayload = validateCurrentUser(currentUser);
 
-      const result = await mealService.createPresignedUrlsPost(
-        fileData,
-        currentUserAsJwtPayload.sub!,
-      );
+    //   const result = await mealService.createPresignedUrlsPost(
+    //     fileData,
+    //     currentUserAsJwtPayload.sub!,
+    //   );
 
-      return result;
-    },
-    presignedUrlsGet: async (_, { keys }, { currentUser }) => {
-      const currentUserAsJwtPayload = validateCurrentUser(currentUser);
+    //   return result;
+    // },
+    // presignedUrlsGet: async (_, { keys }, { currentUser }) => {
+    //   const currentUserAsJwtPayload = validateCurrentUser(currentUser);
 
-      const result = await mealService.createPresignedUrlsGet(
-        keys,
-        currentUserAsJwtPayload.sub!,
-      );
+    //   const result = await mealService.createPresignedUrlsGet(
+    //     keys,
+    //     currentUserAsJwtPayload.sub!,
+    //   );
 
-      return result;
-    },
+    //   return result;
+    // },
   },
   Mutation: {
     signUp: async (_, { userData }) => {
