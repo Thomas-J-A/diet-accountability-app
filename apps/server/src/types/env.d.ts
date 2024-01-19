@@ -3,7 +3,7 @@
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      NODE_ENV: 'dev' | 'production' | 'test';
+      NODE_ENV: 'dev' | 'production' | 'test' | undefined;
       PORT: string;
       ACCESS_TOKEN_SECRET: string;
       MONGODB_URI?: string;

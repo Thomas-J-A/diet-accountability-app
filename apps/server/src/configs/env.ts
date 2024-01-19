@@ -3,11 +3,16 @@ import { config } from 'dotenv';
 import { cleanEnv, str, port } from 'envalid';
 
 /**
- * Load appropriate .env file depending on environment
+ * Check for existence of NODE_ENV value
  * In development, Docker sets NODE_ENV in 'environment' field
  * In testing, Jest sets NODE_ENV
  * In production, hosting platform supplies all environment variables directly
  */
+if (!process.env.NODE_ENV) {
+  throw new Error('A valid NODE_ENV value must be provided');
+}
+
+// Load appropriate .env file depending on environment
 if (process.env.NODE_ENV !== 'production') {
   config({
     path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`),
@@ -41,9 +46,9 @@ const envConfig = {
 };
 
 // Get the environment configuration based on NODE_ENV
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-const currentEnvConfig = envConfig[process.env.NODE_ENV];
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+const environment = process.env.NODE_ENV as 'dev' | 'test' | 'production';
+const currentEnvConfig = envConfig[environment];
 
 // Sanitize and type-check environment variables
 const env = cleanEnv(process.env, currentEnvConfig);
