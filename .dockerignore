@@ -1,0 +1,12 @@
+Dockerfile.prod
+docker-compose.yml
+.dockerignore
+
+.git
+.gitignore
+
+.npm
+.vscode
+node_modules
+
+README.md

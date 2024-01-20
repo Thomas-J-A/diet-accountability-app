@@ -1,0 +1,57 @@
+##############################
+# BUILD CLIENT STATIC FILES
+##############################
+FROM node:19.0.0-alpine AS ui-build
+
+WORKDIR /usr/src/app
+
+COPY apps/client/package*.json ./
+
+# Only install prod dependencies
+RUN npm ci --only=production
+
+COPY apps/client .
+
+# Compiles TypeScript (tsc) and bundles source files (Vite)
+RUN npm run build
+
+################################
+# COMPILE SERVER FILES
+################################
+FROM node:19.0.0-alpine AS server-build
+
+WORKDIR /usr/src/app
+
+COPY apps/server/package*.json ./
+
+RUN npm ci --only=production
+
+COPY apps/server .
+
+# Compiles TypeScript (tsc) and also copies over schema.graphql (essential!)
+RUN npm run build
+
+#####################################
+# BUILD SLIM PRODUCTION SERVER IMAGE
+# Client files served by middleware
+#####################################
+FROM node:19.0.0-alpine AS production
+
+WORKDIR /usr/src/app
+
+COPY apps/server/package*.json ./
+
+# Only install prod dependencies
+RUN npm ci --only=production
+
+# Copy over compiled server files (only src dir, not tests dir)
+COPY --from=server-build /usr/src/app/build/src ./build/src/
+
+# Copy over static client files
+COPY --from=ui-build /usr/src/app/dist ./build/src/dist/
+
+# Expose port that app runs on
+EXPOSE 3000
+
+# Start the application
+CMD ["node", "./build/src/server.js"]

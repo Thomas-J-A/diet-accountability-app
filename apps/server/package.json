@@ -8,7 +8,9 @@
     "start:dev": "ts-node-dev src/server.ts",
     "start:dev:generate": "concurrently -n \"SERVER,CODEGEN\" -c \"bgYellow,bgMagenta\" \"npm:start:dev\" \"npm:generate --watch './src/**/*'\"",
     "start": "node build/index.js",
-    "build": "tsc",
+    "clean": "rm -rf ./build/",
+    "copy-files": "cp ./src/schema.graphql ./build/src/",
+    "build": "npm run clean && tsc && npm run copy-files",
     "test": "jest"
   },
   "author": "",
