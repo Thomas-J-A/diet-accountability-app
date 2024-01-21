@@ -1,3 +1,16 @@
+# TODO: See if graphql codegen can be generated once in an initial stage and COPY-d to other stages
+
+#####################################
+# RUN GRAPHQL CODEGEN
+# Generates an introspection.json file
+# This is needed when compiling TS
+######################################
+FROM node:19.0.0-alpine AS codegen
+
+WORKDIR /usr/src/app
+
+RUN npm run generate
+
 ##############################
 # BUILD CLIENT STATIC FILES
 ##############################
@@ -11,6 +24,13 @@ COPY apps/client/package*.json ./
 RUN npm install
 
 COPY apps/client .
+
+# Copy graphql schema and set up an env for codegen to work
+COPY apps/server/src/schema.graphql ./schema.graphql
+ENV GRAPHQL_SCHEMA=/usr/src/app/schema.graphql
+
+# Run graphql codegen
+RUN npm run generate
 
 # Compiles TypeScript (tsc) and bundles source files (Vite)
 RUN npm run build
@@ -28,6 +48,9 @@ COPY apps/server/package*.json ./
 RUN npm install
 
 COPY apps/server .
+
+# Run graphql codegen
+RUN npm run generate
 
 # Compiles TypeScript (tsc) and also copies over schema.graphql (essential!)
 RUN npm run build
