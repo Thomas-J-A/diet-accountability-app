@@ -27,6 +27,7 @@ const fadeOut = keyframes`
 export const DrawerOverlay = styled(Dialog.Overlay)`
   position: fixed;
   inset: 0;
+  z-index: 2;
   background-color: rgb(0 0 0 / 75%);
 
   &[data-state='open'] {
@@ -62,6 +63,7 @@ export const DrawerContent = styled(Flex)`
   position: fixed;
   top: 0;
   right: 0;
+  z-index: 2;
   width: 220px;
   height: 100vh;
   background-color: var(--gray-6);
