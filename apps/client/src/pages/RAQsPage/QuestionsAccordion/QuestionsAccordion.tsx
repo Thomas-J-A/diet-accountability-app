@@ -58,7 +58,7 @@ const QuestionsAccordion = () => {
 
         <AccordionItem
           value="item-6"
-          triggerText="Will this app end the war in Ukraine?"
+          triggerText="Will this app bring world peace?"
         >
           <Text size={{ initial: '1', md: '2' }} weight="light">
             You are an utter turnip.
