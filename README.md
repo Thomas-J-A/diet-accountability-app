@@ -201,7 +201,9 @@ flowchart TD
 - Redirect to referrer feature in client where unauthenticated users who access app at a restricted path will be redirected back to intended page after a successful sign-in.
 - Initially created wireframes using Figma as with my FakeMates project but iterations were slow so I changed to hand sketched designs:
 
-<img src="docs/design-sketches.jpeg" alt="Hand drawn sketches of UI" height="600" style="border-radius: 5px; border: 1px solid #fff" />
+<p align="center">
+  <img src="docs/design-sketches.jpeg" alt="Hand drawn sketches of UI" height="600" style="border-radius: 5px; border: 1px solid #fff" />
+</p>
 
 ### Authentication & Authorization <a name="authentication-authorization"></a>
 
@@ -313,4 +315,6 @@ I now have a greater appreciation of - and knowledge on - the entire SDLC. From 
 
 I would like to thank my friends, my family, my partner, Kenco coffee, Tottenham Hotspur Football Club. You have all given me far more than I can ever repay. And to the creators of all the open source tools that I was able to use, a sincere gracias.
 
-![Formal thank you in Japanese, couple bowing](https://media.giphy.com/media/zFKPx0ZJhd8vcgdWdp/giphy.gif)
+<p align="center">
+  <img alt="Japanese couple bowing formally" src="https://media.giphy.com/media/zFKPx0ZJhd8vcgdWdp/giphy.gif" />
+</p>
