@@ -6,7 +6,7 @@
 ![CD workflow](https://github.com/Thomas-J-A/diet-accountability-app/actions/workflows/release.yml/badge.svg)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
-<a href="https://piccy-eater.fly.dev/" style="display:inline-block;background-color:#4CAF50;color:#fff;padding:10px 20px;text-decoration:none;border-radius:5px;font-weight:bold; font-size: 16px">🚀 Live App</a>
+[🚀 TRY THE APP LIVE](https://piccy-eater.fly.dev/)
 
 **Note:** It's fine to use dummy data to sign in (it isn't used beyond authenticating users).
 
@@ -84,7 +84,7 @@ I wanted to challenge myself by creating a non-trivial, full-stack project, from
 - [Unit tests for util](/apps/client/tests/unit/utils/capitalize-first-letter.test.ts), [custom hook](/apps/client/tests/unit/hooks/useMediaQuery.test.ts), [component](/apps/client/src/pages/CalendarPage/CalendarPage.test.tsx)
 - [Integration tests for API](/apps/server/tests/integration/meal.test.ts)
 - [Dockerfile](/Dockerfile.prod), [Docker Compose](/docker-compose.yml)
-- [GitHub Actions worfklow](/.github/workflows/ci.yml)
+- [GitHub Actions workflow](/.github/workflows/ci.yml)
 - [Custom Eslint config](/apps/client/.eslintrc.cjs)
 - [Descriptive Pull Request](https://github.com/Thomas-J-A/diet-accountability-app/pull/81)
 - [Liberal use of comments](/apps/server/src/services/day-event.service.ts)
@@ -138,7 +138,7 @@ Selection of what I used:
 
 ### Git & GitHub <a name="git-github"></a>
 
-- Tried to simulate a real-world worflow to facilitate joining a team:
+- Tried to simulate a real-world workflow to facilitate joining a team:
 
 ```mermaid
 flowchart TD
