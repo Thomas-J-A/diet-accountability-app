@@ -6,9 +6,11 @@
 ![CD workflow](https://github.com/Thomas-J-A/diet-accountability-app/actions/workflows/release.yml/badge.svg)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
-[🚀 TRY THE APP LIVE](https://piccy-eater.fly.dev/)
+[🚀 TRY THE APP LIVE](https://piccy-eater.fly.dev/) **_Note:_** It's fine to use dummy data to sign in (it isn't used beyond authenticating users).
 
-**Note:** It's fine to use dummy data to sign in (it isn't used beyond authenticating users).
+<p align="center">
+  <img alt="Quick showcase of app functionality" src="docs/app-flow.gif" height="600" />
+</p>
 
 ## Table Of Contents
 
