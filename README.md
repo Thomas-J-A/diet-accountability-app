@@ -9,7 +9,7 @@
 [🚀 TRY THE APP LIVE](https://piccy-eater.fly.dev/) **_Note:_** It's fine to use dummy data to sign in (it isn't used beyond authenticating users).
 
 <p align="center">
-  <img alt="Quick showcase of app functionality" src="docs/app-flow.gif" height="600" />
+  <img alt="Quick showcase of app functionality" src="docs/showcase.gif" height="600" />
 </p>
 
 ## Table Of Contents
