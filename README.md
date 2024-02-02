@@ -201,7 +201,7 @@ flowchart TD
 - Tested on Safari, Firefox, and Chrome for cross-browser compatibility.
 - Frequent user testing - on different devices - to look for pain points.
 - Redirect to referrer feature in client where unauthenticated users who access app at a restricted path will be redirected back to intended page after a successful sign-in.
-- Initially created wireframes using Figma as with my FakeMates project but iterations were slow so I changed to hand sketched designs:
+- Initially created wireframes using Figma as with my [FakeMates](https://github.com/Thomas-J-A/FakeMates) project but iterations were slow so I changed to hand sketched designs:
 
 <p align="center">
   <img src="docs/design-sketches.jpeg" alt="Hand drawn sketches of UI" height="600" style="border-radius: 5px; border: 1px solid #fff" />
