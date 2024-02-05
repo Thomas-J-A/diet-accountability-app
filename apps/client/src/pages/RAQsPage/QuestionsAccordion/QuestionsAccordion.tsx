@@ -43,7 +43,10 @@ const QuestionsAccordion = () => {
           triggerText="Which genius is behind this work of art?"
         >
           <Text size={{ initial: '1', md: '2' }} weight="light">
-            His name is Tom Aspbury, check out his portfolio.
+            His name is Tom Aspbury -
+            <Link href="https://github.com/Thomas-J-A">
+              check out his wonderful GitHub account.
+            </Link>
           </Text>
         </AccordionItem>
 
